@@ -25,9 +25,9 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     super.viewDidLoad()
     
     self.title = "Home"
-    navigationController?.navigationBar.barTintColor = .purple
-    navigationController?.navigationBar.tintColor = .purple
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20)]
+    navigationController?.navigationBar.barTintColor = .white
+    navigationController?.navigationBar.tintColor = .white
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.black, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20)]
     navigationController?.navigationBar.isTranslucent = false
     
     collectionView?.backgroundColor = .white

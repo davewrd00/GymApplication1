@@ -37,6 +37,8 @@
 		C4E7EAEC1F40B98200BC47E5 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAEB1F40B98200BC47E5 /* MenuBarView.swift */; };
 		C4E7EAEE1F40BF6700BC47E5 /* MenuBarViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAED1F40BF6700BC47E5 /* MenuBarViewCell.swift */; };
 		C4E7EAF01F40D39F00BC47E5 /* GoalsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAEF1F40D39F00BC47E5 /* GoalsViewCell.swift */; };
+		C4E7EAF81F41D29400BC47E5 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAF71F41D29300BC47E5 /* CustomImageView.swift */; };
+		C4E7EAFA1F41DA1400BC47E5 /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAF91F41DA1400BC47E5 /* Classes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +96,8 @@
 		C4E7EAEB1F40B98200BC47E5 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		C4E7EAED1F40BF6700BC47E5 /* MenuBarViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarViewCell.swift; sourceTree = "<group>"; };
 		C4E7EAEF1F40D39F00BC47E5 /* GoalsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewCell.swift; sourceTree = "<group>"; };
+		C4E7EAF71F41D29300BC47E5 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		C4E7EAF91F41DA1400BC47E5 /* Classes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classes.swift; sourceTree = "<group>"; };
 		D4CF907B3B9EFAC6094211CC /* Pods_GymApplication1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GymApplication1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9B0275C52A355BA177E80D6 /* Pods-GymApplication1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymApplication1.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GymApplication1/Pods-GymApplication1.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -224,6 +228,7 @@
 		C4AAD2031F3BCA1100902046 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				C4E7EAF91F41DA1400BC47E5 /* Classes.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				C4AAD2051F3BCA4200902046 /* Extensions.swift */,
+				C4E7EAF71F41D29300BC47E5 /* CustomImageView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -486,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4CAF0AD1F3F8FA20023C749 /* HomeFeedCell.swift in Sources */,
+				C4E7EAF81F41D29400BC47E5 /* CustomImageView.swift in Sources */,
 				C4D9A27A1F3C566700111DF6 /* LoginViewController.swift in Sources */,
 				C4CAF0BB1F407F0D0023C749 /* SettingsCell.swift in Sources */,
 				C4E7EAEE1F40BF6700BC47E5 /* MenuBarViewCell.swift in Sources */,
@@ -502,6 +509,7 @@
 				C4CAF0B31F4036050023C749 /* ClassViewController.swift in Sources */,
 				C4CAF0B11F4034DA0023C749 /* AchievementsViewController.swift in Sources */,
 				C4AAD1CB1F3B43B100902046 /* AppDelegate.swift in Sources */,
+				C4E7EAFA1F41DA1400BC47E5 /* Classes.swift in Sources */,
 				C4CAF0A51F3C98EB0023C749 /* HomeHeaderCell.swift in Sources */,
 				C4AAD2001F3B6A2600902046 /* HomeViewController.swift in Sources */,
 				C4CAF0AB1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift in Sources */,
