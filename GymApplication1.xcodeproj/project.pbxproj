@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		4D92E1309ADC3AB7541A0EC7 /* Pods_GymApplication1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CF907B3B9EFAC6094211CC /* Pods_GymApplication1.framework */; };
+		C42DA48E1F42E755004D7D5D /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42DA48D1F42E755004D7D5D /* AdminViewController.swift */; };
+		C43D2C0A1F42F3C400F6CEE0 /* ClassAdminCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C091F42F3C400F6CEE0 /* ClassAdminCell.swift */; };
+		C43D2C0C1F42FA7100F6CEE0 /* AddClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */; };
+		C43D2C0E1F430E3D00F6CEE0 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C0D1F430E3D00F6CEE0 /* DataService.swift */; };
+		C43D2C121F4341A800F6CEE0 /* AcceptClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */; };
 		C4AAD1CB1F3B43B100902046 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1CA1F3B43B100902046 /* AppDelegate.swift */; };
 		C4AAD1CD1F3B43B100902046 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1CC1F3B43B100902046 /* WelcomeViewController.swift */; };
 		C4AAD1D01F3B43B100902046 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4AAD1CE1F3B43B100902046 /* Main.storyboard */; };
@@ -39,6 +44,8 @@
 		C4E7EAF01F40D39F00BC47E5 /* GoalsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAEF1F40D39F00BC47E5 /* GoalsViewCell.swift */; };
 		C4E7EAF81F41D29400BC47E5 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAF71F41D29300BC47E5 /* CustomImageView.swift */; };
 		C4E7EAFA1F41DA1400BC47E5 /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAF91F41DA1400BC47E5 /* Classes.swift */; };
+		C4FD293F1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FD293E1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift */; };
+		C4FD29411F41F97500F4F4B6 /* ClassDetailsCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FD29401F41F97500F4F4B6 /* ClassDetailsCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +67,11 @@
 
 /* Begin PBXFileReference section */
 		BDEEF06374020C1E3725D30B /* Pods-GymApplication1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymApplication1.release.xcconfig"; path = "Pods/Target Support Files/Pods-GymApplication1/Pods-GymApplication1.release.xcconfig"; sourceTree = "<group>"; };
+		C42DA48D1F42E755004D7D5D /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
+		C43D2C091F42F3C400F6CEE0 /* ClassAdminCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassAdminCell.swift; sourceTree = "<group>"; };
+		C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassViewController.swift; sourceTree = "<group>"; };
+		C43D2C0D1F430E3D00F6CEE0 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
+		C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptClassViewController.swift; sourceTree = "<group>"; };
 		C4AAD1C71F3B43B100902046 /* GymApplication1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymApplication1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4AAD1CA1F3B43B100902046 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4AAD1CC1F3B43B100902046 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +110,8 @@
 		C4E7EAEF1F40D39F00BC47E5 /* GoalsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewCell.swift; sourceTree = "<group>"; };
 		C4E7EAF71F41D29300BC47E5 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		C4E7EAF91F41DA1400BC47E5 /* Classes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classes.swift; sourceTree = "<group>"; };
+		C4FD293E1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDetailsViewController.swift; sourceTree = "<group>"; };
+		C4FD29401F41F97500F4F4B6 /* ClassDetailsCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDetailsCellView.swift; sourceTree = "<group>"; };
 		D4CF907B3B9EFAC6094211CC /* Pods_GymApplication1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GymApplication1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9B0275C52A355BA177E80D6 /* Pods-GymApplication1.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymApplication1.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GymApplication1/Pods-GymApplication1.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -208,6 +222,10 @@
 				C4CAF0B01F4034DA0023C749 /* AchievementsViewController.swift */,
 				C4CAF0AE1F4034B20023C749 /* GoalsViewController.swift */,
 				C4CAF0B81F407B120023C749 /* SettingsLauncher.swift */,
+				C4FD293E1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift */,
+				C42DA48D1F42E755004D7D5D /* AdminViewController.swift */,
+				C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */,
+				C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -238,6 +256,7 @@
 			children = (
 				C4AAD2051F3BCA4200902046 /* Extensions.swift */,
 				C4E7EAF71F41D29300BC47E5 /* CustomImageView.swift */,
+				C43D2C0D1F430E3D00F6CEE0 /* DataService.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -283,6 +302,8 @@
 			isa = PBXGroup;
 			children = (
 				C4E7EAE91F40A6AD00BC47E5 /* ClassCellView.swift */,
+				C4FD29401F41F97500F4F4B6 /* ClassDetailsCellView.swift */,
+				C43D2C091F42F3C400F6CEE0 /* ClassAdminCell.swift */,
 			);
 			path = ClassView;
 			sourceTree = "<group>";
@@ -492,27 +513,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4CAF0AD1F3F8FA20023C749 /* HomeFeedCell.swift in Sources */,
+				C4FD29411F41F97500F4F4B6 /* ClassDetailsCellView.swift in Sources */,
 				C4E7EAF81F41D29400BC47E5 /* CustomImageView.swift in Sources */,
+				C4FD293F1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift in Sources */,
+				C42DA48E1F42E755004D7D5D /* AdminViewController.swift in Sources */,
 				C4D9A27A1F3C566700111DF6 /* LoginViewController.swift in Sources */,
 				C4CAF0BB1F407F0D0023C749 /* SettingsCell.swift in Sources */,
+				C43D2C0E1F430E3D00F6CEE0 /* DataService.swift in Sources */,
 				C4E7EAEE1F40BF6700BC47E5 /* MenuBarViewCell.swift in Sources */,
 				C4CAF0A91F3F806E0023C749 /* HomeFooterCell.swift in Sources */,
 				C4D9A27D1F3C8B7800111DF6 /* TabBarController.swift in Sources */,
 				C4CAF0B91F407B120023C749 /* SettingsLauncher.swift in Sources */,
 				C4D9A2781F3C3FBE00111DF6 /* RegistrationViewController.swift in Sources */,
 				C4AAD2061F3BCA4200902046 /* Extensions.swift in Sources */,
+				C43D2C0C1F42FA7100F6CEE0 /* AddClassViewController.swift in Sources */,
 				C4E7EAE81F409F7700BC47E5 /* AchievementsCell.swift in Sources */,
 				C4E7EAEC1F40B98200BC47E5 /* MenuBarView.swift in Sources */,
 				C4AAD1D31F3B43B100902046 /* GymApplication1.xcdatamodeld in Sources */,
 				C4CAF0AF1F4034B20023C749 /* GoalsViewController.swift in Sources */,
 				C4AAD1CD1F3B43B100902046 /* WelcomeViewController.swift in Sources */,
 				C4CAF0B31F4036050023C749 /* ClassViewController.swift in Sources */,
+				C43D2C121F4341A800F6CEE0 /* AcceptClassViewController.swift in Sources */,
 				C4CAF0B11F4034DA0023C749 /* AchievementsViewController.swift in Sources */,
 				C4AAD1CB1F3B43B100902046 /* AppDelegate.swift in Sources */,
 				C4E7EAFA1F41DA1400BC47E5 /* Classes.swift in Sources */,
 				C4CAF0A51F3C98EB0023C749 /* HomeHeaderCell.swift in Sources */,
 				C4AAD2001F3B6A2600902046 /* HomeViewController.swift in Sources */,
 				C4CAF0AB1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift in Sources */,
+				C43D2C0A1F42F3C400F6CEE0 /* ClassAdminCell.swift in Sources */,
 				C4CAF0A71F3F77110023C749 /* HomeClassCell.swift in Sources */,
 				C4E7EAF01F40D39F00BC47E5 /* GoalsViewCell.swift in Sources */,
 				C4E7EAEA1F40A6AD00BC47E5 /* ClassCellView.swift in Sources */,
@@ -616,7 +644,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -665,7 +693,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

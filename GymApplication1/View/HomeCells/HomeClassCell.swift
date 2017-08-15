@@ -43,7 +43,7 @@ class HomeClassCell: UICollectionViewCell {
   
   let profileImageView: UIImageView = {
     let view = UIImageView()
-    view.backgroundColor = .red
+    view.image = UIImage(named: "fitness4")
     view.layer.shadowOffset = CGSize(width: 5, height: 5)
     view.layer.shadowColor = UIColor.gray.cgColor
     view.layer.borderColor = UIColor.black.cgColor

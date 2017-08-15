@@ -27,7 +27,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     self.title = "Home"
     navigationController?.navigationBar.barTintColor = .white
     navigationController?.navigationBar.tintColor = .white
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.black, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20)]
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.black, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20) ?? ""]
     navigationController?.navigationBar.isTranslucent = false
     
     collectionView?.backgroundColor = .white
@@ -42,6 +42,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     collectionView?.register(HomeGoalsCell.self, forCellWithReuseIdentifier: "cellId1")
     collectionView?.register(HomeFeedCell.self, forCellWithReuseIdentifier: "cellId2")
     
+    print("DAVID: \(Auth.auth().currentUser?.uid)")
     
   }
 
@@ -100,7 +101,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
       self.collectionView?.reloadData()
       
     }) { (err) in
-      if err != nil {
+      if err == nil {
         print("There was an error", err)
       }
     }

@@ -33,7 +33,7 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     
     self.title = "Goals"
     navigationController?.navigationBar.barTintColor = UIColor.rgb(red: 80, green: 81, blue: 79)
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20)]
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20) ?? ""]
     navigationController?.navigationBar.isTranslucent = false
     view.backgroundColor = .white
     tabBarItem.title = "Goals"

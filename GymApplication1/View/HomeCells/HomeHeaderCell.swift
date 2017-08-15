@@ -29,7 +29,7 @@ class HomeHeaderCell: UICollectionViewCell {
   let greetingText: UILabel = {
     let label = UILabel()
     label.numberOfLines = 0
-    label.font = UIFont(name: "Avenir", size: 18)
+    label.font = UIFont(name: "HelveticaNeue-Bold", size: 26.0)
     return label
   }()
   

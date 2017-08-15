@@ -41,13 +41,15 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
   }()
   
   var classes = [Classes]()
+  
+  var filteredClasses = [Classes]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     
     self.title = "Classes"
     navigationController?.navigationBar.barTintColor = UIColor.rgb(red: 80, green: 81, blue: 79)
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20)]
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20) ?? ""]
     navigationController?.navigationBar.isTranslucent = false
     collectionView?.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     
@@ -69,6 +71,11 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
 
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    self.navigationController?.navigationBar.isHidden = false
+    self.searchBar.isHidden = false
+  }
+  
   let menuBar: MenuBarView = {
     let mb = MenuBarView()
     mb.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
@@ -80,7 +87,7 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
     view.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
     view.addConstraintsWithFormat(format: "V:|[v0(40)]|", views: menuBar)
     view.addSubview(searchBar)
-    searchBar.anchor(top: menuBar.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: -11, paddingLeft: 0, paddingBottom: 4, paddingRight: 0, width: 0, height: 0)
+    searchBar.anchor(top: menuBar.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: -8, paddingLeft: 0, paddingBottom: 4, paddingRight: 0, width: 0, height: 0)
   }
   
   @objc func handleExitFromClassVC() {
@@ -96,7 +103,7 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
       
       guard let dictionary = snapshot.value as? [String: Any] else { return }
       
-      print(dictionary)
+      print("DAVID FETCHING CLASSES \(dictionary)")
       
       dictionary.forEach({ (arg) in
         let (key, value) = arg
@@ -108,10 +115,28 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
         self.classes.append(classes)
         print("DAVID: \(classes)")
       })
+      
+      self.classes.sort(by: { (u1, u2) -> Bool in
+        return u1.className.compare(u2.className) == .orderedAscending
+      })
+      
+      self.filteredClasses = self.classes
       self.collectionView?.reloadData()
+      
     }) { (err) in
       print("Failed to fecth users during search", err)
     }
+  }
+  
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    if searchText.isEmpty {
+      filteredClasses = classes
+    } else {
+      filteredClasses = self.classes.filter { (classes) -> Bool in
+        return classes.className.lowercased().contains(searchText.lowercased())
+      }
+    }
+    self.collectionView?.reloadData()
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -122,6 +147,19 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ClassCellView
     
     cell.classes = classes[indexPath.item]
+    if indexPath.item == 0 {
+      cell.classDescriptionLabel.text = "Water workout"
+    } else if indexPath.item == 1 {
+      cell.classDescriptionLabel.text = "Full Body Workout"
+    } else if indexPath.item == 2 {
+      cell.classDescriptionLabel.text = "Full Body - High Intensity"
+    } else if indexPath.item == 3 {
+      cell.classDescriptionLabel.text = "Holistic"
+    } else if indexPath.item == 4 {
+      cell.classDescriptionLabel.text = "High Intenisty"
+    } else {
+      cell.classDescriptionLabel.text = "Holistic"
+    }
     
     return cell
   }
@@ -145,7 +183,18 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
   }
   
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    print(indexPath)
+    
+    searchBar.resignFirstResponder()
+    searchBar.isHidden = true
+    
+    let classes = filteredClasses[indexPath.item]
+    print(classes.className)
+    print(classes.classAvailability)
+    print(classes.classDuration)
+    
+    let classDetailsVC = ClassDetailsViewController()
+    classDetailsVC.classes = classes
+    navigationController?.pushViewController(classDetailsVC, animated: true)
   }
   
   override var preferredStatusBarStyle: UIStatusBarStyle {

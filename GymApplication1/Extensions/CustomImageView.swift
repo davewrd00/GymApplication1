@@ -44,7 +44,7 @@ class CustomImageView: UIImageView {
       
       DispatchQueue.main.async {
         self.image = photoImage
-        print("DAVID: My image: ", photoImage)
+        print("DAVID: My image: ", photoImage ?? "")
       }
       
       }.resume()

@@ -25,13 +25,13 @@ class HomeGoalsCell: UICollectionViewCell {
   
   let levelLabel: UILabel = {
     let lbl = UILabel()
-    lbl.attributedText = NSAttributedString(string: "Level: 1", attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir", size: 16), NSAttributedStringKey.foregroundColor: UIColor.black])
+    lbl.attributedText = NSAttributedString(string: "Level: 1", attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir", size: 16) ?? "", NSAttributedStringKey.foregroundColor: UIColor.black])
     return lbl
   }()
   
   let pointsLabel: UILabel = {
     let label = UILabel()
-    label.attributedText = NSAttributedString(string: "Points: 100", attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir", size: 16), NSAttributedStringKey.foregroundColor: UIColor.black])
+    label.attributedText = NSAttributedString(string: "Points: 100", attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir", size: 16) ?? "", NSAttributedStringKey.foregroundColor: UIColor.black])
     return label
   }()
   

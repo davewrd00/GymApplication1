@@ -146,7 +146,7 @@ class WelcomeViewController: UIViewController {
   @objc func facebookBtnPressed() {
     let fbLoginManager = FBSDKLoginManager()
     fbLoginManager.logIn(withReadPermissions: ["public_profile", "email"], from: self) { (result, error) in
-      if let error = error {
+      if error != nil {
         print("Error logging in with Facebook")
         return
       }
@@ -166,7 +166,7 @@ class WelcomeViewController: UIViewController {
           alertController.addAction(okayAction)
           self.present(alertController, animated: true, completion: nil)
         } else {
-          if let user = user {
+          if user != nil {
             //self.loginVC.completeSignIn(id: user.uid)
             let homeVC = HomeViewController()
             self.navigationController?.pushViewController(homeVC, animated: true)

@@ -13,7 +13,6 @@ class ClassCellView: UICollectionViewCell {
   var classes: Classes? {
     didSet {
       nameLabel.text = classes?.className
-      classDescriptionLabel.text = classes?.classDescription
     }
   }
   
@@ -34,7 +33,6 @@ class ClassCellView: UICollectionViewCell {
   
   let classDescriptionLabel: UILabel = {
     let lbl = UILabel()
-    lbl.text = "Holistic"
     lbl.font = UIFont(name: "Avenir-Light", size: 13)
     return lbl
   }()

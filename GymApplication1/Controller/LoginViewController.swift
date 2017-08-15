@@ -144,7 +144,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         if err == nil {
           print("Users email authenticated with Firebase")
           if let user = user {
-            self.completeSignIn(id: user.uid)
+            if user.uid == "vAOe4JijoDYO8jTD7TCwceo4qcs2" {
+              let adminVC = AdminViewController()
+              self.present(adminVC, animated: true, completion: nil)
+            }
+            
+          self.completeSignIn(id: user.uid)
+            
           }
           
           // Need to implement the PT side of the app
