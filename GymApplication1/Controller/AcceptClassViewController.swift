@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import EventKit
+import SCLAlertView
 
 class AcceptClassViewController: UIViewController {
   
@@ -104,6 +105,10 @@ class AcceptClassViewController: UIViewController {
         print("Unable to upload class to user in DB")
         return
       }
+      let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+      
+      let alertView = SCLAlertView(appearance: appearance)
+      alertView.showSuccess("Added this class to your calendar", subTitle: "Have fun!", duration: 1.5)
       print("Successfully been able to add this to user in FB")
       
       guard let classDuration = self.classes?.classDuration else { return }
@@ -132,6 +137,7 @@ class AcceptClassViewController: UIViewController {
       self.addEventToCalendar(title: className, description: classDescription, startDate: dateToAdd, endDate: dateToAdd , completion: { (done, err) in
         if err == nil {
           print("Successfully saved")
+          
         }
       })
       

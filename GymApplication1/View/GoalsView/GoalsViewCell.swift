@@ -10,6 +10,16 @@ import UIKit
 
 class GoalsViewCell: UICollectionViewCell {
   
+  var goals: Goals? {
+    didSet {
+      print("Goal being set!!")
+      goalName.text = goals?.goalName
+      goalDescription.text = goals?.goalDescription
+      guard let points = goals?.goalPoints else { return }
+      goalPointsLabel.text = ("\(points) points")
+    }
+  }
+  
   let cellView: UIView = {
     let view = UIView()
     view.backgroundColor = .white
@@ -23,20 +33,25 @@ class GoalsViewCell: UICollectionViewCell {
   
   let goalImageView: UIImageView = {
     let iv = UIImageView()
-    iv.backgroundColor = .yellow
+ 
     return iv
+  }()
+  
+  let goalPointsLabel: UILabel = {
+    let lbl = UILabel()
+    lbl.numberOfLines = 0
+    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
+    return lbl
   }()
   
   let goalName: UILabel = {
     let lbl = UILabel()
-    lbl.text = "Gym-a-holic"
     lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 26.0)
     return lbl
   }()
   
   let goalDescription: UILabel = {
     let lbl = UILabel()
-    lbl.text = "Attend the gym 5 times this week and earn yourself 300 points!!"
     lbl.numberOfLines = 0
     lbl.font = UIFont(name: "HelveticaNeue-Thin", size: 14)
     return lbl
@@ -50,10 +65,14 @@ class GoalsViewCell: UICollectionViewCell {
     addSubview(goalImageView)
     addSubview(goalName)
     addSubview(goalDescription)
+    addSubview(goalPointsLabel)
     
     cellView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 4, paddingRight: 8, width: 0, height: 0)
     
-    goalImageView.anchor(top: cellView.topAnchor, left: cellView.leftAnchor, bottom: cellView.bottomAnchor, right: nil, paddingTop: 2, paddingLeft: 2, paddingBottom: 2, paddingRight: 0, width: 100, height: cellView.frame.height)
+    goalPointsLabel.anchor(top: nil, left: nil, bottom: nil, right: cellView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 70, height: 60)
+    goalPointsLabel.centerYAnchor.constraint(equalTo: cellView.centerYAnchor).isActive = true
+    
+    goalImageView.anchor(top: cellView.topAnchor, left: cellView.leftAnchor, bottom: cellView.bottomAnchor, right: nil, paddingTop: 2, paddingLeft: 2, paddingBottom: 2, paddingRight: 0, width: 80, height: cellView.frame.height)
     
     goalName.anchor(top: goalImageView.topAnchor, left: goalImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 300, height: 40)
     

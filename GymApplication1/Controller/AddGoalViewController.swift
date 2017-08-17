@@ -150,6 +150,23 @@ class AddGoalViewController: UIViewController {
   
   @objc func handleAddFromClassVC() {
     print(123)
+    if goalTextField.text == "" || goalDescriptionTextField.text == "" || goalPointsTextField.text == "" {
+      let alertController = UIAlertController(title: "Howay man!", message: "You need to fill in all the fields!", preferredStyle: .alert)
+      let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+      alertController.addAction(alertAction)
+      present(alertController, animated: true, completion: nil)
+    } else {
+      let goalInfo: Dictionary<String, Any>
+      
+      goalInfo = ["goalName": goalTextField.text ?? "",
+                  "goalDescription": goalDescriptionTextField.text ?? "",
+                  "goalPoints": goalPointsTextField.text ?? ""]
+      
+      let timeStamp = Int(NSDate.timeIntervalSinceReferenceDate*1000)
+      Database.database().reference().child("goals").child("\(timeStamp)").setValue(goalInfo)
+      self.dismiss(animated: true, completion: nil)
+    }
+    
   }
   
   @objc func handleBackFromClassVC() {

@@ -18,5 +18,6 @@ target 'GymApplication1' do
   pod 'SwiftKeychainWrapper'
   pod ‘UICircularProgressRing’
   pod ‘MBCircularProgressBar’
+  pod 'SCLAlertView'
 
 end

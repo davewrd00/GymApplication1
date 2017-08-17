@@ -10,7 +10,7 @@ import UIKit
 
 class ClassAdminCell: UICollectionViewCell {
   
-  let classNameLabel = UILabel()
+  var classNameLabel = UILabel()
   
   lazy var classImageView: UIImageView = {
     let iv = UIImageView()

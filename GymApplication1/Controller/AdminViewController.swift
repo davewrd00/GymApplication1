@@ -12,18 +12,15 @@ import SwiftKeychainWrapper
 
 class AdminViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
   
-  let classImagesNames: [UIImage] = [
-    UIImage(named: "aqua")!,
-    UIImage(named: "bodycombat")!,
-    UIImage(named: "fitness4")!,
-    UIImage(named: "pilates")!,
-    UIImage(named: "synergy")!,
-    UIImage(named: "yoga")!
-]
+  var classImagesNames: [UIImage] = [
+    
+  ]
   
-  let classNames = ["Aqua", "Body Combat", "Body Pump", "Pilates", "Synergy", "Yoga"]
+  var classNames = ["Aqua", "Body Combat", "Body Pump", "Pilates", "Synergy", "Yoga"]
   
   let cellId = "cellId"
+  
+  var classes = [Classes]()
   
   lazy var collectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
@@ -64,7 +61,9 @@ class AdminViewController: UIViewController, UICollectionViewDelegateFlowLayout,
     
     collectionView.register(ClassAdminCell.self, forCellWithReuseIdentifier: cellId)
     
+    
   }
+  
   
   override func viewWillAppear(_ animated: Bool) {
     tabBarController?.tabBar.isHidden = false
@@ -91,13 +90,32 @@ class AdminViewController: UIViewController, UICollectionViewDelegateFlowLayout,
     }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 6
+    return classNames.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ClassAdminCell
-    cell.classImageView.image = self.classImagesNames[indexPath.item]
-    cell.classNameLabel.text = classNames[indexPath.item]
+    cell.classNameLabel.text = self.classNames[indexPath.item]
+    //cell.classImageView.image = self.classImagesNames[indexPath.item]
+    if indexPath.item == 0 {
+      
+      cell.classImageView.image = UIImage(named: "aqua")
+    } else if indexPath.item == 1 {
+      
+      cell.classImageView.image = UIImage(named: "bodycombat")
+    } else if indexPath.item == 2 {
+      
+      cell.classImageView.image = UIImage(named: "fitness4")
+    } else if indexPath.item == 3 {
+      
+      cell.classImageView.image = UIImage(named: "pilates")
+    } else if indexPath.item == 4 {
+      
+      cell.classImageView.image = UIImage(named: "synergy")
+    } else {
+      
+      cell.classImageView.image = UIImage(named: "yoga")
+    }
     return cell
   }
   

@@ -87,7 +87,7 @@ class ClassDetailsViewCell: UICollectionViewCell {
   
   lazy var dateLabel: UILabel = {
     let lbl = UILabel()
-    lbl.font = UIFont(name: "Avenir-Light", size: 12)
+    lbl.font = UIFont(name: "Helvetica-Light", size: 12)
     lbl.textAlignment = .center
     lbl.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 6)
     return lbl
