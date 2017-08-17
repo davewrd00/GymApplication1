@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app would like to access your calendar to save classes</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We would like access to your photographs please!</string>
 	<key>NSCameraUsageDescription</key>

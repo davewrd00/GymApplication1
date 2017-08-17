@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UICircularProgressRing
 
 class HomeClassCell: UICollectionViewCell {
   
@@ -19,6 +20,7 @@ class HomeClassCell: UICollectionViewCell {
     v.layer.shadowOffset = CGSize(width: -1, height: 1)
     v.layer.shadowRadius = 1
     v.layer.cornerRadius = 3
+    
     let classLabel = UILabel()
     classLabel.text = "Body Pump"
     classLabel.font = UIFont.boldSystemFont(ofSize: 16)
@@ -28,6 +30,7 @@ class HomeClassCell: UICollectionViewCell {
     classLabel.widthAnchor.constraint(equalToConstant: 130).isActive = true
     classLabel.leftAnchor.constraint(equalTo: v.leftAnchor, constant: 10).isActive = true
     classLabel.topAnchor.constraint(equalTo: v.topAnchor, constant: 10).isActive = true
+    
     let dateAndTimeLabel = UILabel()
     dateAndTimeLabel.text = "Tuesday 23rd March 2017"
     dateAndTimeLabel.font = UIFont.boldSystemFont(ofSize: 14)
@@ -50,12 +53,20 @@ class HomeClassCell: UICollectionViewCell {
     view.layer.borderWidth = 1
     return view
   }()
+  
+  let progressView: UICircularProgressRingView = {
+    let pv = UICircularProgressRingView()
+    pv.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+    pv.outerRingColor = .red
+    return pv
+  }()
 
   override init(frame: CGRect) {
     super.init(frame: frame)
     
     addSubview(view)
     addSubview(profileImageView)
+    addSubview(progressView)
     
     
     backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
@@ -64,6 +75,8 @@ class HomeClassCell: UICollectionViewCell {
     profileImageView.layer.cornerRadius = 60 / 2
     profileImageView.clipsToBounds = true
     view.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 4, paddingRight: 8, width: 0, height: 0)
+    
+    progressView.anchor(top: nil, left: nil, bottom: view.bottomAnchor, right: profileImageView.leftAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
   }
   
   required init?(coder aDecoder: NSCoder) {

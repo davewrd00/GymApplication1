@@ -32,8 +32,7 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
   lazy var searchBar: UISearchBar = {
     let sb = UISearchBar()
     sb.placeholder = "Search class"
-    sb.barTintColor = .gray
-    sb.backgroundColor = .clear
+    sb.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = UIColor.white
     sb.delegate = self
     sb.searchBarStyle = .minimal
@@ -47,9 +46,7 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.title = "Classes"
-    navigationController?.navigationBar.barTintColor = UIColor.rgb(red: 80, green: 81, blue: 79)
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20) ?? ""]
+    navigationController?.navigationBar.barTintColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     navigationController?.navigationBar.isTranslucent = false
     collectionView?.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     
@@ -65,7 +62,6 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
     collectionView?.contentInset = UIEdgeInsetsMake(30, 0, 0, 0 )
     collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(30, 0, 0, 0)
     
-    tabBarItem.title = "Classes"
     
     fetchClasses()
 
@@ -78,7 +74,7 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
   
   let menuBar: MenuBarView = {
     let mb = MenuBarView()
-    mb.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
+    mb.backgroundColor = .yellow
     return mb
   }()
   
@@ -149,16 +145,22 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
     cell.classes = classes[indexPath.item]
     if indexPath.item == 0 {
       cell.classDescriptionLabel.text = "Water workout"
+      cell.classProfileImage.image = UIImage(named: "aqua")
     } else if indexPath.item == 1 {
       cell.classDescriptionLabel.text = "Full Body Workout"
+      cell.classProfileImage.image = UIImage(named: "bodycombat")
     } else if indexPath.item == 2 {
       cell.classDescriptionLabel.text = "Full Body - High Intensity"
+      cell.classProfileImage.image = UIImage(named: "fitness4")
     } else if indexPath.item == 3 {
       cell.classDescriptionLabel.text = "Holistic"
+      cell.classProfileImage.image = UIImage(named: "pilates")
     } else if indexPath.item == 4 {
       cell.classDescriptionLabel.text = "High Intenisty"
+      cell.classProfileImage.image = UIImage(named: "synergy")
     } else {
       cell.classDescriptionLabel.text = "Holistic"
+      cell.classProfileImage.image = UIImage(named: "yoga")
     }
     
     return cell

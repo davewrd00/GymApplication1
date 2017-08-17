@@ -18,8 +18,8 @@ class AddClassViewController: UINavigationController {
   
   lazy var imageView: UIView = {
     let v = UIView()
-    v.backgroundColor = .lightGray
-    self.nameLabel.text = self.classToAdd as? String
+    v.backgroundColor = UIColor.rgb(red: 72, green: 172, blue: 240)
+    self.nameLabel.text = self.classToAdd 
     self.nameLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 36.0)
     self.nameLabel.textColor = .white
     v.addSubview(self.nameLabel)
@@ -31,7 +31,7 @@ class AddClassViewController: UINavigationController {
   
   let backButton: UIButton = {
     let button = UIButton()
-    button.backgroundColor = .red
+    button.backgroundColor = UIColor.rgb(red: 242, green: 95, blue: 92)
     button.layer.cornerRadius = 5
     button.layer.shadowColor = UIColor.black.cgColor
     button.layer.shadowOpacity = 0.2
@@ -40,13 +40,13 @@ class AddClassViewController: UINavigationController {
     let image = UIImage(named: "back_btn")
     button.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
     button.addTarget(self, action: #selector(handleBackFromClassVC), for: .touchUpInside)
-    button.alpha = 0.6
+    button.alpha = 0.8
     return button
   }()
   
   let enterButton: UIButton = {
     let button = UIButton()
-    button.backgroundColor = .green
+    button.backgroundColor = UIColor.rgb(red: 59, green: 193, blue: 74)
     button.layer.cornerRadius = 5
     button.layer.shadowColor = UIColor.black.cgColor
     button.layer.shadowOpacity = 0.2
@@ -55,20 +55,14 @@ class AddClassViewController: UINavigationController {
     let image = UIImage(named: "add_btn")
     button.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
     button.addTarget(self, action: #selector(handleAddFromClassVC), for: .touchUpInside)
-    button.alpha = 0.6
+    button.alpha = 0.7
     return button
   }()
   
-  let classDateTextField: UITextField = {
-    let tf = UITextField()
-    tf.backgroundColor = .clear
-    tf.textColor = .black
-    tf.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
-    tf.attributedPlaceholder = NSAttributedString(string: "Date of class", attributes: [NSAttributedStringKey.font: UIFont(name: "HelveticaNeue-Thin", size: 16) ?? "", NSAttributedStringKey.foregroundColor: UIColor.black])
-    tf.layer.borderColor = UIColor.green.cgColor
-    tf.layer.borderWidth = 1
-    tf.layer.cornerRadius = 8
-    return tf
+  let datePicker: UIDatePicker = {
+    let dp = UIDatePicker()
+    dp.datePickerMode = UIDatePickerMode.dateAndTime
+    return dp
   }()
   
   let classAvailabilityTextField: UITextField = {
@@ -77,7 +71,7 @@ class AddClassViewController: UINavigationController {
     tf.textColor = .black
     tf.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
     tf.attributedPlaceholder = NSAttributedString(string: "Spaces available", attributes: [NSAttributedStringKey.font: UIFont(name: "HelveticaNeue-Thin", size: 16) ?? "", NSAttributedStringKey.foregroundColor: UIColor.black])
-    tf.layer.borderColor = UIColor.green.cgColor
+    tf.layer.borderColor = UIColor.rgb(red: 72, green: 172, blue: 240).cgColor
     tf.layer.borderWidth = 1
     tf.layer.cornerRadius = 8
     return tf
@@ -89,7 +83,7 @@ class AddClassViewController: UINavigationController {
     tf.textColor = .black
     tf.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
     tf.attributedPlaceholder = NSAttributedString(string: "Description of class", attributes: [NSAttributedStringKey.font: UIFont(name: "HelveticaNeue-Thin", size: 16) ?? "", NSAttributedStringKey.foregroundColor: UIColor.black])
-    tf.layer.borderColor = UIColor.green.cgColor
+    tf.layer.borderColor = UIColor.rgb(red: 72, green: 172, blue: 240).cgColor
     tf.layer.borderWidth = 1
     tf.layer.cornerRadius = 8
     return tf
@@ -101,7 +95,7 @@ class AddClassViewController: UINavigationController {
     tf.textColor = .black
     tf.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
     tf.attributedPlaceholder = NSAttributedString(string: "Duration of class", attributes: [NSAttributedStringKey.font: UIFont(name: "HelveticaNeue-Thin", size: 16) ?? "", NSAttributedStringKey.foregroundColor: UIColor.black])
-    tf.layer.borderColor = UIColor.green.cgColor
+    tf.layer.borderColor = UIColor.rgb(red: 72, green: 172, blue: 240).cgColor
     tf.layer.borderWidth = 1
     tf.layer.cornerRadius = 8
     return tf
@@ -113,19 +107,7 @@ class AddClassViewController: UINavigationController {
     tf.textColor = .black
     tf.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
     tf.attributedPlaceholder = NSAttributedString(string: "Location of class", attributes: [NSAttributedStringKey.font: UIFont(name: "HelveticaNeue-Thin", size: 16) ?? "", NSAttributedStringKey.foregroundColor: UIColor.black])
-    tf.layer.borderColor = UIColor.green.cgColor
-    tf.layer.borderWidth = 1
-    tf.layer.cornerRadius = 8
-    return tf
-  }()
-  
-  let classTimeTextField: UITextField = {
-    let tf = UITextField()
-    tf.backgroundColor = .clear
-    tf.textColor = .black
-    tf.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
-    tf.attributedPlaceholder = NSAttributedString(string: "Time of class", attributes: [NSAttributedStringKey.font: UIFont(name: "HelveticaNeue-Thin", size: 16) ?? "", NSAttributedStringKey.foregroundColor: UIColor.black])
-    tf.layer.borderColor = UIColor.green.cgColor
+    tf.layer.borderColor = UIColor.rgb(red: 72, green: 172, blue: 240).cgColor
     tf.layer.borderWidth = 1
     tf.layer.cornerRadius = 8
     return tf
@@ -134,7 +116,7 @@ class AddClassViewController: UINavigationController {
   @objc func handleAddFromClassVC() {
     print(123)
     
-    if classDateTextField.text == "" || classTimeTextField.text == "" || classLocationTextField.text == "" || classDurationTextField.text == "" || classAvailabilityTextField.text == "" {
+    if datePicker.date == nil || classLocationTextField.text == "" || classDurationTextField.text == "" || classAvailabilityTextField.text == "" {
       let alertController = UIAlertController(title: "Oops", message: "Please make sure that you complete all of the above fields", preferredStyle: .alert)
       let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
       alertController.addAction(alertAction)
@@ -142,8 +124,14 @@ class AddClassViewController: UINavigationController {
     } else {
       guard let classToAdd = self.classToAdd else { return }
       let classData: Dictionary<String, Any>
-      classData = ["classDate": classDateTextField.text ?? "",
-                                             "classTime": classTimeTextField.text ?? "",
+      
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm"
+      let classDateAndTimeSet = dateFormatter.string(from: datePicker.date)
+      
+      print("POO \(classDateAndTimeSet)")
+      
+      classData = ["classDate": classDateAndTimeSet,
                                              "classLocation": classLocationTextField.text ?? "",
                                              "classDuration": classDurationTextField.text ?? "",
                                              "classAvailability": classAvailabilityTextField.text ?? ""]
@@ -170,33 +158,32 @@ class AddClassViewController: UINavigationController {
     view.addSubview(imageView)
     view.addSubview(backButton)
     view.addSubview(enterButton)
-    view.addSubview(classDateTextField)
     view.addSubview(classAvailabilityTextField)
     view.addSubview(classDurationTextField)
     view.addSubview(classLocationTextField)
-    view.addSubview(classTimeTextField)
+    
     view.addSubview(classDescriptionTextField)
+    view.addSubview(datePicker)
     
     backButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 10, paddingRight: 0, width: 50, height: 50)
     
     enterButton.anchor(top: nil, left: nil, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 10, paddingRight: 10, width: 50, height: 50)
     
-    imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 200)
+    imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 150)
     
-    classDateTextField.anchor(top: imageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 300, height: 30)
-    
-    classAvailabilityTextField.anchor(top: classDateTextField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 300, height: 30)
+    classAvailabilityTextField.anchor(top: datePicker.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 300, height: 30)
     
     classDurationTextField.anchor(top: classAvailabilityTextField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 300, height: 30)
     
     classLocationTextField.anchor(top: classDurationTextField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 300, height: 30)
     
-    classTimeTextField.anchor(top: classLocationTextField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 300, height: 30)
     
-    classDescriptionTextField.anchor(top: classTimeTextField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 300, height: 30)
+    classDescriptionTextField.anchor(top: classLocationTextField.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 25, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 300, height: 30)
+    
+    datePicker.anchor(top: imageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 80, height: 150)
     
     view.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
-    print(classToAdd)
+    
   }
   
 }

@@ -29,9 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     if Auth.auth().currentUser?.uid == nil {
       window = UIWindow()
       window?.rootViewController = WelcomeViewController()
-    } else if Auth.auth().currentUser?.uid == "vAOe4JijoDYO8jTD7TCwceo4qcs2" {
+    } else if DataService.UID == "vAOe4JijoDYO8jTD7TCwceo4qcs2" {
       window = UIWindow()
-      window?.rootViewController = AdminViewController()
+      window?.rootViewController = AdminTabBarController()
     } else {
       window = UIWindow()
       window?.rootViewController = TabBarController()

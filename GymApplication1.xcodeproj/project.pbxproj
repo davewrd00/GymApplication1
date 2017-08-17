@@ -13,6 +13,11 @@
 		C43D2C0C1F42FA7100F6CEE0 /* AddClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */; };
 		C43D2C0E1F430E3D00F6CEE0 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C0D1F430E3D00F6CEE0 /* DataService.swift */; };
 		C43D2C121F4341A800F6CEE0 /* AcceptClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */; };
+		C469F3621F4594B500FE381D /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C469F3611F4594B500FE381D /* Goals.swift */; };
+		C469F3641F4596AE00FE381D /* AddGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C469F3631F4596AE00FE381D /* AddGoalViewController.swift */; };
+		C469F3661F459E8D00FE381D /* AdminTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C469F3651F459E8D00FE381D /* AdminTabBarController.swift */; };
+		C4A5286D1F442FAE000080DE /* HomeViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A5286C1F442FAE000080DE /* HomeViewController1.swift */; };
+		C4A5286F1F4433BD000080DE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A5286E1F4433BD000080DE /* User.swift */; };
 		C4AAD1CB1F3B43B100902046 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1CA1F3B43B100902046 /* AppDelegate.swift */; };
 		C4AAD1CD1F3B43B100902046 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1CC1F3B43B100902046 /* WelcomeViewController.swift */; };
 		C4AAD1D01F3B43B100902046 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4AAD1CE1F3B43B100902046 /* Main.storyboard */; };
@@ -22,9 +27,7 @@
 		C4AAD1E31F3B43B100902046 /* GymApplication1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1E21F3B43B100902046 /* GymApplication1Tests.swift */; };
 		C4AAD1EE1F3B43B100902046 /* GymApplication1UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1ED1F3B43B100902046 /* GymApplication1UITests.swift */; };
 		C4AAD1FE1F3B630000902046 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AAD1FD1F3B630000902046 /* GoogleService-Info.plist */; };
-		C4AAD2001F3B6A2600902046 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1FF1F3B6A2600902046 /* HomeViewController.swift */; };
 		C4AAD2061F3BCA4200902046 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD2051F3BCA4200902046 /* Extensions.swift */; };
-		C4CAF0A51F3C98EB0023C749 /* HomeHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CAF0A41F3C98EB0023C749 /* HomeHeaderCell.swift */; };
 		C4CAF0A71F3F77110023C749 /* HomeClassCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CAF0A61F3F77110023C749 /* HomeClassCell.swift */; };
 		C4CAF0A91F3F806E0023C749 /* HomeFooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CAF0A81F3F806E0023C749 /* HomeFooterCell.swift */; };
 		C4CAF0AB1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CAF0AA1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift */; };
@@ -72,6 +75,11 @@
 		C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassViewController.swift; sourceTree = "<group>"; };
 		C43D2C0D1F430E3D00F6CEE0 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptClassViewController.swift; sourceTree = "<group>"; };
+		C469F3611F4594B500FE381D /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goals.swift; sourceTree = "<group>"; };
+		C469F3631F4596AE00FE381D /* AddGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalViewController.swift; sourceTree = "<group>"; };
+		C469F3651F459E8D00FE381D /* AdminTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTabBarController.swift; sourceTree = "<group>"; };
+		C4A5286C1F442FAE000080DE /* HomeViewController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController1.swift; sourceTree = "<group>"; };
+		C4A5286E1F4433BD000080DE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C4AAD1C71F3B43B100902046 /* GymApplication1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymApplication1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4AAD1CA1F3B43B100902046 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4AAD1CC1F3B43B100902046 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -87,9 +95,7 @@
 		C4AAD1ED1F3B43B100902046 /* GymApplication1UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymApplication1UITests.swift; sourceTree = "<group>"; };
 		C4AAD1EF1F3B43B100902046 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4AAD1FD1F3B630000902046 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C4AAD1FF1F3B6A2600902046 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		C4AAD2051F3BCA4200902046 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		C4CAF0A41F3C98EB0023C749 /* HomeHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderCell.swift; sourceTree = "<group>"; };
 		C4CAF0A61F3F77110023C749 /* HomeClassCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClassCell.swift; sourceTree = "<group>"; };
 		C4CAF0A81F3F806E0023C749 /* HomeFooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFooterCell.swift; sourceTree = "<group>"; };
 		C4CAF0AA1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGoalsProgressCell.swift; sourceTree = "<group>"; };
@@ -217,7 +223,8 @@
 				C4D9A2791F3C566700111DF6 /* LoginViewController.swift */,
 				C4D9A2771F3C3FBE00111DF6 /* RegistrationViewController.swift */,
 				C4D9A27C1F3C8B7800111DF6 /* TabBarController.swift */,
-				C4AAD1FF1F3B6A2600902046 /* HomeViewController.swift */,
+				C469F3651F459E8D00FE381D /* AdminTabBarController.swift */,
+				C4A5286C1F442FAE000080DE /* HomeViewController1.swift */,
 				C4CAF0B21F4036050023C749 /* ClassViewController.swift */,
 				C4CAF0B01F4034DA0023C749 /* AchievementsViewController.swift */,
 				C4CAF0AE1F4034B20023C749 /* GoalsViewController.swift */,
@@ -226,6 +233,7 @@
 				C42DA48D1F42E755004D7D5D /* AdminViewController.swift */,
 				C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */,
 				C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */,
+				C469F3631F4596AE00FE381D /* AddGoalViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -247,6 +255,8 @@
 			isa = PBXGroup;
 			children = (
 				C4E7EAF91F41DA1400BC47E5 /* Classes.swift */,
+				C4A5286E1F4433BD000080DE /* User.swift */,
+				C469F3611F4594B500FE381D /* Goals.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -264,7 +274,6 @@
 		C4E7EAF11F40D5E300BC47E5 /* HomeCells */ = {
 			isa = PBXGroup;
 			children = (
-				C4CAF0A41F3C98EB0023C749 /* HomeHeaderCell.swift */,
 				C4CAF0A61F3F77110023C749 /* HomeClassCell.swift */,
 				C4CAF0A81F3F806E0023C749 /* HomeFooterCell.swift */,
 				C4CAF0AA1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift */,
@@ -517,12 +526,14 @@
 				C4E7EAF81F41D29400BC47E5 /* CustomImageView.swift in Sources */,
 				C4FD293F1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift in Sources */,
 				C42DA48E1F42E755004D7D5D /* AdminViewController.swift in Sources */,
+				C469F3641F4596AE00FE381D /* AddGoalViewController.swift in Sources */,
 				C4D9A27A1F3C566700111DF6 /* LoginViewController.swift in Sources */,
 				C4CAF0BB1F407F0D0023C749 /* SettingsCell.swift in Sources */,
 				C43D2C0E1F430E3D00F6CEE0 /* DataService.swift in Sources */,
 				C4E7EAEE1F40BF6700BC47E5 /* MenuBarViewCell.swift in Sources */,
 				C4CAF0A91F3F806E0023C749 /* HomeFooterCell.swift in Sources */,
 				C4D9A27D1F3C8B7800111DF6 /* TabBarController.swift in Sources */,
+				C4A5286F1F4433BD000080DE /* User.swift in Sources */,
 				C4CAF0B91F407B120023C749 /* SettingsLauncher.swift in Sources */,
 				C4D9A2781F3C3FBE00111DF6 /* RegistrationViewController.swift in Sources */,
 				C4AAD2061F3BCA4200902046 /* Extensions.swift in Sources */,
@@ -537,13 +548,14 @@
 				C4CAF0B11F4034DA0023C749 /* AchievementsViewController.swift in Sources */,
 				C4AAD1CB1F3B43B100902046 /* AppDelegate.swift in Sources */,
 				C4E7EAFA1F41DA1400BC47E5 /* Classes.swift in Sources */,
-				C4CAF0A51F3C98EB0023C749 /* HomeHeaderCell.swift in Sources */,
-				C4AAD2001F3B6A2600902046 /* HomeViewController.swift in Sources */,
+				C469F3661F459E8D00FE381D /* AdminTabBarController.swift in Sources */,
 				C4CAF0AB1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift in Sources */,
+				C4A5286D1F442FAE000080DE /* HomeViewController1.swift in Sources */,
 				C43D2C0A1F42F3C400F6CEE0 /* ClassAdminCell.swift in Sources */,
 				C4CAF0A71F3F77110023C749 /* HomeClassCell.swift in Sources */,
 				C4E7EAF01F40D39F00BC47E5 /* GoalsViewCell.swift in Sources */,
 				C4E7EAEA1F40A6AD00BC47E5 /* ClassCellView.swift in Sources */,
+				C469F3621F4594B500FE381D /* Goals.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

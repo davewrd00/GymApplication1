@@ -16,5 +16,7 @@ target 'GymApplication1' do
   pod 'FBSDKCoreKit’, ‘~> 4.24.0’
   pod 'Bolts'
   pod 'SwiftKeychainWrapper'
+  pod ‘UICircularProgressRing’
+  pod ‘MBCircularProgressBar’
 
 end

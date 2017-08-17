@@ -25,8 +25,26 @@ class ClassDetailsViewCell: UICollectionViewCell {
   var classes: Classes? {
     didSet {
       
-      dateLabel.text = classes?.classDate
-      classTimeLbl.text = classes?.classTime
+      // Changes the date label into a more human-friendly string
+      guard let dateString = classes?.classDate else { return }
+      
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm"
+      guard let dateFromString = dateFormatter.date(from: dateString) else { return }
+      
+      let dateFormatter2 = DateFormatter()
+      dateFormatter2.dateFormat = "MMM d, yyyy"
+      
+      let stringFromDate = dateFormatter2.string(from: dateFromString)
+      
+      let timeFormatter2 = DateFormatter()
+      timeFormatter2.dateFormat = "HH:mm"
+      
+      let stringFromTime = timeFormatter2.string(from: dateFromString)
+      
+      
+      dateLabel.text = stringFromDate
+      classTimeLbl.text = stringFromTime
       classDurationLbl.text = classes?.classDuration
       classNameLbl.text = classes?.className
       classLocationLbl.text = classes?.classLocation

@@ -14,6 +14,7 @@ let DB_BASE = Database.database().reference()
 class DataService {
   
   static let ds = DataService()
+  static let UID = Auth.auth().currentUser?.uid 
   
   private var _REF_BASE = DB_BASE
   private var _REF_USERS = DB_BASE.child("users")

@@ -144,16 +144,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         if err == nil {
           print("Users email authenticated with Firebase")
           if let user = user {
-            if user.uid == "vAOe4JijoDYO8jTD7TCwceo4qcs2" {
-              let adminVC = AdminViewController()
-              self.present(adminVC, animated: true, completion: nil)
-            }
-            
-          self.completeSignIn(id: user.uid)
+//            if user.uid == "vAOe4JijoDYO8jTD7TCwceo4qcs2" {
+              self.completeSignIn(id: user.uid)
+            print("DAVIDPOO \(user.uid)")
+//              let adminVC = AdminViewController()
+//              self.present(adminVC, animated: true, completion: nil)
+             // self.completeSignIn(id: user.uid)
+//            }
             
           }
-          
-          // Need to implement the PT side of the app
           
         } else {
           self.displayAlert(title: "Error logging into system", message: "Login details are incorrect. Please try again", actionTitle: "OK")
@@ -168,8 +167,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
   func completeSignIn(id: String) {
     let keychainResult = KeychainWrapper.standard.set(id, forKey: "uid")
     print("DAVID: Data saved to keychain \(keychainResult)")
-    let mainTabBar = TabBarController()
-    self.present(mainTabBar, animated: true, completion: nil)
+    if id == "vAOe4JijoDYO8jTD7TCwceo4qcs2" {
+      let tabBar = AdminTabBarController()
+      self.present(tabBar, animated: true, completion: nil)
+    } else {
+      let mainTabBar = TabBarController()
+      self.present(mainTabBar, animated: true, completion: nil)
+    }
+    
   }
   
   func displayAlert(title: String, message: String, actionTitle: String) {

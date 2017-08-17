@@ -13,18 +13,19 @@ class ClassCellView: UICollectionViewCell {
   var classes: Classes? {
     didSet {
       nameLabel.text = classes?.className
+      print("POO \(classes?.className)")
     }
   }
-  
-  let classProfileImage: CustomImageView = {
-    let iv = CustomImageView()
+
+  lazy var classProfileImage: UIImageView = {
+    let iv = UIImageView()
     iv.contentMode = .scaleAspectFill
     iv.clipsToBounds = true
     iv.backgroundColor = .yellow
     return iv
   }()
   
-  let nameLabel: UILabel = {
+  let nameLabel: UILabel  = {
     let lbl = UILabel()
     lbl.text = "TEST"
     lbl.font = UIFont(name: "Avenir-Bold", size: 24)

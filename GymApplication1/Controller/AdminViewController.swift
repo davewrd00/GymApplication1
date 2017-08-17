@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 import SwiftKeychainWrapper
 
-class AdminViewController: UINavigationController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+class AdminViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
   
   let classImagesNames: [UIImage] = [
     UIImage(named: "aqua")!,
@@ -36,7 +36,7 @@ class AdminViewController: UINavigationController, UICollectionViewDelegateFlowL
   
   let exitButton: UIButton = {
     let button = UIButton()
-    button.backgroundColor = .red
+    button.backgroundColor = UIColor.rgb(red: 242, green: 95, blue: 92)
     button.layer.cornerRadius = 5
     button.layer.shadowColor = UIColor.black.cgColor
     button.layer.shadowOpacity = 0.2
@@ -45,24 +45,29 @@ class AdminViewController: UINavigationController, UICollectionViewDelegateFlowL
     let image = UIImage(named: "exit")
     button.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
     button.addTarget(self, action: #selector(handleExitFromClassVC), for: .touchUpInside)
-    button.alpha = 0.6
+    button.alpha = 0.8
     return button
   }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    navigationController?.isNavigationBarHidden = true
     view.backgroundColor = .white
     
     view.addSubview(collectionView)
     view.addSubview(exitButton)
     
-    exitButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 10, paddingRight: 0, width: 50, height: 50)
+    exitButton.anchor(top: nil, left: collectionView.leftAnchor, bottom: view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 60, paddingRight: 0, width: 50, height: 50)
     
     collectionView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     
     collectionView.register(ClassAdminCell.self, forCellWithReuseIdentifier: cellId)
     
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    tabBarController?.tabBar.isHidden = false
   }
   
   @objc func handleExitFromClassVC() {
@@ -112,12 +117,7 @@ class AdminViewController: UINavigationController, UICollectionViewDelegateFlowL
     let classToAddVC = AddClassViewController()
     classToAddVC.classToAdd = classToAdd 
     self.present(classToAddVC, animated: true, completion: nil)
-    
-    
-    
-    
-    
-    
+
   }
   
 }

@@ -11,7 +11,11 @@ import Firebase
 
 class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
-  var classes: Classes?
+  var classes: Classes? {
+    didSet {
+      print("PAUL \(classes?.className)")
+    }
+  }
   
   var classDetails = [Classes]()
   

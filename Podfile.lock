@@ -62,6 +62,7 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.1)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.1)
   - GTMSessionFetcher/Core (1.1.11)
+  - MBCircularProgressBar (0.3.5)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -69,6 +70,7 @@ PODS:
   - nanopb/encode (0.3.8)
   - Protobuf (3.3.0)
   - SwiftKeychainWrapper (3.0.1)
+  - UICircularProgressRing (1.7.0)
 
 DEPENDENCIES:
   - Bolts
@@ -79,7 +81,9 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Messaging
   - Firebase/Storage
+  - MBCircularProgressBar
   - SwiftKeychainWrapper
+  - UICircularProgressRing
 
 SPEC CHECKSUMS:
   Bolts: 8a7995239dbe724f9cba2248b766d48b7ebdd322
@@ -95,10 +99,12 @@ SPEC CHECKSUMS:
   FirebaseStorage: 8110a1ed2034c8fbfd83890d2acc9cdbbd99afec
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
+  MBCircularProgressBar: 0b795b722a5eb5b0923822f90474e2576a1a7855
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: d582fecf68201eac3d79ed61369ef45734394b9c
   SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
+  UICircularProgressRing: 35c3d291b679161ea27fb6216fee58c40a4bb597
 
-PODFILE CHECKSUM: ad1ed7ad55a44d4c36c1892fc72d345559ba9878
+PODFILE CHECKSUM: 25f84c2eb43048cb7b82dff824e48a887ec9e13a
 
 COCOAPODS: 1.1.1

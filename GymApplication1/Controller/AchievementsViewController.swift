@@ -14,8 +14,7 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    self.title = "Achievements"
+
     navigationController?.navigationBar.barTintColor = UIColor.rgb(red: 80, green: 81, blue: 79)
     navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20) ?? ""]
     navigationController?.navigationBar.isTranslucent = false

@@ -81,7 +81,7 @@ class WelcomeViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     if let _ = KeychainWrapper.standard.string(forKey: "uid") {
       print("ID found in keychain")
-      let homeVC = HomeViewController()
+      let homeVC = HomeViewController1()
       self.present(homeVC, animated: true, completion: nil)
     }
     
@@ -168,7 +168,7 @@ class WelcomeViewController: UIViewController {
         } else {
           if user != nil {
             //self.loginVC.completeSignIn(id: user.uid)
-            let homeVC = HomeViewController()
+            let homeVC = HomeViewController1()
             self.navigationController?.pushViewController(homeVC, animated: true)
             
           }

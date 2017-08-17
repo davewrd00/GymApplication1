@@ -52,7 +52,7 @@ class SettingsLaucnher: NSObject, UICollectionViewDataSource, UICollectionViewDe
     return [profileSetting, sendFeedbackSetting, helpSetting, cancelSetting, signOutSetting]
   }()
   
-  var homeController: HomeViewController?
+  var homeController: HomeViewController1?
   
   @objc func showSettings() {
     if let window = UIApplication.shared.keyWindow {
