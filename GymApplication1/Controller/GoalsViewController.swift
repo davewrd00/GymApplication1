@@ -21,7 +21,6 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     
     collectionView?.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     collectionView?.register(GoalsViewCell.self, forCellWithReuseIdentifier: cell1)
-    collectionView?.register(GoalsUnderwayCell.self, forCellWithReuseIdentifier: cell2)
     collectionView?.register(GoalsViewHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
     
     
@@ -36,13 +35,13 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cell1, for: indexPath) as! GoalsViewCell
       cell.goals = goals[indexPath.item]
-      if indexPath.row == 0 {
-        cell.goalImageView.image = UIImage(named: "bike")
-      } else if indexPath.row == 1 {
-        cell.goalImageView.image = UIImage(named: "gymaholic")
-      } else if indexPath.row == 2 {
-        cell.goalImageView.image = UIImage(named: "calorie")
-      }
+//      if indexPath.row == 0 {
+//        cell.goalImageView.image = UIImage(named: "bike")
+//      } else if indexPath.row == 1 {
+//        cell.goalImageView.image = UIImage(named: "gymaholic")
+//      } else if indexPath.row == 2 {
+//        cell.goalImageView.image = UIImage(named: "calorie")
+//      }
        return cell
 
   }
@@ -75,9 +74,27 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
   }
   
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+    
+    let goal = goals[indexPath.item]
+    let toggledCompletion = !goal.goalCompleted
+    
+    //print("STEVE \(toggledCompletion)")
+    
+    if toggledCompletion {
+      print("STEVE: Goal is true")
+      cell.backgroundColor = .green
+      cell.isUserInteractionEnabled = false
+    } else {
+      cell.backgroundColor = .white
+    }
+    
+    
     
     let goalPicked = goals[indexPath.item]
     print(goalPicked.goalName, goalPicked.goalDescription)
+    
+    
     
     let goalDetailVC = GoalDetailViewController()
     goalDetailVC.goal = goalPicked

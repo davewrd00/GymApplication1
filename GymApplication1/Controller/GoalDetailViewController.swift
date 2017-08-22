@@ -8,20 +8,26 @@
 
 import UIKit
 import SCLAlertView
+import Firebase
 
 class GoalDetailViewController: UIViewController {
   
+  var user: User? {
+    didSet {
+      print("PAUL: \(user?.userPointsEarned)")
+      pointsAlreadyEarned = user?.userPointsEarned
+    }
+  }
+  
+  var goalsCompleted: GoalsCompleted?
+  
+  var pointsAlreadyEarned: Int?
+  
   var goal: Goals? {
     didSet {
-      if goal?.goalName == "Watt bike?" {
-        imageViewOfGoal.image = UIImage(named: "bike")
-      } else if goal?.goalName == "Gym-A-Holic" {
-        imageViewOfGoal.image = UIImage(named: "gymaholic")
-      } else {
-        imageViewOfGoal.image = UIImage(named: "calorie")
-      }
       goalNameLabel.text = goal?.goalName
       goalDescriptionLabel.text = goal?.goalDescription
+      setupGoalImage()
     }
     
   }
@@ -88,6 +94,11 @@ class GoalDetailViewController: UIViewController {
     return lbl
   }()
   
+  override func viewWillAppear(_ animated: Bool) {
+    print("PAP \(self.user?.userPointsEarned)")
+    print("DAVIDWARD: \(pointsAlreadyEarned)")
+  }
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -116,20 +127,98 @@ class GoalDetailViewController: UIViewController {
     acceptButton.anchor(top: nil, left: nil, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 8, width: 50, height: 50)
     
     view.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
+    
+    
+    
+    //fetchUser()
   }
+  
+//  func fetchUserPoints() {
+//    print("Fetching points for user")
+//    guard let uid = Auth.auth().currentUser?.uid else { return }
+//    guard let userPoints = user?.userPointsEarned else { return }
+//    Database.database().reference().child("users").child(uid).child("pointsEarned").observeSingleEvent(of: .value) { (snapshot) in
+//      print("DAVID2: \(snapshot.value ?? "")")
+//
+//    }
+//
+//  }
+  
+  
   
   @objc func handleExitFromClassVC() {
     self.navigationController?.popViewController(animated: true)
   }
   
   @objc func handleAddGoal() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    guard let goalPoints = self.goal?.goalPoints else { return }
+    var pointsAlreadyInDatabase = Database.database().reference().child("users").child(uid).child("pointsEarned").observeSingleEvent(of: .value, with: { (snapshot) in
+      
+      if let pointsEarned = snapshot.value {
+        print("STEVE \(pointsEarned)")
+        
+        self.handleCompletedGoal()
+        self.updateTotalNumberOfPointsEarned(uid: uid, goalPoints: goalPoints) {
+          print("Updated")
+        }
+      }
+      
+    }) { (err) in
+      print(err.localizedDescription)
+    }
+  }
+  
+  fileprivate func updateTotalNumberOfPointsEarned(uid: String, goalPoints: Int, completionBlock: @escaping (() -> Void)) {
+    let ref = Database.database().reference().child("users").child(uid).child("pointsEarned")
+    
+    ref.runTransactionBlock({ (result) -> TransactionResult in
+      if let initialValue = result.value as? Int {
+        print("STEVE \(initialValue)")
+        result.value = initialValue + goalPoints
+        print("STEVE \(goalPoints)")
+        return TransactionResult.success(withValue: result)
+      } else {
+        return TransactionResult.success(withValue: result)
+      }
+    }) { (err, completion, snap) in
+      print(err?.localizedDescription)
+      print(completion)
+      print(snap)
+      if !completion {
+        print("Couldnt update this node")
+      } else {
+        completionBlock()
+      }
+    }
+  }
+  
+  fileprivate func handleCompletedGoal() {
     guard let goalName = goal?.goalName else { return }
     
-    let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
+  }
+
+  func setupGoalImage() {
+    guard let goalImageUrl = goal?.goalImageUrl else { return }
     
-    let alertView = SCLAlertView(appearance: appearance)
-    alertView.showSuccess("Started \(goalName)!", subTitle: "Good luck!", duration: 1.5)
+    guard let url = URL(string: goalImageUrl) else { return }
     
-    // Need to now make a call to FB so that this goal that has been added to added to the correct user. Then, in the HomeVC I need to call for totalPoints earned and update that aswell as the level!
+    URLSession.shared.dataTask(with: url) { (data, response, err) in
+      // check for the error and then construct the image using the data
+      if let err = err {
+        print("Failed to fetch profile image:", err)
+        return
+      }
+      
+      guard let data = data else { return }
+      
+      let image = UIImage(data: data)
+      
+      DispatchQueue.main.async {
+        self.imageViewOfGoal.image = image
+      }
+      
+      }.resume()
+  
   }
 }

@@ -11,11 +11,14 @@ import Foundation
 struct User {
   let username: String
   let profileImageUrl: String
+  var userPointsEarned: Int
   
   init(dictionary: [String: Any]) {
     self.username = dictionary["username"] as? String ?? ""
     self.profileImageUrl = dictionary["profileImageURL"] as? String ?? ""
+    self.userPointsEarned = dictionary["pointsEarned"] as? Int ?? 0
   }
+  
   
   
   

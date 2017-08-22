@@ -17,10 +17,25 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   var user: User? {
     didSet {
       guard let userName = user?.username else { return }
+      guard let points = user?.userPointsEarned else { return }
       greetingText.text = "Welcome \(userName), how are you feeling today?"
       setupProfileImage()
+      if user?.userPointsEarned == 0 {
+        pointsLabel.textColor = .red
+        pointsLabel.text = "No points yet!"
+      } else {
+        pointsLabel.text = "Points: \(points)"
+      }
+      
     }
   }
+  
+  var classesAttending: ClassesAttending? {
+    didSet {
+      print("PAP \(classesAttending?.className)")
+    }
+  }
+  
   let seperatorView: UIView = {
     let view = UIView()
     view.backgroundColor = .red
@@ -33,18 +48,9 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     return view
   }()
   
-  lazy var levelLabel: UILabel = {
-    let lbl = UILabel()
-    lbl.text = "Level: 1"
-    lbl.font = UIFont(name: "HelveticaNeue-Thin", size: 26.0)
-    lbl.textColor = .black
-    return lbl
-  }()
-  
   let pointsLabel: UILabel = {
     let lbl = UILabel()
-    lbl.text = "Points: 100"
-    lbl.font = UIFont(name: "HelveticaNeue-Thin", size: 26.0)
+    lbl.font = UIFont(name: "HelveticaNeue-Thin", size: 22.0)
     return lbl
   }()
   
@@ -72,7 +78,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   let greetingText: UILabel = {
     let lbl = UILabel()
     lbl.numberOfLines = 0
-    lbl.font = UIFont(name: "HelveticaNeue-Thin", size: 32.0)
+    lbl.font = UIFont(name: "HelveticaNeue-Thin", size: 30.0)
     return lbl
   }()
   
@@ -92,6 +98,12 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     return launcher
   }()
   
+  override func viewWillAppear(_ animated: Bool) {
+    fetchUser()
+    self.collectionView.reloadData()
+    
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -102,6 +114,10 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     setupLogOutButton()
     setupCalendarButton()
     fetchUser()
+    
+    self.collectionView.reloadData()
+    
+    
   }
   
   func setupNavigationBar() {
@@ -127,7 +143,6 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     view.addSubview(collectionView)
     welcomeView.addSubview(greetingText)
     welcomeView.addSubview(profileImageView)
-    view.addSubview(levelLabel)
     view.addSubview(pointsLabel)
     view.addSubview(seperatorView)
     
@@ -145,8 +160,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     
     goalsProgressView.anchor(top: welcomeView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 80)
     
-    levelLabel.anchor(top: welcomeView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 150, height: 80)
-    pointsLabel.anchor(top: welcomeView.bottomAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 150, height: 80)
+    pointsLabel.anchor(top: welcomeView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 5, width: 180, height: 80)
     
     collectionView.anchor(top: goalsProgressView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 400)
   }
@@ -196,6 +210,10 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     navigationController?.pushViewController(dummyViewController, animated: true)
   }
   
+  
+  
+  
+  
   fileprivate func fetchUser() {
     guard let uid = Auth.auth().currentUser?.uid else { return }
     
@@ -203,13 +221,27 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       print(snapshot.value ?? "")
       
       guard let dictionary = snapshot.value as? [String: Any] else { return }
+      print("DAVIDPOO \(dictionary)")
+      
+      guard let classesAttending = dictionary["classesAttending"] as? [String: Any] else { return }
+      print("DAVIDWARD \(classesAttending)")
+      
+      classesAttending.forEach({ (arg) in
+        let (key, value) = arg
+        
+        guard let classAttendingDict = value as? [String: Any] else { return }
+        let classes = ClassesAttending(classUID: key, dictionary: classAttendingDict)
+        //self.classesAttendingArray.append(classes)
+        print("MARNIE \(classes)")
+        
+        
+      })
+      
       
       self.user = User(dictionary: dictionary)
-      
-      //self.navigationItem.title = self.user?.username
-      print(self.user?.username ?? "")
-      
       self.collectionView.reloadData()
+      
+      
       
     }) { (err) in
       if err == nil {
@@ -217,6 +249,8 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       }
     }
   }
+  
+  
   
   fileprivate func setupProfileImage() {
     guard let ptofileImageUrl = user?.profileImageUrl else { return }

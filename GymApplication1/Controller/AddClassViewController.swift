@@ -124,21 +124,21 @@ class AddClassViewController: UINavigationController {
     } else {
       guard let classToAdd = self.classToAdd else { return }
       let classData: Dictionary<String, Any>
-      
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm"
       let classDateAndTimeSet = dateFormatter.string(from: datePicker.date)
-      
+      let timeStamp = Int(NSDate.timeIntervalSinceReferenceDate*1000)
       print("POO \(classDateAndTimeSet)")
+      print("DAVID \(timeStamp)")
       
       classData = ["classDate": classDateAndTimeSet,
                                              "classLocation": classLocationTextField.text ?? "",
                                              "classDuration": classDurationTextField.text ?? "",
-                                             "classAvailability": classAvailabilityTextField.text ?? ""]
-      
-      
-      let timeStamp = Int(NSDate.timeIntervalSinceReferenceDate*1000)
-      Database.database().reference().child("classes").child(classToAdd).child("\(timeStamp)").setValue(classData)
+                                             "classAvailability": Int(classAvailabilityTextField.text!) ?? "",
+                                             "classTimeStamp": timeStamp,
+                                             "classDescription": classDescriptionTextField.text ?? ""]
+
+       Database.database().reference().child("classes").child(classToAdd).childByAutoId().setValue(classData)
     
     
     self.dismiss(animated: true, completion: nil)

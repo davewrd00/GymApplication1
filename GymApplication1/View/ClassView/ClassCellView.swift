@@ -28,13 +28,13 @@ class ClassCellView: UICollectionViewCell {
   let nameLabel: UILabel  = {
     let lbl = UILabel()
     lbl.text = "TEST"
-    lbl.font = UIFont(name: "Avenir-Bold", size: 24)
+    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 24)
     return lbl
   }()
   
   let classDescriptionLabel: UILabel = {
     let lbl = UILabel()
-    lbl.font = UIFont(name: "Avenir-Light", size: 13)
+    lbl.font = UIFont(name: "HelveticaNeue-Light", size: 13)
     return lbl
   }()
   
@@ -47,6 +47,13 @@ class ClassCellView: UICollectionViewCell {
     view.layer.shadowRadius = 1
     view.layer.cornerRadius = 3
     return view
+  }()
+  
+  let timeStampLbl: UILabel = {
+    let lbl = UILabel()
+    lbl.textColor = .black
+    lbl.font = UIFont(name: "HelveticaNeue-Thin", size: 12)
+    return lbl
   }()
   
   override init(frame: CGRect) {

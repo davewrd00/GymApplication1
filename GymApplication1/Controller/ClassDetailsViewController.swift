@@ -13,11 +13,20 @@ class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, 
 
   var classes: Classes? {
     didSet {
-      print("PAUL \(classes?.className)")
+      
     }
   }
   
+  var classesAttending: ClassesAttending? {
+    didSet {
+      print("PAP \(classesAttending?.className)")
+    }
+  }
+  
+  var UIDKey: DataSnapshot?
+
   var classDetails = [Classes]()
+    
   
   lazy var collectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
@@ -90,6 +99,10 @@ class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, 
     return iv
   }()
   
+  override func viewWillAppear(_ animated: Bool) {
+    collectionView.reloadData()
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -101,6 +114,7 @@ class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, 
     view.addSubview(backButton)
     
     fetchDetailClasses()
+    fetchIsUserCurrentlyEnrolledOntoClass()
     
     collectionView.register(ClassDetailsViewCell.self, forCellWithReuseIdentifier: "cellId")
     
@@ -117,34 +131,45 @@ class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, 
   }
   
   func fetchDetailClasses() {
-    print(123)
-    
     guard let className = classes?.className else { return }
+    
     let ref = Database.database().reference().child("classes").child(className)
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
-      print("WAW:M \(snapshot)")
+      print(snapshot.value ?? "")
       
       guard let dictionary = snapshot.value as? [String: Any] else { return }
-      print("CATHEY \(dictionary)")
+      print("APOLLO1 \(dictionary)")
       
       dictionary.forEach({ (arg) in
         let (key, value) = arg
-        print(key)
         
-        guard let individualClassDictionary = value as? [String: Any] else { return }
-        print("CATHEY \(individualClassDictionary)")
-        let eachClass = Classes(className: className, dictionary: individualClassDictionary)
-        self.classDetails.append(eachClass)
-        print("PAUL: \(eachClass)")
+        print("APOLLO2 \(value)")
+        print("MANDY")
+        let classUID = key
+        
+        guard let classDetailDict = value as? [String: Any] else { return }
+        print("APOLLO3 \(classDetailDict)")
+        
+        
+        let classDeets = Classes(classUID: classUID, className: className, dictionary: classDetailDict)
+        self.classDetails.append(classDeets)
       })
+      
       
       self.collectionView.reloadData()
       
-      
     }) { (err) in
-      print("Failed to fetch individual classes")
+      print(err.localizedDescription)
     }
   }
+  
+  func fetchIsUserCurrentlyEnrolledOntoClass() {
+    print("POOOOOOOOO")
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    
+    print("PAPA \(uid)")
+  }
+  
   
   @objc func handleExitFromClassVC() {
     let tabBarController = TabBarController()
@@ -163,6 +188,7 @@ class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, 
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ClassDetailsViewCell
     
     cell.classes = classDetails[indexPath.item]
+    print(classDetails)
     
     return cell
   }
@@ -171,21 +197,20 @@ class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, 
     return CGSize(width: view.frame.width, height: 100)
   }
   
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let classTouched = classDetails[indexPath.item]
+    print(classTouched.className)
+    print(classTouched.classTimeStamp)
+    
+    performClassTouchedView(classTouched: classTouched)
+  }
   
   //Mammoth function - Need to refactor and utilise MVC better!
   func performClassTouchedView(classTouched: Classes) {
-    print("This is a test to see if this works: Class name is: \(classTouched.className), date of this class will be \(classTouched.classDate)")
+    print("This is a test to see if this works: Class name is: \(classTouched.className), date of this class will be \(classTouched.classDate), and its timestamp is \(classTouched.classTimeStamp)")
     let acceptClassVC = AcceptClassViewController()
     acceptClassVC.classes = classTouched
     self.present(acceptClassVC, animated: true, completion: nil)
-    
-    
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let classTouched = classDetails[indexPath.item]
-    
-    performClassTouchedView(classTouched: classTouched)
   }
   
 }

@@ -17,6 +17,7 @@ class GoalsViewCell: UICollectionViewCell {
       goalDescription.text = goals?.goalDescription
       guard let points = goals?.goalPoints else { return }
       goalPointsLabel.text = ("\(points) points")
+      setupGoalImage()
     }
   }
   
@@ -31,8 +32,8 @@ class GoalsViewCell: UICollectionViewCell {
     return view
   }()
   
-  let goalImageView: UIImageView = {
-    let iv = UIImageView()
+  let goalImageView: CustomImageView = {
+    let iv = CustomImageView()
  
     return iv
   }()
@@ -76,11 +77,35 @@ class GoalsViewCell: UICollectionViewCell {
     
     goalName.anchor(top: goalImageView.topAnchor, left: goalImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 300, height: 40)
     
-    goalDescription.anchor(top: goalName.bottomAnchor, left: goalName.leftAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 200, height: 40)
+    goalDescription.anchor(top: goalName.bottomAnchor, left: goalName.leftAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 180, height: 40)
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  fileprivate func setupGoalImage() {
+    guard let goalImageUrl = goals?.goalImageUrl else { return }
+    
+    guard let url = URL(string: goalImageUrl) else { return }
+    
+    URLSession.shared.dataTask(with: url) { (data, response, err) in
+      // check for the error and then construct the image using the data
+      if let err = err {
+        print("Failed to fetch profile image:", err)
+        return
+      }
+      
+      guard let data = data else { return }
+      
+      let image = UIImage(data: data)
+      
+      DispatchQueue.main.async {
+        self.goalImageView.image = image
+      }
+      
+      }.resume()
+    
   }
   
   

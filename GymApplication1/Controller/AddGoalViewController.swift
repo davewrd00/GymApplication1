@@ -10,12 +10,22 @@ import UIKit
 import Firebase
 import SwiftKeychainWrapper
 
-class AddGoalViewController: UIViewController {
+class AddGoalViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
   
   let topView: UIView = {
     let v = UIView()
     v.backgroundColor = UIColor.rgb(red: 72, green: 172, blue: 240)
     return v
+  }()
+  
+  let plusPhotoButton: UIButton = {
+    let button = UIButton(type: .system)
+    button.setImage(#imageLiteral(resourceName: "plus_photo").withRenderingMode(.alwaysOriginal), for: .normal)
+    button.imageView?.contentMode = .scaleAspectFit
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+    button.addTarget(self, action: #selector(handlePlusPhoto), for: .touchUpInside)
+    return button
   }()
   
   let exitButton: UIButton = {
@@ -124,8 +134,13 @@ class AddGoalViewController: UIViewController {
     view.addSubview(goalDescriptionTextField)
     view.addSubview(goalPointsLabel)
     view.addSubview(goalPointsTextField)
+    view.addSubview(plusPhotoButton)
     
     topView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 150)
+    
+    plusPhotoButton.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 80, height: 80)
+    plusPhotoButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor).isActive = true
+    plusPhotoButton.centerXAnchor.constraint(equalTo: topView.centerXAnchor).isActive = true
     
     enterButton.anchor(top: nil, left: nil, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 55, paddingRight: 10, width: 50, height: 50)
     
@@ -150,22 +165,44 @@ class AddGoalViewController: UIViewController {
   
   @objc func handleAddFromClassVC() {
     print(123)
+    let points: Int? = Int(self.goalPointsTextField.text!)
     if goalTextField.text == "" || goalDescriptionTextField.text == "" || goalPointsTextField.text == "" {
       let alertController = UIAlertController(title: "Howay man!", message: "You need to fill in all the fields!", preferredStyle: .alert)
       let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
       alertController.addAction(alertAction)
       present(alertController, animated: true, completion: nil)
     } else {
-      let goalInfo: Dictionary<String, Any>
       
-      goalInfo = ["goalName": goalTextField.text ?? "",
-                  "goalDescription": goalDescriptionTextField.text ?? "",
-                  "goalPoints": goalPointsTextField.text ?? ""]
+      guard let image = self.plusPhotoButton.imageView?.image else { return }
+      
+      guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else { return }
+      
+      let fileName = NSUUID().uuidString
+      
+      Storage.storage().reference().child("goal_images").child(fileName).putData(uploadData, metadata: nil) { (metadata, err) in
+        if let err = err {
+          print("Failed to upload profile image", err)
+          return
+        }
+        
+        guard let goalImageUrl = metadata?.downloadURL()?.absoluteString else { return }
+        
+        print("Successfully uploaded the goal image URL")
+      
+      let goalInfo: Dictionary<String, Any>
+        
+      
+      goalInfo = ["goalName": self.goalTextField.text ?? "",
+                  "goalDescription": self.goalDescriptionTextField.text ?? "",
+                  "goalPoints": points,
+                  "goalImageUrl": goalImageUrl]
       
       let timeStamp = Int(NSDate.timeIntervalSinceReferenceDate*1000)
       Database.database().reference().child("goals").child("\(timeStamp)").setValue(goalInfo)
-      self.dismiss(animated: true, completion: nil)
+        
     }
+    
+  }
     
   }
   
@@ -187,6 +224,29 @@ class AddGoalViewController: UIViewController {
     }))
     alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil ))
     present(alertController, animated: true, completion: nil)
+  }
+  
+  @objc func handlePlusPhoto() {
+    let imagePickerController = UIImagePickerController()
+    imagePickerController.delegate = self
+    imagePickerController.allowsEditing = true
+    
+    present(imagePickerController, animated: true, completion: nil)
+  }
+  
+  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+      plusPhotoButton.setImage(editedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+    } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+      plusPhotoButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
+    }
+    
+    plusPhotoButton.layer.cornerRadius = plusPhotoButton.frame.width / 2
+    plusPhotoButton.layer.masksToBounds = true
+    plusPhotoButton.layer.borderColor = UIColor.black.cgColor
+    plusPhotoButton.layer.borderWidth = 3
+    
+    dismiss(animated: true, completion: nil)
   }
   
   

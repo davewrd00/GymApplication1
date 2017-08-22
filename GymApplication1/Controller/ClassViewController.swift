@@ -11,6 +11,10 @@ import Firebase
 
 class ClassViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
   
+  var classes = [Classes]()
+  
+  var filteredClasses = [Classes]()
+  
   let exitButton: UIButton = {
     let button = UIButton()
     button.titleLabel?.text = "X"
@@ -38,10 +42,6 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
     sb.searchBarStyle = .minimal
     return sb
   }()
-  
-  var classes = [Classes]()
-  
-  var filteredClasses = [Classes]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -64,7 +64,7 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
     
     
     fetchClasses()
-
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -105,9 +105,11 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
         let (key, value) = arg
         print(key)
         
-      
+        let classUID = key
+        
+        
       guard let classDictionary = value as? [String: Any] else { return }
-      let classes = Classes(className: key, dictionary: classDictionary)
+        let classes = Classes(classUID: classUID, className: key, dictionary: classDictionary)
         self.classes.append(classes)
         print("DAVID: \(classes)")
       })
@@ -143,6 +145,7 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ClassCellView
     
     cell.classes = classes[indexPath.item]
+    
     if indexPath.item == 0 {
       cell.classDescriptionLabel.text = "Water workout"
       cell.classProfileImage.image = UIImage(named: "aqua")

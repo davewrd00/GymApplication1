@@ -22,7 +22,7 @@ class GoalsViewHeader: UICollectionViewCell {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
+    backgroundColor = UIColor.rgb(red: 72, green: 172, blue: 240)
     
     addSubview(label)
     

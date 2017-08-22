@@ -20,7 +20,12 @@ class ClassDetailsViewCell: UICollectionViewCell {
   
   let classInstructorNameLbl = UILabel()
   
-  let classAvailabilityLbl = UILabel()
+  let classAvailabilityLbl: UILabel = {
+    let lbl = UILabel()
+    lbl.textColor = .black
+    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 22)
+    return lbl
+  }()
   
   var classes: Classes? {
     didSet {
@@ -48,6 +53,9 @@ class ClassDetailsViewCell: UICollectionViewCell {
       classDurationLbl.text = classes?.classDuration
       classNameLbl.text = classes?.className
       classLocationLbl.text = classes?.classLocation
+      
+      let classAvailabilityInt = classes?.classAvailability
+      classAvailabilityLbl.text = String(classAvailabilityInt!)
     }
   }
   
@@ -63,6 +71,7 @@ class ClassDetailsViewCell: UICollectionViewCell {
     view.addSubview(self.classDurationLbl)
     view.addSubview(self.classNameLbl)
     view.addSubview(self.classLocationLbl)
+    view.addSubview(self.classAvailabilityLbl)
     
     self.classLocationLbl.anchor(top: self.classNameLbl.bottomAnchor, left: self.classTimeLbl.rightAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 22, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
     self.classLocationLbl.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -73,6 +82,10 @@ class ClassDetailsViewCell: UICollectionViewCell {
     self.classDurationLbl.anchor(top: self.classTimeLbl.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 12, paddingLeft: 22, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     
     self.classTimeLbl.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 20, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    
+    self.classAvailabilityLbl.anchor(top: view.topAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 4, paddingLeft: 20, paddingBottom: 0, paddingRight: 20, width: 0, height: 0)
+    self.classAvailabilityLbl.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    
     
     // Customisation point for labels inside of each view
     self.classTimeLbl.font = UIFont(name: "HelveticaNeue-Bold", size: 16)

@@ -245,7 +245,9 @@ class RegistrationViewController: UIViewController, UIImagePickerControllerDeleg
         
         guard let uid = user?.uid else { return }
         
-        let dictionaryValues = ["username": name, "profileImageURL": profileImageUrl]
+        let dictionaryValues: [String: Any] = ["username": name,
+                                "profileImageURL": profileImageUrl,
+                                "pointsEarned": 0]
         let values = [uid: dictionaryValues]
         
         Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
