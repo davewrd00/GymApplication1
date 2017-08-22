@@ -54,13 +54,20 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     return lbl
   }()
   
-  lazy var collectionView: UICollectionView = {
-    let layout = UICollectionViewFlowLayout()
-    let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    cv.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
-    cv.dataSource = self
-    cv.delegate = self
-    return cv
+  let progressBar: UIProgressView = {
+    let pb = UIProgressView()
+    return pb
+  }()
+  
+  let classView: UIView = {
+    let v = UIView()
+    v.backgroundColor = .white
+    v.layer.shadowColor = UIColor.black.cgColor
+    v.layer.shadowOpacity = 0.5
+    v.layer.shadowOffset = CGSize(width: -1, height: 1)
+    v.layer.shadowRadius = 1
+    v.layer.cornerRadius = 3
+    return v
   }()
   
   let profileImageView: CustomImageView = {
@@ -87,10 +94,28 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     return v
   }()
   
-  lazy var goalsProgressView: UIView = {
-    let v = UIView()
-    return v
+  let className: UILabel = {
+    let lbl = UILabel()
+    lbl.textColor = .white
+    lbl.text = "Aqua"
+    lbl.font = UIFont(name: "HelveticaNeue-Thin", size: 34)
+    return lbl
   }()
+  
+  let classDateAndTime: UILabel = {
+    let lbl = UILabel()
+    lbl.text = "Monday 24th August"
+    lbl.textColor = .white
+    lbl.font = UIFont(name: "HelveticaNeue-Thin", size: 24)
+    return lbl
+  }()
+  
+  let homeImageViewClass: UIImageView = {
+    let iv = UIImageView()
+    iv.image = UIImage(named: "aqua")
+    return iv
+  }()
+  
   
   lazy var settingLaucnher: SettingsLaucnher = {
     let launcher = SettingsLaucnher()
@@ -100,7 +125,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   override func viewWillAppear(_ animated: Bool) {
     fetchUser()
-    self.collectionView.reloadData()
+    
     
   }
   
@@ -115,7 +140,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     setupCalendarButton()
     fetchUser()
     
-    self.collectionView.reloadData()
+    //self.collectionView.reloadData()
     
     
   }
@@ -139,30 +164,41 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   func setupViews() {
     
     view.addSubview(welcomeView)
-    view.addSubview(goalsProgressView)
-    view.addSubview(collectionView)
+    view.addSubview(progressBar)
     welcomeView.addSubview(greetingText)
     welcomeView.addSubview(profileImageView)
     view.addSubview(pointsLabel)
     view.addSubview(seperatorView)
+    view.addSubview(classView)
+    view.addSubview(homeImageViewClass)
+    view.addSubview(className)
+    view.addSubview(classDateAndTime)
     
-    collectionView.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellId)
+   // collectionView.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellId)
     
-    welcomeView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 200)
-    seperatorView.anchor(top: nil, left: view.leftAnchor, bottom: welcomeView.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width, height: 2)
+    welcomeView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: view.frame.height)
+    seperatorView.anchor(top: greetingText.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width, height: 2)
     
     greetingText.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 200, height: 200)
     
-    profileImageView.anchor(top: nil, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 90, height: 90)
-    profileImageView.layer.cornerRadius = 90 / 2
+    profileImageView.anchor(top: greetingText.topAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 30, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 100, height: 100)
+    profileImageView.layer.cornerRadius = 100 / 2
     profileImageView.clipsToBounds = true
-    profileImageView.centerYAnchor.constraint(equalTo: welcomeView.centerYAnchor).isActive = true
     
-    goalsProgressView.anchor(top: welcomeView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 80)
+    progressBar.anchor(top: pointsLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
     
-    pointsLabel.anchor(top: welcomeView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 5, width: 180, height: 80)
+    classView.anchor(top: progressBar.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 20, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 175)
     
-    collectionView.anchor(top: goalsProgressView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: 400)
+    pointsLabel.anchor(top: seperatorView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 0, paddingRight: 5, width: 180, height: 80)
+    
+    className.anchor(top: classView.topAnchor, left: classView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    
+    classDateAndTime.anchor(top: className.bottomAnchor, left: classView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    
+    homeImageViewClass.anchor(top: classView.topAnchor, left: classView.leftAnchor, bottom: classView.bottomAnchor, right: classView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    
+    
+    
   }
   
   fileprivate func setupLogOutButton() {
@@ -170,7 +206,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   }
   
   @objc fileprivate func setupCalendarButton() {
-    navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "calendar").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(showCalendar))
+    navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "message").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(showCalendar))
   }
   
   @objc func showCalendar() {
@@ -239,7 +275,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       
       
       self.user = User(dictionary: dictionary)
-      self.collectionView.reloadData()
+      //self.collectionView.reloadData()
       
       
       

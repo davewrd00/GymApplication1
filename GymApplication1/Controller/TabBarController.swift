@@ -31,6 +31,12 @@ class TabBarController: UITabBarController {
       let classController = ClassViewController(collectionViewLayout: classLayout)
       let classNavController = UINavigationController(rootViewController: classController)
       classNavController.tabBarItem.image = #imageLiteral(resourceName: "classes")
+    
+      // community controller
+    let socialLayout = UICollectionViewFlowLayout()
+    let socialVC = SocialCommunityViewController(collectionViewLayout: socialLayout)
+    let socialNavController = UINavigationController(rootViewController: socialVC)
+    socialNavController.tabBarItem.image = #imageLiteral(resourceName: "community")
       
       //Achievements controller
       let achievementsLayout = UICollectionViewFlowLayout()
@@ -48,7 +54,7 @@ class TabBarController: UITabBarController {
       tabBar.barTintColor = UIColor.rgb(red: 80, green: 81, blue: 79)
       
       
-      viewControllers = [homeNavController, classNavController, achievementsNavController, goalsNavController]
+      viewControllers = [homeNavController, classNavController, socialNavController, achievementsNavController, goalsNavController]
       
       //Modifying tab bar item insets
       guard let items = self.tabBar.items else { return }
