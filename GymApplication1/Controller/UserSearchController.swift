@@ -15,19 +15,19 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
   
   var filteredUsers = [User]()
   
-  let exitButton: UIButton = {
-    let button = UIButton()
-    button.backgroundColor = .red
-    button.layer.cornerRadius = 5
-    button.layer.shadowColor = UIColor.black.cgColor
-    button.layer.shadowOpacity = 0.2
-    button.layer.shadowOffset = CGSize(width: 1, height: 1)
-    button.layer.shadowRadius = 1
+  let backButton: UIButton = {
+    let btn = UIButton()
+    btn.backgroundColor = .red
+    btn.layer.cornerRadius = 5
+    btn.layer.shadowColor = UIColor.black.cgColor
+    btn.layer.shadowOpacity = 0.2
+    btn.layer.shadowOffset = CGSize(width: 1, height: 1)
+    btn.layer.shadowRadius = 1
     let image = UIImage(named: "back_btn")
-    button.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
-    button.addTarget(self, action: #selector(handleExitFromSearchVC), for: .touchUpInside)
-    button.alpha = 0.6
-    return button
+    btn.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
+    btn.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
+    btn.alpha = 0.6
+    return btn
   }()
   
   lazy var searchBar: UISearchBar = {
@@ -40,17 +40,17 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
     return sb
   }()
   
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     navigationController?.navigationBar.addSubview(searchBar)
+    tabBarController?.tabBar.isHidden = true
+    view.addSubview(backButton)
+    backButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 50, height: 50)
     
     let navBar = navigationController?.navigationBar
     
-    view.addSubview(exitButton)
-    exitButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 10, paddingBottom: 60, paddingRight: 0, width: 50, height: 50)
     searchBar.anchor(top: navBar?.topAnchor, left: navBar?.leftAnchor, bottom: navBar?.bottomAnchor, right: navBar?.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
     
     collectionView?.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
@@ -59,8 +59,12 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
     fetchUsers()
   }
   
+  @objc func handleBackButton() {
+    self.navigationController?.popViewController(animated: true)
+  }
+
   fileprivate func fetchUsers() {
-    guard let myUid = Auth.auth().currentUser?.uid else { return }
+    guard let uid = Auth.auth().currentUser?.uid else { return }
     let ref = Database.database().reference().child("users")
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
       
@@ -71,13 +75,13 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
       dictionary.forEach({ (arg) in
         let (key, value) = arg
         
-        if key == myUid {
+        if key == uid {
           print("Found myself here like")
           return
         }
         
         guard let userDictionary = value as? [String: Any] else { return }
-        let user = User(dictionary: userDictionary)
+        let user = User(uid: uid, dictionary: userDictionary)
         self.users.append(user)
         print(user.username)
       })
@@ -104,10 +108,7 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
         return user.username.lowercased().contains(searchText.lowercased())
       })
     }
-  }
-  
-  @objc func handleExitFromSearchVC() {
-    self.navigationController?.popViewController(animated: true)
+    self.collectionView?.reloadData()
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

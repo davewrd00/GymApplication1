@@ -100,9 +100,7 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     goalDetailVC.goal = goalPicked
     navigationController?.pushViewController(goalDetailVC, animated: true)
   }
-  
-  
-  
+
   func fetchGoals() {
     print("Fetching the goals from FB")
     

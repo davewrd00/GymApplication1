@@ -11,16 +11,73 @@ import Firebase
 
 class SocialCommunityViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
   
+  var posts = [Post]()
+  
+  override func viewWillAppear(_ animated: Bool) {
+    tabBarController?.tabBar.isHidden = false
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     setupNavBar()
     
     navigationController?.navigationBar.barTintColor = UIColor.rgb(red: 229, green: 229, blue: 229)
-    navigationController?.navigationBar.isTranslucent = false
+    navigationController?.navigationBar.isTranslucent = true
     
     collectionView?.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
-    collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+    collectionView?.register(SocialFeedCell.self, forCellWithReuseIdentifier: "cellId")
+    
+    let refreshControl = UIRefreshControl()
+    refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+    collectionView?.refreshControl = refreshControl
+    fetchAllPosts()
+    
+  }
+  
+  fileprivate func fetchAllPosts() {
+    fetchPosts()
+    // Need to fetch posts from only those you are firneds for? Perhaps not in this iteration - Look at Instgram clone application!!!!
+  
+  }
+  
+  fileprivate func fetchPosts() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    
+    Database.fetchUserWithUID(uid: uid) { (user) in
+      self.fetchPostsWithUser(user: user)
+    }
+    
+  }
+  
+  fileprivate func fetchPostsWithUser(user: User) {
+    let ref = Database.database().reference().child("posts").child(user.uid)
+    ref.observeSingleEvent(of: .value, with: { (snapshot) in
+      
+      self.collectionView?.refreshControl?.endRefreshing()
+      
+      guard let dictionaries = snapshot.value as? [String: Any] else { return }
+      
+      dictionaries.forEach({ (arg) in
+        let (key, value) = arg
+        
+        guard let dictionary = value as? [String: Any] else { return }
+        
+        var post = Post(user: user, dictionary: dictionary)
+        post.id = key
+        
+        self.posts.append(post)
+        self.posts.sort(by: { (p1, p2) -> Bool in
+          return p1.creationDate.compare(p2.creationDate) == .orderedDescending
+        })
+        self.collectionView?.reloadData()
+        
+      })
+      
+    }) { (err) in
+      print("Failed to fetch posts:", err)
+      return
+    }
     
   }
   
@@ -29,8 +86,15 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
     navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "plus").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSearchForFriends))
   }
   
+  @objc func handleRefresh() {
+    print("Handling refresh yall")
+  }
+  
   @objc func handleWriteToFeed() {
     print(123)
+    let shareFeedVC = ShareFeedViewController()
+    navigationController?.pushViewController(shareFeedVC, animated: true)
+    
   }
   
   @objc func handleSearchForFriends() {
@@ -41,18 +105,21 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 4
+    return posts.count
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath)
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! SocialFeedCell
     cell.backgroundColor = .white
+    
+    cell.post = posts[indexPath.item]
+    //cell.delegate = self
 
     return cell
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: view.frame.width, height: 200)
+    return CGSize(width: view.frame.width, height: 450)
   }
   
   

@@ -16,6 +16,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   var user: User? {
     didSet {
+      print("POO")
       guard let userName = user?.username else { return }
       guard let points = user?.userPointsEarned else { return }
       greetingText.text = "Welcome \(userName), how are you feeling today?"
@@ -26,6 +27,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       } else {
         pointsLabel.text = "Points: \(points)"
       }
+      
       
     }
   }
@@ -259,6 +261,8 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       guard let dictionary = snapshot.value as? [String: Any] else { return }
       print("DAVIDPOO \(dictionary)")
       
+      self.user = User(uid: uid, dictionary: dictionary)
+      
       guard let classesAttending = dictionary["classesAttending"] as? [String: Any] else { return }
       print("DAVIDWARD \(classesAttending)")
       
@@ -272,12 +276,6 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
         
         
       })
-      
-      
-      self.user = User(dictionary: dictionary)
-      //self.collectionView.reloadData()
-      
-      
       
     }) { (err) in
       if err == nil {

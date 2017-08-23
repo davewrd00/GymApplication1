@@ -56,6 +56,9 @@
 		C4E7EAF01F40D39F00BC47E5 /* GoalsViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAEF1F40D39F00BC47E5 /* GoalsViewCell.swift */; };
 		C4E7EAF81F41D29400BC47E5 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAF71F41D29300BC47E5 /* CustomImageView.swift */; };
 		C4E7EAFA1F41DA1400BC47E5 /* Classes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E7EAF91F41DA1400BC47E5 /* Classes.swift */; };
+		C4F52FC11F4DB862006806B0 /* SocialFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F52FC01F4DB862006806B0 /* SocialFeedCell.swift */; };
+		C4F52FC51F4DD00F006806B0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F52FC41F4DD00F006806B0 /* Post.swift */; };
+		C4F52FC71F4DD116006806B0 /* ShareFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F52FC61F4DD116006806B0 /* ShareFeedViewController.swift */; };
 		C4FD293F1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FD293E1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift */; };
 		C4FD29411F41F97500F4F4B6 /* ClassDetailsCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FD29401F41F97500F4F4B6 /* ClassDetailsCellView.swift */; };
 /* End PBXBuildFile section */
@@ -134,6 +137,9 @@
 		C4E7EAEF1F40D39F00BC47E5 /* GoalsViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewCell.swift; sourceTree = "<group>"; };
 		C4E7EAF71F41D29300BC47E5 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
 		C4E7EAF91F41DA1400BC47E5 /* Classes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classes.swift; sourceTree = "<group>"; };
+		C4F52FC01F4DB862006806B0 /* SocialFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialFeedCell.swift; sourceTree = "<group>"; };
+		C4F52FC41F4DD00F006806B0 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		C4F52FC61F4DD116006806B0 /* ShareFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareFeedViewController.swift; sourceTree = "<group>"; };
 		C4FD293E1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDetailsViewController.swift; sourceTree = "<group>"; };
 		C4FD29401F41F97500F4F4B6 /* ClassDetailsCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDetailsCellView.swift; sourceTree = "<group>"; };
 		D4CF907B3B9EFAC6094211CC /* Pods_GymApplication1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GymApplication1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -246,6 +252,7 @@
 				C4CAF0B21F4036050023C749 /* ClassViewController.swift */,
 				C4DC64F01F4CD66C000A6FBA /* SocialCommunityViewController.swift */,
 				C4DC64F61F4CE4F3000A6FBA /* UserSearchController.swift */,
+				C4F52FC61F4DD116006806B0 /* ShareFeedViewController.swift */,
 				C4CAF0B01F4034DA0023C749 /* AchievementsViewController.swift */,
 				C4CAF0AE1F4034B20023C749 /* GoalsViewController.swift */,
 				C4CAF0B81F407B120023C749 /* SettingsLauncher.swift */,
@@ -282,6 +289,7 @@
 				C469F3611F4594B500FE381D /* Goals.swift */,
 				C491B96F1F45F511005A9A0B /* Achievements.swift */,
 				C491B9771F465A0D005A9A0B /* GoalsCompleted.swift */,
+				C4F52FC41F4DD00F006806B0 /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -300,6 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				C4DC64F91F4CEB40000A6FBA /* SearchCellView.swift */,
+				C4F52FC01F4DB862006806B0 /* SocialFeedCell.swift */,
 			);
 			path = SocialViews;
 			sourceTree = "<group>";
@@ -587,11 +596,14 @@
 				C43D2C121F4341A800F6CEE0 /* AcceptClassViewController.swift in Sources */,
 				C4CAF0B11F4034DA0023C749 /* AchievementsViewController.swift in Sources */,
 				C4AAD1CB1F3B43B100902046 /* AppDelegate.swift in Sources */,
+				C4F52FC11F4DB862006806B0 /* SocialFeedCell.swift in Sources */,
 				C4DC64F11F4CD66C000A6FBA /* SocialCommunityViewController.swift in Sources */,
 				C4E7EAFA1F41DA1400BC47E5 /* Classes.swift in Sources */,
 				C469F3661F459E8D00FE381D /* AdminTabBarController.swift in Sources */,
+				C4F52FC51F4DD00F006806B0 /* Post.swift in Sources */,
 				C4CAF0AB1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift in Sources */,
 				C491B9721F45F55B005A9A0B /* GoalsViewHeader.swift in Sources */,
+				C4F52FC71F4DD116006806B0 /* ShareFeedViewController.swift in Sources */,
 				C4A5286D1F442FAE000080DE /* HomeViewController1.swift in Sources */,
 				C43D2C0A1F42F3C400F6CEE0 /* ClassAdminCell.swift in Sources */,
 				C4CAF0A71F3F77110023C749 /* HomeClassCell.swift in Sources */,

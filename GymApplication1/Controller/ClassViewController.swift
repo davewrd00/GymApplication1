@@ -189,8 +189,8 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
   
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     
-    searchBar.resignFirstResponder()
     searchBar.isHidden = true
+    searchBar.resignFirstResponder()
     
     let classes = filteredClasses[indexPath.item]
     print(classes.className)
