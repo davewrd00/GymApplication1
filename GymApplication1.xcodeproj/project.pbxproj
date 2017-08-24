@@ -59,6 +59,8 @@
 		C4F52FC11F4DB862006806B0 /* SocialFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F52FC01F4DB862006806B0 /* SocialFeedCell.swift */; };
 		C4F52FC51F4DD00F006806B0 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F52FC41F4DD00F006806B0 /* Post.swift */; };
 		C4F52FC71F4DD116006806B0 /* ShareFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F52FC61F4DD116006806B0 /* ShareFeedViewController.swift */; };
+		C4F7B4131F4F045B00A22578 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F7B4121F4F045B00A22578 /* UserProfileViewController.swift */; };
+		C4F7B4161F4F0ADB00A22578 /* UserProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F7B4151F4F0ADB00A22578 /* UserProfileHeaderView.swift */; };
 		C4FD293F1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FD293E1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift */; };
 		C4FD29411F41F97500F4F4B6 /* ClassDetailsCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FD29401F41F97500F4F4B6 /* ClassDetailsCellView.swift */; };
 /* End PBXBuildFile section */
@@ -140,6 +142,8 @@
 		C4F52FC01F4DB862006806B0 /* SocialFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialFeedCell.swift; sourceTree = "<group>"; };
 		C4F52FC41F4DD00F006806B0 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		C4F52FC61F4DD116006806B0 /* ShareFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareFeedViewController.swift; sourceTree = "<group>"; };
+		C4F7B4121F4F045B00A22578 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		C4F7B4151F4F0ADB00A22578 /* UserProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderView.swift; sourceTree = "<group>"; };
 		C4FD293E1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDetailsViewController.swift; sourceTree = "<group>"; };
 		C4FD29401F41F97500F4F4B6 /* ClassDetailsCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDetailsCellView.swift; sourceTree = "<group>"; };
 		D4CF907B3B9EFAC6094211CC /* Pods_GymApplication1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GymApplication1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -262,6 +266,7 @@
 				C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */,
 				C469F3631F4596AE00FE381D /* AddGoalViewController.swift */,
 				C491B9751F45FD71005A9A0B /* GoalDetailViewController.swift */,
+				C4F7B4121F4F045B00A22578 /* UserProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -269,6 +274,7 @@
 		C4AAD2021F3BCA0C00902046 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C4F7B4141F4F0AC300A22578 /* UserProfileViews */,
 				C4DC64F81F4CEB25000A6FBA /* SocialViews */,
 				C4E7EAF61F40D64100BC47E5 /* GoalsView */,
 				C4E7EAF51F40D63000BC47E5 /* ClassView */,
@@ -367,6 +373,14 @@
 				C491B9711F45F55B005A9A0B /* GoalsViewHeader.swift */,
 			);
 			path = GoalsView;
+			sourceTree = "<group>";
+		};
+		C4F7B4141F4F0AC300A22578 /* UserProfileViews */ = {
+			isa = PBXGroup;
+			children = (
+				C4F7B4151F4F0ADB00A22578 /* UserProfileHeaderView.swift */,
+			);
+			path = UserProfileViews;
 			sourceTree = "<group>";
 		};
 		ECF1ABCAD6F89BECC8D812E7 /* Frameworks */ = {
@@ -565,6 +579,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4F7B4161F4F0ADB00A22578 /* UserProfileHeaderView.swift in Sources */,
 				C4CAF0AD1F3F8FA20023C749 /* HomeFeedCell.swift in Sources */,
 				C4FD29411F41F97500F4F4B6 /* ClassDetailsCellView.swift in Sources */,
 				C4E7EAF81F41D29400BC47E5 /* CustomImageView.swift in Sources */,
@@ -590,6 +605,7 @@
 				C4AAD1D31F3B43B100902046 /* GymApplication1.xcdatamodeld in Sources */,
 				C4DC64F71F4CE4F3000A6FBA /* UserSearchController.swift in Sources */,
 				C491B9701F45F511005A9A0B /* Achievements.swift in Sources */,
+				C4F7B4131F4F045B00A22578 /* UserProfileViewController.swift in Sources */,
 				C4CAF0AF1F4034B20023C749 /* GoalsViewController.swift in Sources */,
 				C4AAD1CD1F3B43B100902046 /* WelcomeViewController.swift in Sources */,
 				C4CAF0B31F4036050023C749 /* ClassViewController.swift in Sources */,

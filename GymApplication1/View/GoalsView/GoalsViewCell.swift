@@ -21,6 +21,12 @@ class GoalsViewCell: UICollectionViewCell {
     }
   }
   
+  let pointsView: UIView = {
+    let v = UIView()
+    v.backgroundColor = .clear
+    return v
+  }()
+  
   let cellView: UIView = {
     let view = UIView()
     view.backgroundColor = .white
@@ -41,7 +47,7 @@ class GoalsViewCell: UICollectionViewCell {
   let goalPointsLabel: UILabel = {
     let lbl = UILabel()
     lbl.numberOfLines = 0
-    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
+    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
     return lbl
   }()
   
@@ -67,17 +73,22 @@ class GoalsViewCell: UICollectionViewCell {
     addSubview(goalName)
     addSubview(goalDescription)
     addSubview(goalPointsLabel)
+    addSubview(pointsView)
+    
+    pointsView.anchor(top: nil, left: nil, bottom: bottomAnchor, right: rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 4, paddingRight: 8, width: 70, height: 70)
     
     cellView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 4, paddingRight: 8, width: 0, height: 0)
     
-    goalPointsLabel.anchor(top: nil, left: nil, bottom: nil, right: cellView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 70, height: 60)
-    goalPointsLabel.centerYAnchor.constraint(equalTo: cellView.centerYAnchor).isActive = true
+    goalPointsLabel.anchor(top: pointsView.topAnchor, left: pointsView.leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 5, width: 0, height: 0)
+    goalPointsLabel.centerYAnchor.constraint(equalTo: pointsView.centerYAnchor).isActive = true
+    
     
     goalImageView.anchor(top: cellView.topAnchor, left: cellView.leftAnchor, bottom: cellView.bottomAnchor, right: nil, paddingTop: 2, paddingLeft: 2, paddingBottom: 2, paddingRight: 0, width: 80, height: cellView.frame.height)
     
     goalName.anchor(top: goalImageView.topAnchor, left: goalImageView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 300, height: 40)
     
-    goalDescription.anchor(top: goalName.bottomAnchor, left: goalName.leftAnchor, bottom: nil, right: nil, paddingTop: 4, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 180, height: 40)
+    goalDescription.anchor(top: goalName.bottomAnchor, left: goalName.leftAnchor, bottom: nil, right: pointsView.leftAnchor, paddingTop: 4, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 180, height: 40)
+  
   }
   
   required init?(coder aDecoder: NSCoder) {

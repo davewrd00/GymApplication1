@@ -14,6 +14,8 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   let cellId = "CellId"
   
+  var goalUID: String?
+  
   var user: User? {
     didSet {
       print("POO")
@@ -27,8 +29,12 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       } else {
         pointsLabel.text = "Points: \(points)"
       }
-      
-      
+    }
+  }
+  
+  var goalsCompleted = [GoalsCompleted]() {
+    didSet {
+      print("Goal has been set")
     }
   }
   
@@ -127,7 +133,9 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   override func viewWillAppear(_ animated: Bool) {
     fetchUser()
-    
+    tabBarController?.tabBar.isHidden = false
+    navigationController?.navigationBar.barTintColor = .white
+    navigationController?.navigationBar.tintColor = .white
     
   }
   
@@ -142,6 +150,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     setupCalendarButton()
     fetchUser()
     
+    
     //self.collectionView.reloadData()
     
     
@@ -149,17 +158,17 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   func setupNavigationBar() {
     
-    let logo = UIImage(named: "nuffield_logo")?.withRenderingMode(.alwaysOriginal)
-    let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    imageView.contentMode = .scaleAspectFit
-    imageView.clipsToBounds = true
-    imageView.image = logo
-    
-    self.navigationItem.titleView = imageView
+    //    let logo = UIImage(named: "nuffield_logo")?.withRenderingMode(.alwaysOriginal)
+    //    let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+    //    imageView.contentMode = .scaleAspectFit
+    //    imageView.clipsToBounds = true
+    //    imageView.image = logo
+    //
+    //    self.navigationItem.titleView = imageView
     
     navigationController?.navigationBar.barTintColor = .white
     navigationController?.navigationBar.tintColor = .white
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.black, NSAttributedStringKey.font.rawValue: UIFont(name: "Avenir", size: 20) ?? ""]
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue).rawValue: UIColor.black, NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue).rawValue: UIFont(name: "Avenir", size: 20) ?? ""]
     navigationController?.navigationBar.isTranslucent = false
   }
   
@@ -176,7 +185,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     view.addSubview(className)
     view.addSubview(classDateAndTime)
     
-   // collectionView.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellId)
+    // collectionView.register(HomeFeedCell.self, forCellWithReuseIdentifier: cellId)
     
     welcomeView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: view.frame.width, height: view.frame.height)
     seperatorView.anchor(top: greetingText.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: view.frame.width, height: 2)
@@ -240,16 +249,21 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   }
   
   func showSettingsController(setting: Setting) {
-    let dummyViewController = UIViewController()
-    dummyViewController.navigationItem.title = setting.name.rawValue
-    dummyViewController.view.backgroundColor = .white
-    navigationController?.navigationBar.tintColor = .yellow
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
-    navigationController?.pushViewController(dummyViewController, animated: true)
+    if setting.name.rawValue == "Profile" {
+      let userLayout = UICollectionViewFlowLayout()
+      let userProfileVC = UserProfileViewController(collectionViewLayout: userLayout)
+      navigationController?.pushViewController(userProfileVC, animated: true)
+    } else {
+      let dummyViewController = UIViewController()
+      dummyViewController.navigationItem.title = setting.name.rawValue
+      dummyViewController.view.backgroundColor = .white
+      navigationController?.navigationBar.tintColor = .yellow
+      navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue).rawValue: UIColor.white]
+      navigationController?.pushViewController(dummyViewController, animated: true)
+    }
+    
   }
-  
-  
-  
+
   
   
   fileprivate func fetchUser() {
@@ -309,7 +323,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       }.resume()
     
   }
-
+  
   var arrayOfThings = [1, 2, 3, 4, 5, 6, 7, 8]
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -13,7 +13,9 @@ import Firebase
 class GoalsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
   
   var goals = [Goals]()
+  
   var cell1 = "cellId"
+  
   var cell2 = "cellId1"
   
   override func viewDidLoad() {
@@ -23,8 +25,10 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     collectionView?.register(GoalsViewCell.self, forCellWithReuseIdentifier: cell1)
     collectionView?.register(GoalsViewHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
     
-    
+    fetchCompleteGoals()
     fetchGoals()
+    
+    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -34,16 +38,18 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cell1, for: indexPath) as! GoalsViewCell
+    
+    if goalsCompleted.contains(self.goalUID!) {
+      print("Hell Yea")
+      self.goals.remove(at: indexPath.item)
+      collectionView.reloadData()
+      return cell
+    } else {
       cell.goals = goals[indexPath.item]
-//      if indexPath.row == 0 {
-//        cell.goalImageView.image = UIImage(named: "bike")
-//      } else if indexPath.row == 1 {
-//        cell.goalImageView.image = UIImage(named: "gymaholic")
-//      } else if indexPath.row == 2 {
-//        cell.goalImageView.image = UIImage(named: "calorie")
-//      }
-       return cell
-
+      return cell
+    }
+    
+    
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -55,7 +61,7 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    return CGSize(width: view.frame.width, height: 100)
+    return CGSize(width: view.frame.width, height: 120)
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -63,9 +69,9 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
   }
   
   override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-      let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as! GoalsViewHeader
-      
-      return header
+    let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerId", for: indexPath) as! GoalsViewHeader
+    
+    return header
     
   }
   
@@ -89,18 +95,16 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
       cell.backgroundColor = .white
     }
     
-    
-    
     let goalPicked = goals[indexPath.item]
     print(goalPicked.goalName, goalPicked.goalDescription)
-    
-    
     
     let goalDetailVC = GoalDetailViewController()
     goalDetailVC.goal = goalPicked
     navigationController?.pushViewController(goalDetailVC, animated: true)
   }
-
+  
+  var goalUID: Int?
+  
   func fetchGoals() {
     print("Fetching the goals from FB")
     
@@ -110,8 +114,8 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     ref.observeSingleEvent(of: .value) { (snapshot) in
       
       guard let dictionary = snapshot.value as? [String: Any] else { return }
-        
-        print("DAVIDPOO: Fetching the goals \(dictionary)")
+      
+      print("DAVIDPOO: Fetching the goals \(dictionary)")
       
       dictionary.forEach({ (arg) in
         let (key, value) = arg
@@ -121,15 +125,82 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
         let goals = Goals(userUid: uid, dictionary: goalDictionary)
         self.goals.append(goals)
         print("DAVIDPOO: \(goals)")
+        
+        print("DAVIDPOO \(goals.goalUID)")
+        self.goalUID = goals.goalUID
+//        if self.goalsCompleted.contains(self.goalUID!) {
+//          print("Hell Yeah")
+//        // Remove that value from FB
+//
+//
+//        }
+        
+        // Need to now do a check to see if any of these goals have been achieved, and if so must ensure that the
+        // collectionView is updated with this info
+        
+        
       })
       
       self.collectionView?.reloadData()
       
-      }
     }
-  
-  
-
-  
   }
+  
+  func seeIfGoalComplete(goalUID: Int) {
+    Database.database().reference().child("goalsCompletedByUser").observeSingleEvent(of: .value, with: { (snapshot) in
+      if snapshot.hasChild("\(goalUID)") {
+        print("This exists")
+      } else {
+        print("This UID does not exist")
+      }
+    }) { (err) in
+      print("Error fetching goals complete", err)
+      return
+    }
+  }
+  
+  var goalsCompleted = [Int]()
+  
+  func fetchCompleteGoals() {
+    
+    guard let userUID = Auth.auth().currentUser?.uid else { return }
+    
+    Database.database().reference().child("goalsCompleteByUser").child(userUID).observeSingleEvent(of: .value, with: { (snapshot) in
+      
+      print(snapshot.value ?? "")
+      
+      guard let dictionary = snapshot.value as? [String: Any] else { return }
+      
+      print("Fetching those completed goals ", dictionary)
+      
+      dictionary.forEach({ (arg) in
+        let (key, value) = arg
+        guard let intKey = Int(key) else { return }
+        print(key)
+        print(value)
+        
+        if snapshot.hasChild(key) {
+          print("Goal completed")
+        } else {
+          print("Nothiung")
+        }
+        
+        guard let goalCompleteDict = value as? [String: Any] else { return }
+        let goalComp = GoalsCompleted(goalUID: intKey, dictionary: goalCompleteDict)
+        self.goalsCompleted.append(intKey)
+        self.goalUID = intKey
+        print("CATHERINE \(goalComp)")
+      })
+      
+      self.collectionView?.reloadData()
+    }) { (err) in
+      print("Unable to download goals that this user has completed")
+      return
+    }
+  }
+  
+  
+  
+  
+}
 

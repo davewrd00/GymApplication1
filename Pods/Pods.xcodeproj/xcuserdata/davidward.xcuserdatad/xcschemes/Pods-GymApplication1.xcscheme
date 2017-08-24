@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4E07E1615D880B21DD78C2A22203031E"
+               BlueprintIdentifier = "8197F9A312F7DC4313980F4094AC6084"
                BuildableName = "Pods_GymApplication1.framework"
                BlueprintName = "Pods-GymApplication1"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -26,6 +26,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
@@ -36,6 +37,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -45,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4E07E1615D880B21DD78C2A22203031E"
+            BlueprintIdentifier = "8197F9A312F7DC4313980F4094AC6084"
             BuildableName = "Pods_GymApplication1.framework"
             BlueprintName = "Pods-GymApplication1"
             ReferencedContainer = "container:Pods.xcodeproj">

@@ -7,15 +7,15 @@
 //
 
 import UIKit
-import SCLAlertView
 import Firebase
 
 class GoalDetailViewController: UIViewController {
   
   var user: User? {
     didSet {
-      print("PAUL: \(user?.userPointsEarned)")
+      print("PAUL: \(user?.userPointsEarned ?? 0)")
       pointsAlreadyEarned = user?.userPointsEarned
+      
     }
   }
   
@@ -27,6 +27,7 @@ class GoalDetailViewController: UIViewController {
     didSet {
       goalNameLabel.text = goal?.goalName
       goalDescriptionLabel.text = goal?.goalDescription
+      print("DODO \(goal?.goalUID ?? 0)")
       setupGoalImage()
     }
     
@@ -128,7 +129,7 @@ class GoalDetailViewController: UIViewController {
     
     view.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     
-    
+   
     
     //fetchUser()
   }
@@ -145,7 +146,6 @@ class GoalDetailViewController: UIViewController {
 //  }
   
   
-  
   @objc func handleExitFromClassVC() {
     self.navigationController?.popViewController(animated: true)
   }
@@ -153,7 +153,7 @@ class GoalDetailViewController: UIViewController {
   @objc func handleAddGoal() {
     guard let uid = Auth.auth().currentUser?.uid else { return }
     guard let goalPoints = self.goal?.goalPoints else { return }
-    var pointsAlreadyInDatabase = Database.database().reference().child("users").child(uid).child("pointsEarned").observeSingleEvent(of: .value, with: { (snapshot) in
+    Database.database().reference().child("users").child(uid).child("pointsEarned").observeSingleEvent(of: .value, with: { (snapshot) in
       
       if let pointsEarned = snapshot.value {
         print("STEVE \(pointsEarned)")
@@ -182,9 +182,9 @@ class GoalDetailViewController: UIViewController {
         return TransactionResult.success(withValue: result)
       }
     }) { (err, completion, snap) in
-      print(err?.localizedDescription)
+      print(err?.localizedDescription ?? "")
       print(completion)
-      print(snap)
+      print(snap ?? "")
       if !completion {
         print("Couldnt update this node")
       } else {
@@ -193,8 +193,24 @@ class GoalDetailViewController: UIViewController {
     }
   }
   
+  var goalsComplete = [GoalsCompleted]()
+  
   fileprivate func handleCompletedGoal() {
     guard let goalName = goal?.goalName else { return }
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    guard let goalUID = goal?.goalUID else { return }
+    
+    let values = ["goalName": goalName] as [String: Any]
+    
+    Database.database().reference().child("goalsCompleteByUser").child(uid).child("\(goalUID)").updateChildValues(values) { (err, ref) in
+      if let err = err {
+        print("Failed to store the goal the user just completed into Firebase Database")
+        return
+      }
+      print("Successfully stored this completed goal into database")
+ 
+      self.dismiss(animated: true, completion: nil)
+    }
     
   }
 

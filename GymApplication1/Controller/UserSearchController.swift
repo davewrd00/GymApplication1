@@ -30,6 +30,12 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
     return btn
   }()
   
+  let menuBar: MenuBarView = {
+    let mb = MenuBarView()
+    mb.backgroundColor = .yellow
+    return mb
+  }()
+  
   lazy var searchBar: UISearchBar = {
     let sb = UISearchBar()
     sb.placeholder = "Enter username"
@@ -44,19 +50,26 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
     super.viewDidLoad()
     
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-    navigationController?.navigationBar.addSubview(searchBar)
     tabBarController?.tabBar.isHidden = true
     view.addSubview(backButton)
     backButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 50, height: 50)
-    
-    let navBar = navigationController?.navigationBar
-    
-    searchBar.anchor(top: navBar?.topAnchor, left: navBar?.leftAnchor, bottom: navBar?.bottomAnchor, right: navBar?.rightAnchor, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 0)
-    
+
     collectionView?.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     collectionView?.register(SearchCellView.self, forCellWithReuseIdentifier: "cellId")
     
+    collectionView?.contentInset = UIEdgeInsetsMake(50, 0, 0, 0)
+    collectionView?.scrollIndicatorInsets = UIEdgeInsetsMake(50, 0, 0, 0)
+    
     fetchUsers()
+    setupMenuBar()
+  }
+  
+  fileprivate func setupMenuBar() {
+    view.addSubview(menuBar)
+    view.addConstraintsWithFormat(format: "H:|[v0]|", views: menuBar)
+    view.addConstraintsWithFormat(format: "V:|[v0(40)]|", views: menuBar)
+    view.addSubview(searchBar)
+    searchBar.anchor(top: menuBar.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: -8, paddingLeft: 0, paddingBottom: 4, paddingRight: 0, width: 0, height: 0)
   }
   
   @objc func handleBackButton() {

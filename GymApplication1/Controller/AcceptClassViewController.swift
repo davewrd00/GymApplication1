@@ -9,7 +9,6 @@
 import UIKit
 import Firebase
 import EventKit
-import SCLAlertView
 
 class AcceptClassViewController: UIViewController {
   
@@ -140,12 +139,6 @@ class AcceptClassViewController: UIViewController {
       userAttending = ["userAttending": uid]
       
       Database.database().reference().child("classes").child(className).child(classUID).child("attendees").setValue(userAttending)
-      
-      let appearance = SCLAlertView.SCLAppearance(showCloseButton: false)
-      
-      let alertView = SCLAlertView(appearance: appearance)
-      alertView.showSuccess("Added this class to your calendar", subTitle: "Have fun!", duration: 1.5)
-      print("Successfully been able to add this to user in FB")
       
       guard let classDuration = self.classes?.classDuration else { return }
       guard let dateString = self.classes?.classDate else { return }

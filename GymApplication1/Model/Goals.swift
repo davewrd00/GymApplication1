@@ -15,12 +15,14 @@ struct Goals {
   let userUid: String
   let goalImageUrl: String
   let goalCompleted: Bool
+  let goalUID: Int
   
   init(userUid: String, dictionary: [String: Any]) {
     self.goalName = dictionary["goalName"] as? String ?? ""
     self.goalDescription = dictionary["goalDescription"] as? String ?? ""
     self.goalPoints = dictionary["goalPoints"] as? Int ?? 0
     self.goalImageUrl = dictionary["goalImageUrl"] as? String ?? ""
+    self.goalUID = dictionary["goalUID"] as? Int ?? 0
     self.userUid = userUid
     self.goalCompleted = false
   }

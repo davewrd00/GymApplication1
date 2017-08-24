@@ -22,8 +22,9 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
     
     setupNavBar()
     
+    navigationController?.hidesBarsOnSwipe = true
     navigationController?.navigationBar.barTintColor = UIColor.rgb(red: 229, green: 229, blue: 229)
-    navigationController?.navigationBar.isTranslucent = true
+    navigationController?.navigationBar.isTranslucent = false
     
     collectionView?.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     collectionView?.register(SocialFeedCell.self, forCellWithReuseIdentifier: "cellId")

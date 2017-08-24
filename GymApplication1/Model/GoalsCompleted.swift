@@ -11,13 +11,11 @@ import Foundation
 struct GoalsCompleted {
   
   let goalName: String
-  let goalsPoints: Int
-  let goalAchieved: Bool
+  let goalUID: Int
   
-  init(goalName: String, goalPoints: Int, goalAchieved: Bool) {
-    self.goalName = goalName
-    self.goalsPoints = goalPoints
-    self.goalAchieved = goalAchieved
+  init(goalUID: Int, dictionary: [String: Any]) {
+    self.goalUID = goalUID
+    self.goalName = dictionary["goalName"] as? String ?? ""
   }
   
 }

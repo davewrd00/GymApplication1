@@ -190,14 +190,15 @@ class AddGoalViewController: UIViewController, UIImagePickerControllerDelegate, 
         print("Successfully uploaded the goal image URL")
       
       let goalInfo: Dictionary<String, Any>
-        
+      let timeStamp = Int(NSDate.timeIntervalSinceReferenceDate*1000)
       
       goalInfo = ["goalName": self.goalTextField.text ?? "",
                   "goalDescription": self.goalDescriptionTextField.text ?? "",
                   "goalPoints": points,
-                  "goalImageUrl": goalImageUrl]
+                  "goalImageUrl": goalImageUrl,
+                  "goalUID": timeStamp]
       
-      let timeStamp = Int(NSDate.timeIntervalSinceReferenceDate*1000)
+        
       Database.database().reference().child("goals").child("\(timeStamp)").setValue(goalInfo)
         
     }

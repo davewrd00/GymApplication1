@@ -18,6 +18,7 @@ class SocialFeedCell: UICollectionViewCell {
       
       photoImageView.loadImage(urlString: postImageUrl)
       userNameLabel.text = post?.user.username
+      captionLabel.text = post?.caption
       
       guard let profileImageUrl = post?.user.profileImageUrl else { return }
       userProfileImageView.loadImage(urlString: profileImageUrl)
