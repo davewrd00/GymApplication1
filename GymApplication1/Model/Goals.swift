@@ -14,7 +14,7 @@ struct Goals {
   let goalPoints: Int
   let userUid: String
   let goalImageUrl: String
-  let goalCompleted: Bool
+  var goalCompleted: Bool
   let goalUID: Int
   
   init(userUid: String, dictionary: [String: Any]) {

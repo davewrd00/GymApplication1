@@ -14,6 +14,34 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
   
   var goals = [Goals]()
   
+  var goalsComplete = [GoalsCompleted]() {
+    didSet {
+      print("PLPEASE")
+      print("How many ", goalsComplete.count)
+      for item in goalsComplete {
+        print("POOOOO \(item.goalName)")
+      }
+    }
+  }
+  
+  var arrayOfGoalsCompleted = [Int]() {
+    didSet {
+      print("jaaaaa \(arrayOfGoalsCompleted.count)")
+    }
+  }
+  var arrayOfGoalUID = [Int]() {
+    didSet {
+      print("paaaa \(arrayOfGoalUID.count)")
+      for uid in arrayOfGoalUID {
+        print("Paaaa \(uid)")
+      }
+    }
+  }
+  
+  var newArrayOfGoals = [Int]()
+  
+  var goalUID: Int?
+  
   var cell1 = "cellId"
   
   var cell2 = "cellId1"
@@ -24,9 +52,12 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     collectionView?.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     collectionView?.register(GoalsViewCell.self, forCellWithReuseIdentifier: cell1)
     collectionView?.register(GoalsViewHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
-    
     fetchCompleteGoals()
-    fetchGoals()
+     fetchGoals()
+    
+    
+    
+    
     
     
   }
@@ -37,18 +68,10 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cell1, for: indexPath) as! GoalsViewCell
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cell1, for: indexPath) as! GoalsViewCell
     
-    if goalsCompleted.contains(self.goalUID!) {
-      print("Hell Yea")
-      self.goals.remove(at: indexPath.item)
-      collectionView.reloadData()
-      return cell
-    } else {
       cell.goals = goals[indexPath.item]
       return cell
-    }
-    
     
   }
   
@@ -85,25 +108,37 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     let goal = goals[indexPath.item]
     let toggledCompletion = !goal.goalCompleted
     
-    //print("STEVE \(toggledCompletion)")
-    
     if toggledCompletion {
-      print("STEVE: Goal is true")
-      cell.backgroundColor = .green
-      cell.isUserInteractionEnabled = false
+      
+      let alertController = UIAlertController(title: "Goal achieved!", message: "Completed this goal - points added", preferredStyle: .alert)
+      let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+        self.handleCompletedGoal(goal: goal)
+        cell.alpha = 0.2
+        cell.isUserInteractionEnabled = false
+      })
+      alertController.addAction(okayAction)
+      self.present(alertController, animated: true, completion: nil)
     } else {
       cell.backgroundColor = .white
     }
-    
-    let goalPicked = goals[indexPath.item]
-    print(goalPicked.goalName, goalPicked.goalDescription)
-    
-    let goalDetailVC = GoalDetailViewController()
-    goalDetailVC.goal = goalPicked
-    navigationController?.pushViewController(goalDetailVC, animated: true)
   }
   
-  var goalUID: Int?
+  fileprivate func handleCompletedGoal(goal: Goals) {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    
+    let values = ["goalName": goal.goalName] as [String: Any]
+    
+    Database.database().reference().child("goalsCompleteByUser").child(uid).child("\(goal.goalUID)").updateChildValues(values) { (err, ref) in
+      if let err = err {
+        print("Failed to store the goal the user just completed into Firebase Database")
+        return
+      }
+      print("Successfully stored this completed goal into database")
+      
+      self.dismiss(animated: true, completion: nil)
+    }
+    
+  }
   
   func fetchGoals() {
     print("Fetching the goals from FB")
@@ -121,23 +156,28 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
         let (key, value) = arg
         print(key)
         
+        guard let intKey: Int = Int(key) else { return }
         guard let goalDictionary = value as? [String: Any] else { return }
+        
+        // Simply compares the uids in this array to see if this has been added - if so, the VC removes
+        // this 
+        if self.arrayOfGoalsCompleted.contains(intKey) {
+          print("Found loads of completed goals")
+          return
+        }
+        
         let goals = Goals(userUid: uid, dictionary: goalDictionary)
         self.goals.append(goals)
+        print("JESSY \(goals)")
+        
+        self.arrayOfGoalUID.append(goals.goalUID)
         print("DAVIDPOO: \(goals)")
+        if goals.goalCompleted == true {
+          print("This is true")
+        }
         
         print("DAVIDPOO \(goals.goalUID)")
-        self.goalUID = goals.goalUID
-//        if self.goalsCompleted.contains(self.goalUID!) {
-//          print("Hell Yeah")
-//        // Remove that value from FB
-//
-//
-//        }
-        
-        // Need to now do a check to see if any of these goals have been achieved, and if so must ensure that the
-        // collectionView is updated with this info
-        
+        //self.goalUID = goals.goalUID
         
       })
       
@@ -146,20 +186,19 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     }
   }
   
-  func seeIfGoalComplete(goalUID: Int) {
-    Database.database().reference().child("goalsCompletedByUser").observeSingleEvent(of: .value, with: { (snapshot) in
-      if snapshot.hasChild("\(goalUID)") {
-        print("This exists")
-      } else {
-        print("This UID does not exist")
-      }
+  func seeIfGoalComplete(key: String) {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    print("MAMY \(key)")
+    Database.database().reference().child("goalsCompleteByUser").child(uid).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
+      print("Found these keys in the goals complete part of the FB")
+      
+      
     }) { (err) in
-      print("Error fetching goals complete", err)
-      return
+      print("Failed to find these keys in this part of the FB")
     }
   }
   
-  var goalsCompleted = [Int]()
+  
   
   func fetchCompleteGoals() {
     
@@ -179,16 +218,12 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
         print(key)
         print(value)
         
-        if snapshot.hasChild(key) {
-          print("Goal completed")
-        } else {
-          print("Nothiung")
-        }
-        
         guard let goalCompleteDict = value as? [String: Any] else { return }
         let goalComp = GoalsCompleted(goalUID: intKey, dictionary: goalCompleteDict)
-        self.goalsCompleted.append(intKey)
-        self.goalUID = intKey
+        guard let goalUID = goalComp.goalUID as? Int else { return }
+        self.arrayOfGoalsCompleted.append(goalUID)
+        self.goalsComplete.append(goalComp)
+        //self.goalUID = intKey
         print("CATHERINE \(goalComp)")
       })
       

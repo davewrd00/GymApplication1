@@ -158,7 +158,7 @@ class GoalDetailViewController: UIViewController {
       if let pointsEarned = snapshot.value {
         print("STEVE \(pointsEarned)")
         
-        self.handleCompletedGoal()
+        //self.handleCompletedGoal()
         self.updateTotalNumberOfPointsEarned(uid: uid, goalPoints: goalPoints) {
           print("Updated")
         }
@@ -195,25 +195,25 @@ class GoalDetailViewController: UIViewController {
   
   var goalsComplete = [GoalsCompleted]()
   
-  fileprivate func handleCompletedGoal() {
-    guard let goalName = goal?.goalName else { return }
-    guard let uid = Auth.auth().currentUser?.uid else { return }
-    guard let goalUID = goal?.goalUID else { return }
-    
-    let values = ["goalName": goalName] as [String: Any]
-    
-    Database.database().reference().child("goalsCompleteByUser").child(uid).child("\(goalUID)").updateChildValues(values) { (err, ref) in
-      if let err = err {
-        print("Failed to store the goal the user just completed into Firebase Database")
-        return
-      }
-      print("Successfully stored this completed goal into database")
- 
-      self.dismiss(animated: true, completion: nil)
-    }
-    
-  }
-
+//  fileprivate func handleCompletedGoal() {
+//    guard let goalName = goal?.goalName else { return }
+//    guard let uid = Auth.auth().currentUser?.uid else { return }
+//    guard let goalUID = goal?.goalUID else { return }
+//
+//    let values = ["goalName": goalName] as [String: Any]
+//
+//    Database.database().reference().child("goalsCompleteByUser").child(uid).child("\(goalUID)").updateChildValues(values) { (err, ref) in
+//      if let err = err {
+//        print("Failed to store the goal the user just completed into Firebase Database")
+//        return
+//      }
+//      print("Successfully stored this completed goal into database")
+//
+//      self.dismiss(animated: true, completion: nil)
+//    }
+//
+//  }
+  
   func setupGoalImage() {
     guard let goalImageUrl = goal?.goalImageUrl else { return }
     

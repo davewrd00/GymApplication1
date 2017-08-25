@@ -14,8 +14,6 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   let cellId = "CellId"
   
-  var goalUID: String?
-  
   var user: User? {
     didSet {
       print("POO")
@@ -29,18 +27,17 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       } else {
         pointsLabel.text = "Points: \(points)"
       }
+      
     }
   }
   
-  var goalsCompleted = [GoalsCompleted]() {
-    didSet {
-      print("Goal has been set")
-    }
-  }
   
-  var classesAttending: ClassesAttending? {
+  var classesAttending = [ClassesAttending]() {
     didSet {
-      print("PAP \(classesAttending?.className)")
+      print(classesAttending.count)
+      for classes in classesAttending {
+        print("VANDAME \(classes.classDate)")
+      }
     }
   }
   
@@ -149,10 +146,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     setupLogOutButton()
     setupCalendarButton()
     fetchUser()
-    
-    
-    //self.collectionView.reloadData()
-    
+    fetchNextClass()
     
   }
   
@@ -251,7 +245,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   func showSettingsController(setting: Setting) {
     if setting.name.rawValue == "Profile" {
       let userLayout = UICollectionViewFlowLayout()
-      let userProfileVC = UserProfileViewController(collectionViewLayout: userLayout)
+      let userProfileVC = UserProfileViewController()
       navigationController?.pushViewController(userProfileVC, animated: true)
     } else {
       let dummyViewController = UIViewController()
@@ -262,6 +256,12 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       navigationController?.pushViewController(dummyViewController, animated: true)
     }
     
+  }
+  
+  fileprivate func fetchNextClass() {
+    for classes in  classesAttending {
+      print("BOOM \(classes.classDate)")
+    }
   }
 
   
@@ -285,7 +285,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
         
         guard let classAttendingDict = value as? [String: Any] else { return }
         let classes = ClassesAttending(classUID: key, dictionary: classAttendingDict)
-        //self.classesAttendingArray.append(classes)
+        self.classesAttending.append(classes)
         print("MARNIE \(classes)")
         
         
@@ -339,5 +339,4 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: view.frame.width, height: 150)
   }
-  
 }

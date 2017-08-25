@@ -136,7 +136,8 @@ class AddClassViewController: UINavigationController {
                                              "classDuration": classDurationTextField.text ?? "",
                                              "classAvailability": Int(classAvailabilityTextField.text!) ?? "",
                                              "classTimeStamp": timeStamp,
-                                             "classDescription": classDescriptionTextField.text ?? ""]
+                                             "classDescription": classDescriptionTextField.text ?? "",
+                                             "classCreationDate": Date().timeIntervalSince1970]
 
        Database.database().reference().child("classes").child(classToAdd).childByAutoId().setValue(classData)
     

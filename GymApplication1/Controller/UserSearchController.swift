@@ -96,7 +96,7 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
         guard let userDictionary = value as? [String: Any] else { return }
         let user = User(uid: uid, dictionary: userDictionary)
         self.users.append(user)
-        print(user.username)
+        print("BRADY \(user.username)")
       })
       
       // Sort the list alphabetically
@@ -130,7 +130,6 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! SearchCellView
-    //cell.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     cell.user = filteredUsers[indexPath.item]
     
     return cell
@@ -143,4 +142,32 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 0
   }
+  
+  override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    searchBar.resignFirstResponder()
+    
+    let user = filteredUsers[indexPath.item]
+    print("PAP \(user)")
+    print("POOOOOOOOO \(user.username)")
+    print("POOOOOOOOO \(user.uid)")
+    
+    let userProfileControlller = UserProfileViewController()
+    userProfileControlller.userId = user.uid
+    navigationController?.pushViewController(userProfileControlller, animated: true)
+    
+    
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }

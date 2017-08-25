@@ -19,6 +19,7 @@ struct Classes {
   let classDate: String
   let classTimeStamp: String
   let classUID: String
+  let classCreationDate: Date
   
   
   init(classUID: String, className: String, dictionary: [String: Any]) {
@@ -31,6 +32,9 @@ struct Classes {
     self.classDate = dictionary["classDate"] as? String ?? ""
     self.classTimeStamp = dictionary["classTimeStamp"] as? String ?? ""
     self.classUID = classUID
+    
+    let secondsFrom1970 = dictionary["classCreationDate"] as? Double ?? 0
+    self.classCreationDate = Date(timeIntervalSince1970: secondsFrom1970)
 
   }
 }

@@ -18,6 +18,7 @@ class GoalsViewCell: UICollectionViewCell {
       guard let points = goals?.goalPoints else { return }
       goalPointsLabel.text = ("\(points) points")
       setupGoalImage()
+      
     }
   }
   
