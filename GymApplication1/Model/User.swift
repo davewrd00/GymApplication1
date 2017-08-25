@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 struct User {
   let uid: String
   let username: String
@@ -20,7 +21,6 @@ struct User {
     self.profileImageUrl = dictionary["profileImageURL"] as? String ?? ""
     self.userPointsEarned = dictionary["pointsEarned"] as? Int ?? 0
   }
-  
   
   
   

@@ -135,7 +135,8 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
       }
       print("Successfully stored this completed goal into database")
       
-      self.dismiss(animated: true, completion: nil)
+      let tabBar = TabBarController()
+      self.present(tabBar, animated: true, completion: nil)
     }
     
   }

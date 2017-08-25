@@ -173,7 +173,8 @@ class ShareFeedViewController: UIViewController, UIImagePickerControllerDelegate
         return
       }
       print("Successfully been able to save the post to the database")
-      self.dismiss(animated: true, completion: nil)
+      let mainTabBarVC = TabBarController()
+      self.present(mainTabBarVC, animated: true, completion: nil)
     }
     
   }

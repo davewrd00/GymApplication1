@@ -155,7 +155,7 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
   let collectionView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-    cv.backgroundColor = .yellow
+    cv.backgroundColor = .white
     return cv
   }()
   

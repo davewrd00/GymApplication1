@@ -14,6 +14,14 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
   
   var hasAchieved: Bool = false
   
+  var user: User? {
+    didSet {
+      self.pointsEarned = user?.userPointsEarned
+    }
+  }
+  
+  var pointsEarned: Int?
+  
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -27,8 +35,7 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
     collectionView?.dataSource = self
     
     tabBarItem.title = "Achievements"
-    
-
+ 
   }
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
