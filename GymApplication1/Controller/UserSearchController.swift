@@ -77,7 +77,6 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
   }
 
   fileprivate func fetchUsers() {
-    guard let uid = Auth.auth().currentUser?.uid else { return }
     let ref = Database.database().reference().child("users")
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
       
@@ -88,15 +87,16 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
       dictionary.forEach({ (arg) in
         let (key, value) = arg
         
-        if key == uid {
+        if key == Auth.auth().currentUser?.uid {
           print("Found myself here like")
           return
         }
         
         guard let userDictionary = value as? [String: Any] else { return }
-        let user = User(uid: uid, dictionary: userDictionary)
+        let user = User(uid: key, dictionary: userDictionary)
         self.users.append(user)
         print("BRADY \(user.username)")
+        print("BRADY \(user.uid)")
       })
       
       // Sort the list alphabetically
@@ -104,8 +104,8 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
         return u1.username.compare(u2.username) == .orderedAscending
       })
       
-      self.filteredUsers = self.users
-      self.collectionView?.reloadData()
+       self.filteredUsers = self.users
+        self.collectionView?.reloadData()
       
     }) { (err) in
       print("Failed to fetch all the users:", err)
@@ -131,7 +131,7 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! SearchCellView
     cell.user = filteredUsers[indexPath.item]
-    
+    print("POOO \(cell.user?.uid)")
     return cell
   }
   

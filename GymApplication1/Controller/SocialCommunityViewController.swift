@@ -15,6 +15,7 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
   
   override func viewWillAppear(_ animated: Bool) {
     tabBarController?.tabBar.isHidden = false
+    fetchAllPosts()
   }
   
   override func viewDidLoad() {
@@ -55,6 +56,15 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
     let ref = Database.database().reference().child("posts").child(user.uid)
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
       
+      if !snapshot.exists() {
+        print("No user posts")
+        // Do an animation explaining to the user they need to post to view their posts
+        
+        self.showAlertToUserRegardingPost()
+        
+        return
+      }
+      
       self.collectionView?.refreshControl?.endRefreshing()
       
       guard let dictionaries = snapshot.value as? [String: Any] else { return }
@@ -79,6 +89,16 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
       print("Failed to fetch posts:", err)
       return
     }
+    
+  }
+  
+  fileprivate func showAlertToUserRegardingPost() {
+    print("Handling this action regareding telling the user that their is no posts to show!")
+    
+    let alertController = UIAlertController(title: "Ooops", message: "No posts yet by you nor your friends", preferredStyle: .alert)
+    let okayAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+    alertController.addAction(okayAction)
+    self.present(alertController, animated: true, completion: nil)
     
   }
   

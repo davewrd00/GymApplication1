@@ -113,6 +113,7 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
       let alertController = UIAlertController(title: "Goal achieved!", message: "Completed this goal - points added", preferredStyle: .alert)
       let okayAction = UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
         self.handleCompletedGoal(goal: goal)
+        
         cell.alpha = 0.2
         cell.isUserInteractionEnabled = false
       })
@@ -125,6 +126,7 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
   
   fileprivate func handleCompletedGoal(goal: Goals) {
     guard let uid = Auth.auth().currentUser?.uid else { return }
+    let goalPoints = goal.goalPoints
     
     let values = ["goalName": goal.goalName] as [String: Any]
     
@@ -134,6 +136,10 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
         return
       }
       print("Successfully stored this completed goal into database")
+      
+      self.updateTotalNumberOfPointsEarned(uid: uid, goalPoints: goalPoints) {
+        print("Updated")
+      }
       
       let tabBar = TabBarController()
       self.present(tabBar, animated: true, completion: nil)
@@ -187,17 +193,41 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     }
   }
   
-  func seeIfGoalComplete(key: String) {
-    guard let uid = Auth.auth().currentUser?.uid else { return }
-    print("MAMY \(key)")
-    Database.database().reference().child("goalsCompleteByUser").child(uid).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
-      print("Found these keys in the goals complete part of the FB")
-      
-      
-    }) { (err) in
-      print("Failed to find these keys in this part of the FB")
+  fileprivate func updateTotalNumberOfPointsEarned(uid: String, goalPoints: Int, completionBlock: @escaping (() -> Void)) {
+    let ref = Database.database().reference().child("users").child(uid).child("pointsEarned")
+    
+    ref.runTransactionBlock({ (result) -> TransactionResult in
+      if let initialValue = result.value as? Int {
+        print("STEVE \(initialValue)")
+        result.value = initialValue + goalPoints
+        print("STEVE \(goalPoints)")
+        return TransactionResult.success(withValue: result)
+      } else {
+        return TransactionResult.success(withValue: result)
+      }
+    }) { (err, completion, snap) in
+      print(err?.localizedDescription ?? "")
+      print(completion)
+      print(snap ?? "")
+      if !completion {
+        print("Couldnt update this node")
+      } else {
+        completionBlock()
+      }
     }
   }
+  
+//  func seeIfGoalComplete(key: String) {
+//    guard let uid = Auth.auth().currentUser?.uid else { return }
+//    print("MAMY \(key)")
+//    Database.database().reference().child("goalsCompleteByUser").child(uid).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
+//      print("Found these keys in the goals complete part of the FB")
+//
+//
+//    }) { (err) in
+//      print("Failed to find these keys in this part of the FB")
+//    }
+//  }
   
   
   
@@ -234,9 +264,6 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
       return
     }
   }
-  
-  
-  
-  
+ 
 }
 

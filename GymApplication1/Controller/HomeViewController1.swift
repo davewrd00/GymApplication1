@@ -17,6 +17,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   var user: User? {
     didSet {
       print("POO")
+      print("POO \(user?.username, user?.uid)")
       guard let userName = user?.username else { return }
       guard let points = user?.userPointsEarned else { return }
       greetingText.text = "Welcome \(userName), how are you feeling today?"
@@ -244,8 +245,9 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   func showSettingsController(setting: Setting) {
     if setting.name.rawValue == "Profile" {
-      let userLayout = UICollectionViewFlowLayout()
+      //let userLayout = UICollectionViewFlowLayout()
       let userProfileVC = UserProfileViewController()
+      userProfileVC.userId = Auth.auth().currentUser?.uid
       navigationController?.pushViewController(userProfileVC, animated: true)
     } else {
       let dummyViewController = UIViewController()
@@ -292,9 +294,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       })
       
     }) { (err) in
-      if err == nil {
         print("There was an error", err)
-      }
     }
   }
   

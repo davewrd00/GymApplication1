@@ -19,7 +19,13 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
   
   var userId: String?
   
-  
+  var user: User? {
+    didSet {
+      print("USERNAME \(user?.uid ?? "")")
+      print("USERPOINTS \(user?.userPointsEarned ?? 0)")
+      setupFriendButton()
+    }
+  }
   
   let exitButton: UIButton = {
     let button = UIButton()
@@ -53,6 +59,13 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     return btn
   }()
   
+  let userPoints: UILabel = {
+    let lbl = UILabel()
+    lbl.textColor = .black
+    lbl.font = UIFont(name: "HelveticaNeue-Thin", size: 22)
+    return lbl
+  }()
+  
   let topView: UIView = {
     let v = UIView()
     v.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
@@ -81,10 +94,10 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
   
   let becomesFriendsBtn: UIButton = {
     let btn = UIButton()
-    btn.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
-    btn.setTitle("Mates?", for: .normal)
-    btn.setTitleColor(.white, for: .normal)
-    btn.titleLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
+    //    btn.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
+    //    btn.setTitle("Mates?", for: .normal)
+    //    btn.setTitleColor(.white, for: .normal)
+    //    btn.titleLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
     btn.layer.cornerRadius = 3
     btn.layer.borderColor = UIColor.black.cgColor
     btn.layer.borderWidth = 1
@@ -135,8 +148,8 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
   
   let achievementLabel: UILabel = {
     let lbl = UILabel()
-    lbl.text = "Achievements"
-    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 26)
+    lbl.text = "Achievements:"
+    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 24)
     lbl.textColor = .black
     lbl.textAlignment = .center
     return lbl
@@ -145,9 +158,9 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
   let pointsLabel: UILabel = {
     let lbl = UILabel()
     lbl.textColor = .black
-    lbl.text = "Points"
+    lbl.text = "Points:"
     lbl.textAlignment = .center
-    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 26)
+    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 24)
     lbl.textAlignment = .center
     return lbl
   }()
@@ -195,11 +208,15 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     view.addSubview(pointsView)
     view.addSubview(achievementLabel)
     view.addSubview(pointsLabel)
+    view.addSubview(userPoints)
     view.addSubview(collectionView)
     
     
     view.addSubview(exitButton)
     view.addSubview(privateMessageButton)
+    
+    userPoints.anchor(top: pointsLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    userPoints.centerXAnchor.constraint(equalTo: pointsView.centerXAnchor).isActive = true
     
     collectionView.anchor(top: achievementLabel.bottomAnchor, left: achievementsView.leftAnchor, bottom: achievementsView.bottomAnchor, right: achievementsView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     
@@ -207,7 +224,7 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     
     pointsLabel.anchor(top: pointsView.topAnchor, left: pointsView.leftAnchor, bottom: nil, right: pointsView.rightAnchor, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     
-    pointsView.anchor(top: restOfNiceView.topAnchor, left: achievementsView.rightAnchor, bottom: nil, right: restOfNiceView.rightAnchor, paddingTop: 2, paddingLeft: 2, paddingBottom: 2, paddingRight: 2, width: 0, height: 150)
+    pointsView.anchor(top: restOfNiceView.topAnchor, left: achievementsView.rightAnchor, bottom: nil, right: restOfNiceView.rightAnchor, paddingTop: 2, paddingLeft: 2, paddingBottom: 2, paddingRight: 2, width: 0, height: 100)
     
     achievementsView.anchor(top: restOfNiceView.topAnchor, left: restOfNiceView.leftAnchor, bottom: restOfNiceView.bottomAnchor, right: nil, paddingTop: 2, paddingLeft: 2, paddingBottom: 2, paddingRight: 0, width: 200, height: 200)
     
@@ -244,9 +261,7 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     print(123)
   }
   
-  @objc func handleBecomeFreindsBtnTapped() {
-    print(456)
-  }
+  
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 3
@@ -272,14 +287,8 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     return header
   }
   
-  var user: User? {
-    didSet {
-      print("USERNAME \(user?.uid)")
-    }
-  }
-  
   func fetchUser() {
-  
+    
     let uid = userId ?? Auth.auth().currentUser?.uid ?? ""
     
     Database.fetchUserWithUID(uid: uid) { (user) in
@@ -291,16 +300,78 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
       
       self.userProfileView.loadImage(urlString: userImageUrl)
       
+      self.userPoints.text = "\(self.user?.userPointsEarned ?? 0)"
+      
       self.collectionView.reloadData()
       
       
     }
     
-      
   }
+  
+  @objc func handleBecomeFreindsBtnTapped() {
+    print(456)
     
+    guard let userId = user?.uid else { return }
+    guard let currentLoggedInUser = Auth.auth().currentUser?.uid else { return }
     
+    if becomesFriendsBtn.titleLabel?.text == "Unfriend?" {
+      Database.database().reference().child("friends").child(currentLoggedInUser).child(userId).removeValue(completionBlock: { (err, ref) in
+        if let err = err {
+          print("Failed to unfollow this user")
+        }
+      })
+      
+      print("Successfully been able to unfollow this user: ", user?.username)
+      
+      self.becomesFriendsBtn.setTitle("Mates?", for: .normal)
+      self.becomesFriendsBtn.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
+      self.becomesFriendsBtn.setTitleColor(.black, for: .normal)
+    } else {
+      
+      let ref = Database.database().reference().child("friends").child(currentLoggedInUser)
+      
+      let values = [userId: 1]
+      ref.updateChildValues(values, withCompletionBlock: { (err, ref) in
+        if let err = err {
+          print("Failed to follow user")
+          return
+        }
+        
+        print("Successfully been able to follow user: ", self.user?.username ?? "")
+        
+        self.becomesFriendsBtn.setTitle("Unfollow?", for: .normal)
+        self.becomesFriendsBtn.backgroundColor = .red
+        self.becomesFriendsBtn.setTitleColor(.black, for: .normal)
+      })
+    }
+  }
+  
+  fileprivate func setupFriendButton() {
+    guard let currentLoggedInUser = Auth.auth().currentUser?.uid else { return }
+    guard let userId = user?.uid else { return }
+    print("PAPA \(currentLoggedInUser, userId)")
     
-    
+    if currentLoggedInUser == userId {
+      print("THIS IS MEEEEEEEE!!!!!")
+    } else {
+      // Check if the user is following
+      Database.database().reference().child("friends").child(currentLoggedInUser).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
+        print("BOOBS \(snapshot.value)")
+        if let isFriends = snapshot.value as? Int, isFriends == 1 {
+          self.becomesFriendsBtn.setTitle("Unfriend", for: .normal)
+          self.becomesFriendsBtn.backgroundColor = .red
+        } else {
+          self.becomesFriendsBtn.setTitle("Mates?", for: .normal)
+          self.becomesFriendsBtn.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
+          self.becomesFriendsBtn.setTitleColor(.black, for: .normal)
+        }
+      }, withCancel: { (err) in
+        print("Failed to check if following this user")
+      })
+    }
+  }
   
 }
+
+

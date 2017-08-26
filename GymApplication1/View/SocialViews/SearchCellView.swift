@@ -32,7 +32,6 @@ class SearchCellView: UICollectionViewCell {
   
   let userProfileImageView: CustomImageView = {
     let iv = CustomImageView()
-    iv.backgroundColor = .yellow
     return iv
   }()
   
