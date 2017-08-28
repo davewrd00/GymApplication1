@@ -19,7 +19,7 @@ struct ClassesAttending {
     self.classUID = classUID
     self.classDate = dictionary["classDate"] as? String ?? ""
     self.classDescription = dictionary["classDescription"] as? String ?? ""
-    self.className = dictionary["classNamme"] as? String ?? ""
+    self.className = dictionary["className"] as? String ?? ""
   }
   
   

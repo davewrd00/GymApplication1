@@ -17,6 +17,7 @@ class AcceptClassViewController: UIViewController {
   var classes: Classes? {
     didSet {
       classNameLabel.text = classes?.className
+      print("BOOB \(classes?.className)")
     }
   }
   
@@ -124,40 +125,83 @@ class AcceptClassViewController: UIViewController {
     guard let className = self.classes?.className else { return }
     guard let classDescription = self.classes?.classDescription else { return }
     
+//    Database.database().reference().child("usersAttendingClasses").child(uid).child(classUID).setValue(classToAttend) { (err, ref) in
+//      if err != nil {
+//        print("Unable to upload the class to the DB")
+//        return
+//      }
+//      print("Able to successfully upload this class to the DB")
+//
+//      self.updateTotalNumberOfClassPlacesAvailable(className: className, completionBlock: {
+//        print("Updated count")
+//      })
+//
+//      let userAttending: Dictionary<String, Any>
+//      userAttending = ["userAttending": uid]
+//
+//      Database.database().reference().child("classes").child(className).child(classUID).child("attendees").setValue(userAttending)
+//
+//      guard let classDuration = self.classes?.classDuration else { return }
+//      guard let dateString = self.classes?.classDate else { return }
+//      let dateFormatter = DateFormatter()
+//      dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm"
+//      guard let dateToAdd = dateFormatter.date(from: dateString) else { return }
+//      print("POO :\(dateToAdd)")
+//
+//      // This calls the function that adds the data to the users calendar regarding the clas they have just signed up for
+//      self.addEventToCalendar(title: className, description: classDescription, startDate: dateToAdd, endDate: dateToAdd , completion: { (done, err) in
+//        if err == nil {
+//          print("Successfully saved")
+//
+//        }
+//      })
+//
+//      let mainTab = TabBarController()
+//      self.present(mainTab, animated: true, completion: nil)
+//
+//    }
+//
+//    }
+    
+    
+    
+    
+    
+    
     Database.database().reference().child("users").child(uid).child("classesAttending").child(classUID).setValue(classToAttend) { (err, _) in
       if let _ = err {
         print("Unable to upload the class to the DB")
         return
       }
-      
+
       self.updateTotalNumberOfClassPlacesAvailable(className: className, completionBlock: {
         print("Updated count")
       })
-      
-      
+
+
       let userAttending: Dictionary<String, Any>
       userAttending = ["userAttending": uid]
-      
+
       Database.database().reference().child("classes").child(className).child(classUID).child("attendees").setValue(userAttending)
-      
+
       guard let classDuration = self.classes?.classDuration else { return }
       guard let dateString = self.classes?.classDate else { return }
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm"
       guard let dateToAdd = dateFormatter.date(from: dateString) else { return }
       print("POO :\(dateToAdd)")
-      
+
       // This calls the function that adds the data to the users calendar regarding the clas they have just signed up for
       self.addEventToCalendar(title: className, description: classDescription, startDate: dateToAdd, endDate: dateToAdd , completion: { (done, err) in
         if err == nil {
           print("Successfully saved")
-          
+
         }
       })
-      
+
       let mainTab = TabBarController()
       self.present(mainTab, animated: true, completion: nil)
-      
+
     }
   }
   

@@ -94,10 +94,6 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
   
   let becomesFriendsBtn: UIButton = {
     let btn = UIButton()
-    //    btn.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
-    //    btn.setTitle("Mates?", for: .normal)
-    //    btn.setTitleColor(.white, for: .normal)
-    //    btn.titleLabel?.font = UIFont(name: "HelveticaNeue-Thin", size: 16)
     btn.layer.cornerRadius = 3
     btn.layer.borderColor = UIColor.black.cgColor
     btn.layer.borderWidth = 1
@@ -287,11 +283,15 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     return header
   }
   
+  fileprivate func fetchAchievements() {
+    
+  }
+  
   func fetchUser() {
     
     let uid = userId ?? Auth.auth().currentUser?.uid ?? ""
     
-    Database.fetchUserWithUID(uid: uid) { (user) in
+    DataService.sharedInstance.fetchUserWithUID(uid: uid) { (user) in
       self.user = user
       
       self.userNameLabel.text = self.user?.username
@@ -354,13 +354,15 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     
     if currentLoggedInUser == userId {
       print("THIS IS MEEEEEEEE!!!!!")
+      self.becomesFriendsBtn.removeFromSuperview()
+      reanchorViews()
     } else {
       // Check if the user is following
       Database.database().reference().child("friends").child(currentLoggedInUser).child(userId).observeSingleEvent(of: .value, with: { (snapshot) in
-        print("BOOBS \(snapshot.value)")
         if let isFriends = snapshot.value as? Int, isFriends == 1 {
-          self.becomesFriendsBtn.setTitle("Unfriend", for: .normal)
+          self.becomesFriendsBtn.setTitle("Unfriend?", for: .normal)
           self.becomesFriendsBtn.backgroundColor = .red
+          self.privateMessageButton.isEnabled = true
         } else {
           self.becomesFriendsBtn.setTitle("Mates?", for: .normal)
           self.becomesFriendsBtn.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
@@ -370,6 +372,11 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
         print("Failed to check if following this user")
       })
     }
+  }
+  
+  fileprivate func reanchorViews() {
+    achievementsView.anchor(top: topView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: pointsView.leftAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, width: 200, height: 0)
+    pointsView.anchor(top: topView.bottomAnchor, left: achievementsView.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 5, paddingLeft: 5, paddingBottom: 5, paddingRight: 5, width: 0, height: 0)
   }
   
 }

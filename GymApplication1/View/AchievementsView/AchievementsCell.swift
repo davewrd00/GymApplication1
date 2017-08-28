@@ -16,6 +16,14 @@ class AchievementsCell: UICollectionViewCell {
     }
   }
   
+  var achievementsEarnedNames = [String]() {
+    didSet {
+      for name in achievementsEarnedNames {
+        print("BOOBsssss \(name)")
+      }
+    }
+  }
+  
   let imageView: CustomImageView = {
     let iv = CustomImageView()
     iv.clipsToBounds = true

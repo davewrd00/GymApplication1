@@ -72,6 +72,17 @@ extension UIView{
   }
 }
 
+extension UIAlertController {
+  func addCustomAlert(title: String, message: String, actionTitle: String, completion: @escaping () -> ()) {
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let alertAction = UIAlertAction(title: actionTitle, style: .cancel) { (action) in
+      completion()
+    }
+    alertController.addAction(alertAction)
+    present(alertController, animated: true, completion: nil)
+  }
+}
+
 
 
 

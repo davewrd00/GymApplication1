@@ -8,19 +8,19 @@
 
 import Foundation
 
-struct Achievements {
+class Achievements: NSObject {
   
-  let userUid: String
   let achievementName: String
-  let achievementEarned: Bool
-  let achievementDescription: Bool
+  let pointsToEarn: Int
+  let achievementDescription: String
   
-  init(useruID: String, achName: String, achEarned: Bool, achDescription: Bool) {
-    self.userUid = useruID
+  init(achName: String, dictionary: [String: Any]) {
     self.achievementName = achName
-    self.achievementEarned = achEarned
-    self.achievementDescription = achDescription
+    self.pointsToEarn = dictionary["pointsToEarn"] as? Int ?? 0
+    self.achievementDescription = dictionary["achievementDescription"] as? String ?? ""
+
   }
-  
-  
+
 }
+
+

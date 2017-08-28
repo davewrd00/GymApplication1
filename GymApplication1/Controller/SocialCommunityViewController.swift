@@ -9,13 +9,14 @@
 import UIKit
 import Firebase
 
-class SocialCommunityViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class SocialCommunityViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, SocialFeedCellDelegate {
   
   var posts = [Post]()
   
   override func viewWillAppear(_ animated: Bool) {
     tabBarController?.tabBar.isHidden = false
-    fetchAllPosts()
+//    fetchAllPosts()
+//    fetchFollowingUserIds()
   }
   
   override func viewDidLoad() {
@@ -39,14 +40,32 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
   
   fileprivate func fetchAllPosts() {
     fetchPosts()
+    fetchFollowingUserIds()
     // Need to fetch posts from only those you are firneds for? Perhaps not in this iteration - Look at Instgram clone application!!!!
   
+  }
+  
+  fileprivate func fetchFollowingUserIds() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    Database.database().reference().child("friends").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+      guard let userIdsDictionary = snapshot.value as? [String: Any] else { return }
+      userIdsDictionary.forEach({ (arg) in
+        let (key, value) = arg
+        
+        DataService.sharedInstance.fetchUserWithUID(uid: key, completion: { (user) in
+          self.fetchPostsWithUser(user: user)
+        })
+        
+      })
+    }) { (err) in
+      print("Failed to fetch the following users ids:" , err)
+    }
   }
   
   fileprivate func fetchPosts() {
     guard let uid = Auth.auth().currentUser?.uid else { return }
     
-    Database.fetchUserWithUID(uid: uid) { (user) in
+    DataService.sharedInstance.fetchUserWithUID(uid: uid) { (user) in
       self.fetchPostsWithUser(user: user)
     }
     
@@ -55,15 +74,6 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
   fileprivate func fetchPostsWithUser(user: User) {
     let ref = Database.database().reference().child("posts").child(user.uid)
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
-      
-      if !snapshot.exists() {
-        print("No user posts")
-        // Do an animation explaining to the user they need to post to view their posts
-        
-        self.showAlertToUserRegardingPost()
-        
-        return
-      }
       
       self.collectionView?.refreshControl?.endRefreshing()
       
@@ -81,24 +91,15 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
         self.posts.sort(by: { (p1, p2) -> Bool in
           return p1.creationDate.compare(p2.creationDate) == .orderedDescending
         })
-        self.collectionView?.reloadData()
         
       })
+      
+        self.collectionView?.reloadData()
       
     }) { (err) in
       print("Failed to fetch posts:", err)
       return
     }
-    
-  }
-  
-  fileprivate func showAlertToUserRegardingPost() {
-    print("Handling this action regareding telling the user that their is no posts to show!")
-    
-    let alertController = UIAlertController(title: "Ooops", message: "No posts yet by you nor your friends", preferredStyle: .alert)
-    let okayAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-    alertController.addAction(okayAction)
-    self.present(alertController, animated: true, completion: nil)
     
   }
   
@@ -109,6 +110,15 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
   
   @objc func handleRefresh() {
     print("Handling refresh yall")
+  
+  }
+  func didTapComment(post: Post) {
+    print("This message is coming from")
+    print(post.caption)
+    
+    let commentController = FeedCommentController(collectionViewLayout: UICollectionViewFlowLayout())
+    commentController.post = post
+    navigationController?.pushViewController(commentController, animated: true)
   }
   
   @objc func handleWriteToFeed() {
@@ -134,7 +144,7 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
     cell.backgroundColor = .white
     
     cell.post = posts[indexPath.item]
-    //cell.delegate = self
+    cell.delegate = self
 
     return cell
   }

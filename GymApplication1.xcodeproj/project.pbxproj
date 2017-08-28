@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4D92E1309ADC3AB7541A0EC7 /* Pods_GymApplication1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4CF907B3B9EFAC6094211CC /* Pods_GymApplication1.framework */; };
 		C42DA48E1F42E755004D7D5D /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42DA48D1F42E755004D7D5D /* AdminViewController.swift */; };
+		C435D91D1F53646800289A31 /* AchievementEarned.swift in Sources */ = {isa = PBXBuildFile; fileRef = C435D91C1F53646800289A31 /* AchievementEarned.swift */; };
+		C435D91F1F5382F700289A31 /* AchievementPrize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C435D91E1F5382F700289A31 /* AchievementPrize.swift */; };
 		C43D2C0A1F42F3C400F6CEE0 /* ClassAdminCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C091F42F3C400F6CEE0 /* ClassAdminCell.swift */; };
 		C43D2C0C1F42FA7100F6CEE0 /* AddClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */; };
 		C43D2C0E1F430E3D00F6CEE0 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C0D1F430E3D00F6CEE0 /* DataService.swift */; };
@@ -32,6 +34,9 @@
 		C4AAD1EE1F3B43B100902046 /* GymApplication1UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1ED1F3B43B100902046 /* GymApplication1UITests.swift */; };
 		C4AAD1FE1F3B630000902046 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AAD1FD1F3B630000902046 /* GoogleService-Info.plist */; };
 		C4AAD2061F3BCA4200902046 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD2051F3BCA4200902046 /* Extensions.swift */; };
+		C4BB1F1D1F538C29008364CA /* FeedCommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB1F1C1F538C29008364CA /* FeedCommentController.swift */; };
+		C4BB1F1F1F538C85008364CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB1F1E1F538C85008364CA /* Comment.swift */; };
+		C4BB1F211F53986E008364CA /* SocialCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB1F201F53986E008364CA /* SocialCommentCell.swift */; };
 		C4CAF0A71F3F77110023C749 /* HomeClassCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CAF0A61F3F77110023C749 /* HomeClassCell.swift */; };
 		C4CAF0A91F3F806E0023C749 /* HomeFooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CAF0A81F3F806E0023C749 /* HomeFooterCell.swift */; };
 		C4CAF0AB1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4CAF0AA1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift */; };
@@ -45,7 +50,6 @@
 		C4D9A27A1F3C566700111DF6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D9A2791F3C566700111DF6 /* LoginViewController.swift */; };
 		C4D9A27D1F3C8B7800111DF6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D9A27C1F3C8B7800111DF6 /* TabBarController.swift */; };
 		C4DC64ED1F4C8A5B000A6FBA /* ClassesAttending.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DC64EC1F4C8A5B000A6FBA /* ClassesAttending.swift */; };
-		C4DC64EF1F4CCA7B000A6FBA /* HomeClassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DC64EE1F4CCA7B000A6FBA /* HomeClassView.swift */; };
 		C4DC64F11F4CD66C000A6FBA /* SocialCommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DC64F01F4CD66C000A6FBA /* SocialCommunityViewController.swift */; };
 		C4DC64F71F4CE4F3000A6FBA /* UserSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DC64F61F4CE4F3000A6FBA /* UserSearchController.swift */; };
 		C4DC64FA1F4CEB40000A6FBA /* SearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DC64F91F4CEB40000A6FBA /* SearchCellView.swift */; };
@@ -85,6 +89,8 @@
 /* Begin PBXFileReference section */
 		BDEEF06374020C1E3725D30B /* Pods-GymApplication1.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GymApplication1.release.xcconfig"; path = "Pods/Target Support Files/Pods-GymApplication1/Pods-GymApplication1.release.xcconfig"; sourceTree = "<group>"; };
 		C42DA48D1F42E755004D7D5D /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
+		C435D91C1F53646800289A31 /* AchievementEarned.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementEarned.swift; sourceTree = "<group>"; };
+		C435D91E1F5382F700289A31 /* AchievementPrize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementPrize.swift; sourceTree = "<group>"; };
 		C43D2C091F42F3C400F6CEE0 /* ClassAdminCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassAdminCell.swift; sourceTree = "<group>"; };
 		C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassViewController.swift; sourceTree = "<group>"; };
 		C43D2C0D1F430E3D00F6CEE0 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
@@ -114,6 +120,9 @@
 		C4AAD1EF1F3B43B100902046 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4AAD1FD1F3B630000902046 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C4AAD2051F3BCA4200902046 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C4BB1F1C1F538C29008364CA /* FeedCommentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCommentController.swift; sourceTree = "<group>"; };
+		C4BB1F1E1F538C85008364CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		C4BB1F201F53986E008364CA /* SocialCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCommentCell.swift; sourceTree = "<group>"; };
 		C4CAF0A61F3F77110023C749 /* HomeClassCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClassCell.swift; sourceTree = "<group>"; };
 		C4CAF0A81F3F806E0023C749 /* HomeFooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFooterCell.swift; sourceTree = "<group>"; };
 		C4CAF0AA1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeGoalsProgressCell.swift; sourceTree = "<group>"; };
@@ -128,7 +137,6 @@
 		C4D9A27B1F3C894B00111DF6 /* GymApplication1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GymApplication1.entitlements; sourceTree = "<group>"; };
 		C4D9A27C1F3C8B7800111DF6 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		C4DC64EC1F4C8A5B000A6FBA /* ClassesAttending.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassesAttending.swift; sourceTree = "<group>"; };
-		C4DC64EE1F4CCA7B000A6FBA /* HomeClassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeClassView.swift; sourceTree = "<group>"; };
 		C4DC64F01F4CD66C000A6FBA /* SocialCommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCommunityViewController.swift; sourceTree = "<group>"; };
 		C4DC64F61F4CE4F3000A6FBA /* UserSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchController.swift; sourceTree = "<group>"; };
 		C4DC64F91F4CEB40000A6FBA /* SearchCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCellView.swift; sourceTree = "<group>"; };
@@ -267,6 +275,8 @@
 				C469F3631F4596AE00FE381D /* AddGoalViewController.swift */,
 				C491B9751F45FD71005A9A0B /* GoalDetailViewController.swift */,
 				C4F7B4121F4F045B00A22578 /* UserProfileViewController.swift */,
+				C435D91E1F5382F700289A31 /* AchievementPrize.swift */,
+				C4BB1F1C1F538C29008364CA /* FeedCommentController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -296,6 +306,8 @@
 				C491B96F1F45F511005A9A0B /* Achievements.swift */,
 				C491B9771F465A0D005A9A0B /* GoalsCompleted.swift */,
 				C4F52FC41F4DD00F006806B0 /* Post.swift */,
+				C435D91C1F53646800289A31 /* AchievementEarned.swift */,
+				C4BB1F1E1F538C85008364CA /* Comment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -315,6 +327,7 @@
 			children = (
 				C4DC64F91F4CEB40000A6FBA /* SearchCellView.swift */,
 				C4F52FC01F4DB862006806B0 /* SocialFeedCell.swift */,
+				C4BB1F201F53986E008364CA /* SocialCommentCell.swift */,
 			);
 			path = SocialViews;
 			sourceTree = "<group>";
@@ -326,7 +339,6 @@
 				C4CAF0A81F3F806E0023C749 /* HomeFooterCell.swift */,
 				C4CAF0AA1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift */,
 				C4CAF0AC1F3F8FA20023C749 /* HomeFeedCell.swift */,
-				C4DC64EE1F4CCA7B000A6FBA /* HomeClassView.swift */,
 			);
 			path = HomeCells;
 			sourceTree = "<group>";
@@ -579,6 +591,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4BB1F1D1F538C29008364CA /* FeedCommentController.swift in Sources */,
 				C4F7B4161F4F0ADB00A22578 /* UserProfileHeaderView.swift in Sources */,
 				C4CAF0AD1F3F8FA20023C749 /* HomeFeedCell.swift in Sources */,
 				C4FD29411F41F97500F4F4B6 /* ClassDetailsCellView.swift in Sources */,
@@ -591,9 +604,9 @@
 				C4DC64FA1F4CEB40000A6FBA /* SearchCellView.swift in Sources */,
 				C4CAF0BB1F407F0D0023C749 /* SettingsCell.swift in Sources */,
 				C43D2C0E1F430E3D00F6CEE0 /* DataService.swift in Sources */,
-				C4DC64EF1F4CCA7B000A6FBA /* HomeClassView.swift in Sources */,
 				C4E7EAEE1F40BF6700BC47E5 /* MenuBarViewCell.swift in Sources */,
 				C4CAF0A91F3F806E0023C749 /* HomeFooterCell.swift in Sources */,
+				C435D91F1F5382F700289A31 /* AchievementPrize.swift in Sources */,
 				C4D9A27D1F3C8B7800111DF6 /* TabBarController.swift in Sources */,
 				C4A5286F1F4433BD000080DE /* User.swift in Sources */,
 				C4CAF0B91F407B120023C749 /* SettingsLauncher.swift in Sources */,
@@ -612,11 +625,13 @@
 				C43D2C121F4341A800F6CEE0 /* AcceptClassViewController.swift in Sources */,
 				C4CAF0B11F4034DA0023C749 /* AchievementsViewController.swift in Sources */,
 				C4AAD1CB1F3B43B100902046 /* AppDelegate.swift in Sources */,
+				C4BB1F211F53986E008364CA /* SocialCommentCell.swift in Sources */,
 				C4F52FC11F4DB862006806B0 /* SocialFeedCell.swift in Sources */,
 				C4DC64F11F4CD66C000A6FBA /* SocialCommunityViewController.swift in Sources */,
 				C4E7EAFA1F41DA1400BC47E5 /* Classes.swift in Sources */,
 				C469F3661F459E8D00FE381D /* AdminTabBarController.swift in Sources */,
 				C4F52FC51F4DD00F006806B0 /* Post.swift in Sources */,
+				C435D91D1F53646800289A31 /* AchievementEarned.swift in Sources */,
 				C4CAF0AB1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift in Sources */,
 				C491B9721F45F55B005A9A0B /* GoalsViewHeader.swift in Sources */,
 				C4F52FC71F4DD116006806B0 /* ShareFeedViewController.swift in Sources */,
@@ -624,6 +639,7 @@
 				C43D2C0A1F42F3C400F6CEE0 /* ClassAdminCell.swift in Sources */,
 				C4CAF0A71F3F77110023C749 /* HomeClassCell.swift in Sources */,
 				C4E7EAF01F40D39F00BC47E5 /* GoalsViewCell.swift in Sources */,
+				C4BB1F1F1F538C85008364CA /* Comment.swift in Sources */,
 				C4E7EAEA1F40A6AD00BC47E5 /* ClassCellView.swift in Sources */,
 				C491B9761F45FD71005A9A0B /* GoalDetailViewController.swift in Sources */,
 				C469F3621F4594B500FE381D /* Goals.swift in Sources */,

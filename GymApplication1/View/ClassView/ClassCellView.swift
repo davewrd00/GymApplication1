@@ -14,6 +14,7 @@ class ClassCellView: UICollectionViewCell {
     didSet {
       nameLabel.text = classes?.className
       print("POO \(classes?.className)")
+      
     }
   }
 

@@ -8,7 +8,13 @@
 
 import UIKit
 
+protocol SocialFeedCellDelegate {
+  func didTapComment(post: Post)
+}
+
 class SocialFeedCell: UICollectionViewCell {
+
+  var delegate: SocialFeedCellDelegate?
   
   var post: Post? {
     didSet {
@@ -65,6 +71,9 @@ class SocialFeedCell: UICollectionViewCell {
   
   @objc func handleComment() {
     print("handling this comment")
+    guard let post = self.post else { return }
+    delegate?.didTapComment(post: post)
+    print("POOOO \(post.caption)")
   }
   
   override init(frame: CGRect) {

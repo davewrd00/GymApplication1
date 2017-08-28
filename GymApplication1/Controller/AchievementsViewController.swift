@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class AchievementsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
   
@@ -14,19 +15,26 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
   
   var hasAchieved: Bool = false
   
-  var user: User? {
+  var pointsEarned: Int?
+  
+  var achievementsEarnedNames = [String]() {
     didSet {
-      self.pointsEarned = user?.userPointsEarned
+      for name in achievementsEarnedNames {
+        print("BOOOB \(name)")
+
+      }
     }
   }
   
-  var pointsEarned: Int?
+  override func viewWillAppear(_ animated: Bool) {
+    fetchCompletedAchievements()
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
 
     navigationController?.navigationBar.barTintColor = UIColor.rgb(red: 229, green: 229, blue: 229)
-    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue).rawValue: UIColor.white, NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue).rawValue: UIFont(name: "Avenir", size: 20) ?? ""]
+    navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey(rawValue: NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue).rawValue): UIColor.white, NSAttributedStringKey(rawValue: NSAttributedStringKey(rawValue: NSAttributedStringKey.font.rawValue).rawValue): UIFont(name: "Avenir", size: 20) ?? ""]
     navigationController?.navigationBar.isTranslucent = false
     collectionView?.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     collectionView?.register(AchievementsCell.self, forCellWithReuseIdentifier: cellId)
@@ -35,27 +43,68 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
     collectionView?.dataSource = self
     
     tabBarItem.title = "Achievements"
+    
+    fetchCompletedAchievements()
  
   }
   
+  fileprivate func fetchCompletedAchievements() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    
+    Database.database().reference().child("achievementsEarnedByUser").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+      print("Achievements already earned are \(snapshot.value ?? "")")
+      
+      guard let dictionary = snapshot.value as? [String: Any] else { return }
+      
+      dictionary.forEach({ (arg) in
+        let (key, value) = arg
+        self.achievementsEarnedNames.append(key)
+      })
+      
+      self.collectionView?.reloadData()
+      
+    }) { (err) in
+      print("There was an error fetching user achievements: ", err)
+    }
+  }
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 6
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as! AchievementsCell
+    cell.cellView.alpha = 0.2
+    cell.isUserInteractionEnabled = false
     if indexPath.row == 0 {
+      
       cell.imageView.image = UIImage(named: "bronze_medal")
       cell.achievementNameLabel.text = "Bronze medal"
       cell.achievementDescription.text = "Earn 1000 points to earn this medal to win some gym goodies!!"
+      if self.achievementsEarnedNames.contains("bronze") {
+        cell.isUserInteractionEnabled = true
+        cell.cellView.alpha = 1
+      }
+    
     } else if indexPath.row == 1 {
+      
       cell.imageView.image = UIImage(named: "silver_medal")
       cell.achievementNameLabel.text = "Silver medal"
       cell.achievementDescription.text = "Earn 2500 points to earn this medal to win a free gym shirt!"
+      if self.achievementsEarnedNames.contains("silver") {
+        cell.cellView.alpha = 1
+        cell.isUserInteractionEnabled = true
+      }
+      
     } else if indexPath.row == 2 {
+      if self.achievementsEarnedNames.contains("gold") {
+    
+        cell.isUserInteractionEnabled = true
+        cell.cellView.alpha = 1
+      }
       cell.imageView.image = UIImage(named: "gold_medal")
       cell.achievementNameLabel.text = "Gold medal"
       cell.achievementDescription.text = "Earn 5000 points and become a pro and enjoy a whole months membership on us - FREE!!"
+      
     } else if indexPath.row == 3 {
       cell.imageView.image = UIImage(named: "athlete_medal")
       cell.achievementNameLabel.text = "Veteran medal"
@@ -70,6 +119,7 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
       cell.achievementDescription.text = "Earn 15,000 points to win a whole years membership!"
     }
 
+
     return cell
   }
   
@@ -80,7 +130,7 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 1
   }
-  
+
   override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     //print(indexPath.item)
     
@@ -91,13 +141,10 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
   func hasAchievedMedal(medalChosen: IndexPath) {
     print(medalChosen.item)
     
-    if hasAchieved {
-      print("Well done")
-    } else {
-      print("Not quite there yet my friend!")
-    }
+    
   }
   
+ 
   
   
 }

@@ -13,6 +13,8 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
   
   var users = [User]()
   
+  let adminUID = "vAOe4JijoDYO8jTD7TCwceo4qcs2"
+  
   var filteredUsers = [User]()
   
   let backButton: UIButton = {
@@ -77,36 +79,41 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
   }
 
   fileprivate func fetchUsers() {
+
     let ref = Database.database().reference().child("users")
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
-      
+
       print(snapshot.value ?? "")
-      
+
       guard let dictionary = snapshot.value as? [String: Any] else { return }
-      
+
       dictionary.forEach({ (arg) in
         let (key, value) = arg
-        
+
         if key == Auth.auth().currentUser?.uid {
           print("Found myself here like")
           return
         }
         
+        if key == self.adminUID {
+          return 
+        }
+
         guard let userDictionary = value as? [String: Any] else { return }
         let user = User(uid: key, dictionary: userDictionary)
         self.users.append(user)
         print("BRADY \(user.username)")
         print("BRADY \(user.uid)")
       })
-      
+
       // Sort the list alphabetically
       self.users.sort(by: { (u1, u2) -> Bool in
         return u1.username.compare(u2.username) == .orderedAscending
       })
-      
+
        self.filteredUsers = self.users
         self.collectionView?.reloadData()
-      
+
     }) { (err) in
       print("Failed to fetch all the users:", err)
       return

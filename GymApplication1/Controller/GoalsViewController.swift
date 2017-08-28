@@ -10,7 +10,23 @@ import UIKit
 import UICircularProgressRing
 import Firebase
 
+enum AchievementBoundaries: Int {
+  case Bronze = 1000
+  case Silver = 2500
+  case Gold = 5000
+  case Veteran = 10000
+  case Professional = 12500
+  case Olympian = 15000
+}
+
 class GoalsViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+  
+  var hasAchievedBronze = false
+  var hasAchievedSilver = false
+  var hasAchievedGold = false
+  var hasAchievedVeteran = false
+  var hasAchievedProfessional = false
+  var hasAchievedOlympian = false
   
   var goals = [Goals]()
   
@@ -21,6 +37,27 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
       for item in goalsComplete {
         print("POOOOO \(item.goalName)")
       }
+    }
+  }
+  
+  var achievement: Achievements? {
+    didSet {
+      print("Gotten all the achievements")
+      print("Achievement name \(achievement?.achievementName)")
+    }
+  }
+  
+  var achievementsEarned = [AchievementsEarned]() {
+    didSet {
+      print("Setting a goal since its been completed")
+    }
+  }
+  
+  
+  var user: User? {
+    didSet {
+      guard let userPoints = user?.userPointsEarned else { return }
+      print("LARRY \(userPoints)")
     }
   }
   
@@ -53,12 +90,9 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     collectionView?.register(GoalsViewCell.self, forCellWithReuseIdentifier: cell1)
     collectionView?.register(GoalsViewHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerId")
     fetchCompleteGoals()
-     fetchGoals()
-    
-    
-    
-    
-    
+    fetchGoals()
+    fetchAchievements()
+    fetchCompleteAchievements()
     
   }
   
@@ -70,8 +104,8 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cell1, for: indexPath) as! GoalsViewCell
     
-      cell.goals = goals[indexPath.item]
-      return cell
+    cell.goals = goals[indexPath.item]
+    return cell
     
   }
   
@@ -124,6 +158,57 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     }
   }
   
+  fileprivate func fetchCompleteAchievements() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    Database.database().reference().child("achievementsEarnedByUser").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+      guard let achievementDict = snapshot.value as? [String: Any] else { return }
+      
+      achievementDict.forEach({ (arg) in
+        let (key, value) = arg
+        
+        print("ACH \(key)")
+        print("ACH \(value)")
+        
+        if key == "bronze" {
+          self.hasAchievedBronze = true
+        } else if key == "silver" {
+          self.hasAchievedSilver = true
+        } else if key == "gold" {
+          self.hasAchievedGold = true
+        } else if key == "Veteran" {
+          self.hasAchievedVeteran = true
+        } else if key == "professional" {
+          self.hasAchievedProfessional = true
+        } else if key == "olympian" {
+          self.hasAchievedOlympian = true
+        }
+        
+      })
+    }) { (err) in
+      print("Failed to fetch complete achievements")
+    }
+  }
+  
+  fileprivate func fetchAchievements() {
+    Database.database().reference().child("achievement").observeSingleEvent(of: .value, with: { (snapshot) in
+      print("Achievement \(snapshot.value ?? "")")
+      
+      guard let achievementDict = snapshot.value as? [String: Any] else { return }
+      
+      achievementDict.forEach({ (arg) in
+        let (key, value) = arg
+        
+        guard let dict = value as? [String: Any] else { return }
+        
+        self.achievement = Achievements(achName: key, dictionary: dict)
+        
+      })
+      
+    }) { (err) in
+      print("Failed to fetch achievements")
+    }
+  }
+  
   fileprivate func handleCompletedGoal(goal: Goals) {
     guard let uid = Auth.auth().currentUser?.uid else { return }
     let goalPoints = goal.goalPoints
@@ -139,25 +224,137 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
       
       self.updateTotalNumberOfPointsEarned(uid: uid, goalPoints: goalPoints) {
         print("Updated")
+        //self.seeIfAchievementHasBeenMet()
       }
       
-      let tabBar = TabBarController()
-      self.present(tabBar, animated: true, completion: nil)
+      self.getPoints()
     }
-    
   }
   
-  func fetchGoals() {
-    print("Fetching the goals from FB")
+  fileprivate func getPoints() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    print("Getting these points...")
+    Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+    }) { (err) in
+      print("Error", err)
+    }
+  }
+  
+  
+  func seeIfAchievementHasBeenMet(userPoints: Int) {
+    print("The points that this user has is \(userPoints)")
     
+    if userPoints >= 1000 && userPoints <= 2499 && hasAchievedBronze == false {
+      let achievementName = "bronze"
+      let alertCont = UIAlertController(title: "Wooo!!!!", message: "You have achieved your first medal!", preferredStyle: .alert)
+      let okayAction = UIAlertAction(title: "Accept?", style: .cancel, handler: { (action) in
+        self.doSomething(achievementName: achievementName)
+      })
+      alertCont.addAction(okayAction)
+      self.present(alertCont, animated: true, completion: nil)
+      hasAchievedBronze = true
+      
+    } else if userPoints >= 2500 && userPoints <= 4999 && hasAchievedSilver == false {
+      let achievementName = "silver"
+      let alertCont = UIAlertController(title: "Wooo!!!!", message: "You have achieved your second medal!", preferredStyle: .alert)
+      let okayAction = UIAlertAction(title: "Accept?", style: .cancel, handler: { (action) in
+        self.doSomething(achievementName: achievementName)
+      })
+      alertCont.addAction(okayAction)
+      self.present(alertCont, animated: true, completion: nil)
+      print("2500 or over")
+      hasAchievedSilver = true
+      
+    } else if userPoints >= 5000 && userPoints <= 9999  && hasAchievedGold == false {
+      let achievementName = "gold"
+      let alertCont = UIAlertController(title: "Wooo!!!!", message: "You have achieved your third medal!", preferredStyle: .alert)
+      let okayAction = UIAlertAction(title: "Accept?", style: .cancel, handler: { (action) in
+        self.doSomething(achievementName: achievementName)
+      })
+      alertCont.addAction(okayAction)
+      self.present(alertCont, animated: true, completion: nil)
+      print("5000 or over")
+      hasAchievedGold = true
+      
+    } else if userPoints >= 10000 && userPoints <= 12499 && hasAchievedVeteran == false {
+      let achievementName = "Veteran"
+      let alertCont = UIAlertController(title: "Wooo!!!!", message: "You have achieved your fourth medal!", preferredStyle: .alert)
+      let okayAction = UIAlertAction(title: "Accept?", style: .cancel, handler: { (action) in
+        self.doSomething(achievementName: achievementName)
+      })
+      alertCont.addAction(okayAction)
+      self.present(alertCont, animated: true, completion: nil)
+      print("10000 or over")
+      hasAchievedVeteran = true
+      
+    } else if userPoints >= 12500 && userPoints <= 14999 && hasAchievedProfessional == false {
+      let achievementName = "professional"
+      let alertCont = UIAlertController(title: "Wooo!!!!", message: "You have achieved your fifth medal!", preferredStyle: .alert)
+      let okayAction = UIAlertAction(title: "Accept?", style: .cancel, handler: { (action) in
+        self.doSomething(achievementName: achievementName)
+      })
+      alertCont.addAction(okayAction)
+      self.present(alertCont, animated: true, completion: nil)
+      print("12500 points and over")
+      hasAchievedProfessional = true
+      
+    } else if userPoints >= 15000 && hasAchievedOlympian == false {
+      let achievementName = "olympian"
+      let alertCont = UIAlertController(title: "Amazing!!!!", message: "All medals have been achieved!", preferredStyle: .alert)
+      let okayAction = UIAlertAction(title: "Accept?", style: .cancel, handler: { (action) in
+        self.doSomething(achievementName: achievementName)
+      })
+      alertCont.addAction(okayAction)
+      self.present(alertCont, animated: true, completion: nil)
+      print("Maximum amount left")
+      hasAchievedOlympian = true
+    }
+  }
+  
+  func doSomething(achievementName: String) {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    
+    
+    let values = ["achievementName": achievementName,
+                  "hasAchieved": true] as [String : Any]
+    
+    Database.database().reference().child("achievementsEarnedByUser").child(uid).child(achievementName).setValue(values) { (err, ref) in
+      print("Error doing this", ref)
+    }
+  }
+  
+  fileprivate func updateTotalNumberOfPointsEarned(uid: String, goalPoints: Int, completionBlock: @escaping (() -> Void)) {
+    let ref = Database.database().reference().child("users").child(uid).child("pointsEarned")
+    
+    ref.runTransactionBlock({ (result) -> TransactionResult in
+      if let initialValue = result.value as? Int {
+        result.value = initialValue + goalPoints
+        let resultValue  = result.value as? Int
+        self.seeIfAchievementHasBeenMet(userPoints: resultValue!)
+        return TransactionResult.success(withValue: result)
+      } else {
+        return TransactionResult.success(withValue: result)
+      }
+    }) { (err, completion, snap) in
+      print(err?.localizedDescription ?? "")
+      print(completion)
+      print(snap ?? "")
+      if !completion {
+        print("Couldnt update this node")
+      } else {
+        completionBlock()
+      }
+    }
+  }
+  
+  
+  func fetchGoals() {
     guard let uid = Auth.auth().currentUser?.uid else { return }
     
     let ref = Database.database().reference().child("goals")
     ref.observeSingleEvent(of: .value) { (snapshot) in
       
       guard let dictionary = snapshot.value as? [String: Any] else { return }
-      
-      print("DAVIDPOO: Fetching the goals \(dictionary)")
       
       dictionary.forEach({ (arg) in
         let (key, value) = arg
@@ -175,15 +372,11 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
         
         let goals = Goals(userUid: uid, dictionary: goalDictionary)
         self.goals.append(goals)
-        print("JESSY \(goals)")
-        
         self.arrayOfGoalUID.append(goals.goalUID)
-        print("DAVIDPOO: \(goals)")
         if goals.goalCompleted == true {
           print("This is true")
         }
         
-        print("DAVIDPOO \(goals.goalUID)")
         //self.goalUID = goals.goalUID
         
       })
@@ -193,55 +386,14 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     }
   }
   
-  fileprivate func updateTotalNumberOfPointsEarned(uid: String, goalPoints: Int, completionBlock: @escaping (() -> Void)) {
-    let ref = Database.database().reference().child("users").child(uid).child("pointsEarned")
-    
-    ref.runTransactionBlock({ (result) -> TransactionResult in
-      if let initialValue = result.value as? Int {
-        print("STEVE \(initialValue)")
-        result.value = initialValue + goalPoints
-        print("STEVE \(goalPoints)")
-        return TransactionResult.success(withValue: result)
-      } else {
-        return TransactionResult.success(withValue: result)
-      }
-    }) { (err, completion, snap) in
-      print(err?.localizedDescription ?? "")
-      print(completion)
-      print(snap ?? "")
-      if !completion {
-        print("Couldnt update this node")
-      } else {
-        completionBlock()
-      }
-    }
-  }
-  
-//  func seeIfGoalComplete(key: String) {
-//    guard let uid = Auth.auth().currentUser?.uid else { return }
-//    print("MAMY \(key)")
-//    Database.database().reference().child("goalsCompleteByUser").child(uid).child(key).observeSingleEvent(of: .value, with: { (snapshot) in
-//      print("Found these keys in the goals complete part of the FB")
-//
-//
-//    }) { (err) in
-//      print("Failed to find these keys in this part of the FB")
-//    }
-//  }
-  
-  
-  
   func fetchCompleteGoals() {
     
     guard let userUID = Auth.auth().currentUser?.uid else { return }
-    
     Database.database().reference().child("goalsCompleteByUser").child(userUID).observeSingleEvent(of: .value, with: { (snapshot) in
       
       print(snapshot.value ?? "")
       
       guard let dictionary = snapshot.value as? [String: Any] else { return }
-      
-      print("Fetching those completed goals ", dictionary)
       
       dictionary.forEach({ (arg) in
         let (key, value) = arg
@@ -255,7 +407,6 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
         self.arrayOfGoalsCompleted.append(goalUID)
         self.goalsComplete.append(goalComp)
         //self.goalUID = intKey
-        print("CATHERINE \(goalComp)")
       })
       
       self.collectionView?.reloadData()
@@ -264,6 +415,14 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
       return
     }
   }
- 
+  
 }
+
+
+
+
+
+
+
+
 

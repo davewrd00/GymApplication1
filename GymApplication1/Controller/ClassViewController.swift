@@ -93,37 +93,38 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
   
   fileprivate func fetchClasses() {
     print("Fetching classes...")
-    
+
     let ref = Database.database().reference().child("classes")
     ref.observeSingleEvent(of: .value, with: { (snapshot) in
-      
+
       guard let dictionary = snapshot.value as? [String: Any] else { return }
-      
+
       print("DAVID FETCHING CLASSES \(dictionary)")
-      
+
       dictionary.forEach({ (arg) in
         let (key, value) = arg
         print(key)
-        
+
         let classUID = key
-        
-        
+
+
       guard let classDictionary = value as? [String: Any] else { return }
         let classes = Classes(classUID: classUID, className: key, dictionary: classDictionary)
         self.classes.append(classes)
         print("DAVID: \(classes)")
       })
-      
+
       self.classes.sort(by: { (u1, u2) -> Bool in
         return u1.className.compare(u2.className) == .orderedAscending
       })
-      
+
       self.filteredClasses = self.classes
       self.collectionView?.reloadData()
-      
+
     }) { (err) in
       print("Failed to fecth users during search", err)
     }
+
   }
   
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
