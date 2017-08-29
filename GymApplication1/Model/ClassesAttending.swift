@@ -14,12 +14,14 @@ struct ClassesAttending {
   let classDate: String
   let classDescription: String
   let className: String
+  let classLocation: String
   
-  init(classUID: String, dictionary: [String: Any]) {
-    self.classUID = classUID
-    self.classDate = dictionary["classDate"] as? String ?? ""
+  init(classDate: String, dictionary: [String: Any]) {
+    self.classDate = classDate
+    self.classUID = dictionary["classUID"] as? String ?? ""
     self.classDescription = dictionary["classDescription"] as? String ?? ""
     self.className = dictionary["className"] as? String ?? ""
+    self.classLocation = dictionary["classLocation"] as? String ?? ""
   }
   
   

@@ -15,7 +15,7 @@ class ShareFeedViewController: UIViewController, UIImagePickerControllerDelegate
   
   let plusPhotoButton: UIButton = {
     let button = UIButton(type: .system)
-    button.setImage(#imageLiteral(resourceName: "plus").withRenderingMode(.alwaysOriginal), for: .normal)
+    button.setImage(#imageLiteral(resourceName: "plus_photo").withRenderingMode(.alwaysOriginal), for: .normal)
     button.imageView?.contentMode = .scaleAspectFill
     button.translatesAutoresizingMaskIntoConstraints = false
     button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
@@ -28,13 +28,13 @@ class ShareFeedViewController: UIViewController, UIImagePickerControllerDelegate
     tv.layer.borderColor = UIColor.black.cgColor
     tv.layer.borderWidth = 2
     tv.layer.cornerRadius = 5
-    tv.font = UIFont(name: "HelveticaNeue-Thin", size: 14)
+    tv.font = UIFont(name: "HelveticaNeue-Thin", size: 20)
     return tv
   }()
   
   let submitButton: UIButton = {
     let btn = UIButton()
-    btn.setTitle("Submit post", for: .normal)
+    btn.setTitle("SUBMIT POST", for: .normal)
     btn.addTarget(self, action: #selector(handleSubmitPost), for: .touchUpInside)
     btn.backgroundColor = .green
     btn.layer.cornerRadius = 5
@@ -66,18 +66,20 @@ class ShareFeedViewController: UIViewController, UIImagePickerControllerDelegate
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    navigationController?.navigationBar.isHidden = true
+    
     view.addSubview(exitButton)
     view.addSubview(submitButton)
     
-    submitButton.anchor(top: nil, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 0, paddingRight: 8, width: 0, height: 80)
-    submitButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    submitButton.anchor(top: nil, left: exitButton.rightAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8, width: 0, height: 50)
+    //submitButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     
     exitButton.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 8, paddingRight: 0, width: 50, height: 50)
     
     tabBarController?.tabBar.isHidden = true
     navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     
-    view.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
+    view.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
     
     setupImageAndTextViews()
     
@@ -110,7 +112,7 @@ class ShareFeedViewController: UIViewController, UIImagePickerControllerDelegate
   fileprivate func setupImageAndTextViews() {
     
     let containerView = UIView()
-    containerView.backgroundColor = .white
+    containerView.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
     
     view.addSubview(containerView)
     

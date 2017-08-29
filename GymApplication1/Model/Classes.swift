@@ -20,6 +20,7 @@ struct Classes {
   let classTimeStamp: String
   let classUID: String
   let classCreationDate: Date
+  let classLevel: String
   
   
   init(classUID: String, className: String, dictionary: [String: Any]) {
@@ -31,6 +32,7 @@ struct Classes {
     self.classAvailability = dictionary["classAvailability"] as? Int ?? 0
     self.classDate = dictionary["classDate"] as? String ?? ""
     self.classTimeStamp = dictionary["classTimeStamp"] as? String ?? ""
+    self.classLevel = dictionary["classLevel"] as? String ?? ""
     self.classUID = classUID
     
     let secondsFrom1970 = dictionary["classCreationDate"] as? Double ?? 0

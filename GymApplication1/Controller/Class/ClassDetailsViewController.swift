@@ -16,7 +16,6 @@ class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, 
       
     }
   }
-  
   var classesAttending: ClassesAttending? {
     didSet {
       print("PAP \(classesAttending?.className)")
@@ -210,7 +209,8 @@ class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, 
     print("This is a test to see if this works: Class name is: \(classTouched.className), date of this class will be \(classTouched.classDate), and its timestamp is \(classTouched.classTimeStamp)")
     let acceptClassVC = AcceptClassViewController()
     acceptClassVC.classes = classTouched
-    self.present(acceptClassVC, animated: true, completion: nil)
+    //self.present(acceptClassVC, animated: true, completion: nil)
+    self.navigationController?.pushViewController(acceptClassVC, animated: true)
   }
   
 }

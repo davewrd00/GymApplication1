@@ -22,6 +22,10 @@
 		C491B9721F45F55B005A9A0B /* GoalsViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C491B9711F45F55B005A9A0B /* GoalsViewHeader.swift */; };
 		C491B9761F45FD71005A9A0B /* GoalDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C491B9751F45FD71005A9A0B /* GoalDetailViewController.swift */; };
 		C491B9781F465A0D005A9A0B /* GoalsCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = C491B9771F465A0D005A9A0B /* GoalsCompleted.swift */; };
+		C49EA4911F544F9F008A0386 /* EditClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49EA4901F544F9F008A0386 /* EditClassViewController.swift */; };
+		C49EA49A1F545F26008A0386 /* ClassDetailInfoTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49EA4991F545F26008A0386 /* ClassDetailInfoTimeView.swift */; };
+		C49EA49C1F54601F008A0386 /* ClassLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49EA49B1F54601F008A0386 /* ClassLevelCell.swift */; };
+		C49EA49E1F546092008A0386 /* ClassAvailabilityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49EA49D1F546092008A0386 /* ClassAvailabilityCell.swift */; };
 		C4A5286D1F442FAE000080DE /* HomeViewController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A5286C1F442FAE000080DE /* HomeViewController1.swift */; };
 		C4A5286F1F4433BD000080DE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A5286E1F4433BD000080DE /* User.swift */; };
 		C4AAD1CB1F3B43B100902046 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1CA1F3B43B100902046 /* AppDelegate.swift */; };
@@ -102,6 +106,10 @@
 		C491B9711F45F55B005A9A0B /* GoalsViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewHeader.swift; sourceTree = "<group>"; };
 		C491B9751F45FD71005A9A0B /* GoalDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailViewController.swift; sourceTree = "<group>"; };
 		C491B9771F465A0D005A9A0B /* GoalsCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsCompleted.swift; sourceTree = "<group>"; };
+		C49EA4901F544F9F008A0386 /* EditClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClassViewController.swift; sourceTree = "<group>"; };
+		C49EA4991F545F26008A0386 /* ClassDetailInfoTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDetailInfoTimeView.swift; sourceTree = "<group>"; };
+		C49EA49B1F54601F008A0386 /* ClassLevelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassLevelCell.swift; sourceTree = "<group>"; };
+		C49EA49D1F546092008A0386 /* ClassAvailabilityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassAvailabilityCell.swift; sourceTree = "<group>"; };
 		C4A5286C1F442FAE000080DE /* HomeViewController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController1.swift; sourceTree = "<group>"; };
 		C4A5286E1F4433BD000080DE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C4AAD1C71F3B43B100902046 /* GymApplication1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymApplication1.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -193,6 +201,76 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		C49EA4921F544FA5008A0386 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				C4A5286C1F442FAE000080DE /* HomeViewController1.swift */,
+				C4CAF0B81F407B120023C749 /* SettingsLauncher.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		C49EA4931F544FCB008A0386 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				C4CAF0B21F4036050023C749 /* ClassViewController.swift */,
+				C49EA4901F544F9F008A0386 /* EditClassViewController.swift */,
+				C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */,
+				C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */,
+				C4FD293E1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift */,
+			);
+			path = Class;
+			sourceTree = "<group>";
+		};
+		C49EA4941F544FEF008A0386 /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				C4DC64F01F4CD66C000A6FBA /* SocialCommunityViewController.swift */,
+				C4DC64F61F4CE4F3000A6FBA /* UserSearchController.swift */,
+				C4F52FC61F4DD116006806B0 /* ShareFeedViewController.swift */,
+				C4BB1F1C1F538C29008364CA /* FeedCommentController.swift */,
+			);
+			path = Social;
+			sourceTree = "<group>";
+		};
+		C49EA4951F545028008A0386 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				C4D9A2771F3C3FBE00111DF6 /* RegistrationViewController.swift */,
+				C4AAD1CC1F3B43B100902046 /* WelcomeViewController.swift */,
+				C4D9A2791F3C566700111DF6 /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		C49EA4961F54504D008A0386 /* Achievements */ = {
+			isa = PBXGroup;
+			children = (
+				C4CAF0B01F4034DA0023C749 /* AchievementsViewController.swift */,
+				C435D91E1F5382F700289A31 /* AchievementPrize.swift */,
+			);
+			path = Achievements;
+			sourceTree = "<group>";
+		};
+		C49EA4971F54505E008A0386 /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				C4CAF0AE1F4034B20023C749 /* GoalsViewController.swift */,
+				C469F3631F4596AE00FE381D /* AddGoalViewController.swift */,
+				C491B9751F45FD71005A9A0B /* GoalDetailViewController.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		C49EA4981F545075008A0386 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				C469F3651F459E8D00FE381D /* AdminTabBarController.swift */,
+				C42DA48D1F42E755004D7D5D /* AdminViewController.swift */,
+			);
+			path = Admin;
+			sourceTree = "<group>";
+		};
 		C4AAD1BE1F3B43B100902046 = {
 			isa = PBXGroup;
 			children = (
@@ -254,29 +332,16 @@
 		C4AAD2011F3BCA0600902046 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				C49EA4981F545075008A0386 /* Admin */,
+				C49EA4971F54505E008A0386 /* Goals */,
+				C49EA4961F54504D008A0386 /* Achievements */,
+				C49EA4951F545028008A0386 /* Login */,
+				C49EA4941F544FEF008A0386 /* Social */,
+				C49EA4931F544FCB008A0386 /* Class */,
+				C49EA4921F544FA5008A0386 /* Home */,
 				C4AAD1CA1F3B43B100902046 /* AppDelegate.swift */,
-				C4AAD1CC1F3B43B100902046 /* WelcomeViewController.swift */,
-				C4D9A2791F3C566700111DF6 /* LoginViewController.swift */,
-				C4D9A2771F3C3FBE00111DF6 /* RegistrationViewController.swift */,
 				C4D9A27C1F3C8B7800111DF6 /* TabBarController.swift */,
-				C469F3651F459E8D00FE381D /* AdminTabBarController.swift */,
-				C4A5286C1F442FAE000080DE /* HomeViewController1.swift */,
-				C4CAF0B21F4036050023C749 /* ClassViewController.swift */,
-				C4DC64F01F4CD66C000A6FBA /* SocialCommunityViewController.swift */,
-				C4DC64F61F4CE4F3000A6FBA /* UserSearchController.swift */,
-				C4F52FC61F4DD116006806B0 /* ShareFeedViewController.swift */,
-				C4CAF0B01F4034DA0023C749 /* AchievementsViewController.swift */,
-				C4CAF0AE1F4034B20023C749 /* GoalsViewController.swift */,
-				C4CAF0B81F407B120023C749 /* SettingsLauncher.swift */,
-				C4FD293E1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift */,
-				C42DA48D1F42E755004D7D5D /* AdminViewController.swift */,
-				C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */,
-				C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */,
-				C469F3631F4596AE00FE381D /* AddGoalViewController.swift */,
-				C491B9751F45FD71005A9A0B /* GoalDetailViewController.swift */,
 				C4F7B4121F4F045B00A22578 /* UserProfileViewController.swift */,
-				C435D91E1F5382F700289A31 /* AchievementPrize.swift */,
-				C4BB1F1C1F538C29008364CA /* FeedCommentController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -374,6 +439,9 @@
 				C4E7EAE91F40A6AD00BC47E5 /* ClassCellView.swift */,
 				C4FD29401F41F97500F4F4B6 /* ClassDetailsCellView.swift */,
 				C43D2C091F42F3C400F6CEE0 /* ClassAdminCell.swift */,
+				C49EA4991F545F26008A0386 /* ClassDetailInfoTimeView.swift */,
+				C49EA49B1F54601F008A0386 /* ClassLevelCell.swift */,
+				C49EA49D1F546092008A0386 /* ClassAvailabilityCell.swift */,
 			);
 			path = ClassView;
 			sourceTree = "<group>";
@@ -597,6 +665,7 @@
 				C4FD29411F41F97500F4F4B6 /* ClassDetailsCellView.swift in Sources */,
 				C4E7EAF81F41D29400BC47E5 /* CustomImageView.swift in Sources */,
 				C4FD293F1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift in Sources */,
+				C49EA49E1F546092008A0386 /* ClassAvailabilityCell.swift in Sources */,
 				C42DA48E1F42E755004D7D5D /* AdminViewController.swift in Sources */,
 				C4DC64ED1F4C8A5B000A6FBA /* ClassesAttending.swift in Sources */,
 				C469F3641F4596AE00FE381D /* AddGoalViewController.swift in Sources */,
@@ -608,9 +677,11 @@
 				C4CAF0A91F3F806E0023C749 /* HomeFooterCell.swift in Sources */,
 				C435D91F1F5382F700289A31 /* AchievementPrize.swift in Sources */,
 				C4D9A27D1F3C8B7800111DF6 /* TabBarController.swift in Sources */,
+				C49EA49A1F545F26008A0386 /* ClassDetailInfoTimeView.swift in Sources */,
 				C4A5286F1F4433BD000080DE /* User.swift in Sources */,
 				C4CAF0B91F407B120023C749 /* SettingsLauncher.swift in Sources */,
 				C4D9A2781F3C3FBE00111DF6 /* RegistrationViewController.swift in Sources */,
+				C49EA49C1F54601F008A0386 /* ClassLevelCell.swift in Sources */,
 				C4AAD2061F3BCA4200902046 /* Extensions.swift in Sources */,
 				C43D2C0C1F42FA7100F6CEE0 /* AddClassViewController.swift in Sources */,
 				C4E7EAE81F409F7700BC47E5 /* AchievementsCell.swift in Sources */,
@@ -642,6 +713,7 @@
 				C4BB1F1F1F538C85008364CA /* Comment.swift in Sources */,
 				C4E7EAEA1F40A6AD00BC47E5 /* ClassCellView.swift in Sources */,
 				C491B9761F45FD71005A9A0B /* GoalDetailViewController.swift in Sources */,
+				C49EA4911F544F9F008A0386 /* EditClassViewController.swift in Sources */,
 				C469F3621F4594B500FE381D /* Goals.swift in Sources */,
 				C491B9781F465A0D005A9A0B /* GoalsCompleted.swift in Sources */,
 			);

@@ -35,44 +35,60 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   var classDates = [String]() {
     didSet {
       print("JHDFHDJHFJDHFJDFH")
+      print("POPOPOPO \(classDates)")
     }
   }
   
-  var classesAttending = [ClassesAttending]() {
+  var convertedDates = [Date]()
+  
+  var dates = [String]() {
     didSet {
-      for classes in classesAttending {
-        print("VANDAME \(classes.classDate)")
-        self.className.text = classes.className
-        print("POPOPOPOP \(classes.className)")
-        if classes.className == "Aqua" {
-          homeImageViewClass.image = UIImage(named: "aqua")
-        } else if classes.className == "Body Pump" {
-          homeImageViewClass.image = UIImage(named: "fitness4")
-        } else if classes.className == "Body Combat" {
-          homeImageViewClass.image = UIImage(named: "bodycombat")
-        } else if classes.className == "Pilates" {
-          homeImageViewClass.image = UIImage(named: "pilates")
-        } else if classes.className == "Synergy" {
-          homeImageViewClass.image = UIImage(named: "synergy")
-        } else {
-          homeImageViewClass.image = UIImage(named: "yoga")
-        }
-        
-        print("fanny \(classes.classDate)")
-        classDates.append(classes.classDate)
-        
-        let dateString = classes.classDate
+     
+    }
+  }
+  
+  var classesAttendingNext: ClassesAttending? {
+    didSet {
+      self.className.text = classesAttendingNext?.className
+      self.classDateAndTime.text = classesAttendingNext?.classDate
+    }
+  }
+  
+  var classesAttending: ClassesAttending? {
+    didSet {
+      guard let classLocation = classesAttending?.classLocation else { return }
+      print("Is this setting or not?")
+      self.className.text = classesAttending?.className
+      if className.text == "Aqua" {
+        homeImageViewClass.image = UIImage(named: "aqua")
+      } else if className.text == "Body Pump" {
+        homeImageViewClass.image = UIImage(named: "fitness4")
+      } else if className.text == "Body Combat" {
+        homeImageViewClass.image = UIImage(named: "bodycombat")
+      } else if className.text == "Pilates" {
+        homeImageViewClass.image = UIImage(named: "pilates")
+      } else if className.text == "Synergy" {
+        homeImageViewClass.image = UIImage(named: "synergy")
+      } else {
+        homeImageViewClass.image = UIImage(named: "yoga")
+      }
+      
+      guard let classDate = classesAttending?.classDate else { return }
+      
+      classDates.append(classDate)
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm"
-        guard let dateFromString = dateFormatter.date(from: dateString) else { return }
-
-        let dateFormatter2 = DateFormatter()
-        dateFormatter2.dateFormat = "MMM d, yyyy"
-        let stringFromDate = dateFormatter2.string(from: dateFromString)
-
-        self.classDateAndTime.text = stringFromDate
-        }
+      let dateString = classDate
+      
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm"
+      guard let dateFromString = dateFormatter.date(from: dateString) else { return }
+      
+      let dateFormatter2 = DateFormatter()
+      dateFormatter2.dateFormat = "MMM d, yyyy - HH:mm"
+      let stringFromDate = dateFormatter2.string(from: dateFromString)
+      
+      self.classDateAndTime.text = stringFromDate
+      self.classLocationLabel.text = classLocation
       
     }
   }
@@ -175,7 +191,8 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     tabBarController?.tabBar.isHidden = false
     navigationController?.navigationBar.barTintColor = .white
     navigationController?.navigationBar.tintColor = .white
-    self.fetchUserWithClass()
+    navigationController?.navigationBar.isHidden = false
+    self.fetchUser()
     
   }
   
@@ -188,14 +205,21 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   let className: UILabel = {
     let lbl = UILabel()
-    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 30)
+    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 34)
     lbl.textColor = .white
     return lbl
   }()
   
   let classDateAndTime: UILabel = {
     let lbl = UILabel()
-    lbl.font = UIFont(name: "HelveticaNeue-Bold", size: 26)
+    lbl.font = UIFont(name: "HelveticaNeue-Light", size: 26)
+    lbl.textColor = .white
+    return lbl
+  }()
+  
+  let classLocationLabel: UILabel = {
+    let lbl = UILabel()
+     lbl.font = UIFont(name: "HelveticaNeue-Light", size: 20)
     lbl.textColor = .white
     return lbl
   }()
@@ -204,11 +228,13 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     super.viewDidLoad()
     
     view.backgroundColor = .white
+    tabBarController?.tabBar.alpha = 0.9
 
     setupViews()
     setupNavigationBar()
     setupLogOutButton()
-    fetchUserWithClass()
+    fetchUser()
+    fetchClass()
   }
   
   func setupNavigationBar() {
@@ -240,7 +266,9 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     view.addSubview(className)
     view.addSubview(classDateAndTime)
     view.addSubview(classButton)
+    view.addSubview(classLocationLabel)
     
+    classLocationLabel.anchor(top: nil, left: classView.leftAnchor, bottom: classView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 5, paddingBottom: 5, paddingRight: 0, width: 0, height: 0)
     
     classButton.anchor(top: nil, left: nil, bottom: homeImageViewClass.bottomAnchor, right: homeImageViewClass.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 5, paddingRight: 5, width: 50, height: 50)
 
@@ -272,7 +300,9 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   @objc fileprivate func handleEditClass() {
     print(123)
-    
+    let editClassVC = EditClassViewController()
+    editClassVC.classToEdit = self.classesAttending
+    self.navigationController?.pushViewController(editClassVC, animated: true)
     
   }
   
@@ -326,43 +356,73 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     
   }
 
-  fileprivate func fetchUserWithClass() {
+  fileprivate func fetchUser() {
     guard let uid = Auth.auth().currentUser?.uid else { return }
-
     Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-
       guard let dictionary = snapshot.value as? [String: Any] else { return }
-
       self.user = User(uid: uid, dictionary: dictionary)
-
-      guard let classesAttending = dictionary["classesAttending"] as? [String: Any] else { return }
-      print("DAVIDWARD \(classesAttending)")
-
-      classesAttending.forEach({ (arg) in
-        let (key, value) = arg
-        print("NANA \(key)")
-        guard let classAttendingDict = value as? [String: Any] else { return }
-        let classes = ClassesAttending(classUID: key, dictionary: classAttendingDict)
-
-        self.classesAttending.append(classes)
-        print("MARNIE \(classes)")
-        //let classDate = classes.classDate
-        //self.classDates.append(classDate)
-        self.compareDates(classesAttenidng: classes)
-      })
-      
-      
-
     }) { (err) in
         print("There was an error", err)
     }
   }
+  
+  fileprivate func fetchClass() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    Database.database().reference().child("classesUsersAttending").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+      print("WAAAAa \(snapshot.value ?? "")")
+      guard let classDict = snapshot.value as? [String: Any] else { return }
+      classDict.forEach({ (arg) in
+        let (key, _) = arg
+        self.dates.append(key)
+      })
+       self.compareDates()
+    }) { (err) in
+      print("Failed to fetch all the classes this user is attending")
+    }
+  }
 
-  fileprivate func compareDates(classesAttenidng: ClassesAttending) {
-    print("Comparing the dates...should see this twice!")
-    //print("LALAL \(classesAttending)")
-    print("Boob \(classesAttenidng.classDate)")
+  fileprivate func compareDates() {
+    print("Comparing the dates.")
+    let dateFormatterClass = DateFormatter()
+    dateFormatterClass.dateFormat = "yyyy-MM-dd-hh-mm"
+    for dat in self.dates {
+      print("HAM \(dat)")
+      let date = dateFormatterClass.date(from: dat)
+      self.convertedDates.append(date!)
+    }
+    self.convertedDates.sort(){$0 < $1}
+    print("LALALA \(self.convertedDates)")
+    self.showNextClass()
+  }
+  
+  fileprivate func showNextClass() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    print("Sorting through the array of sorted dates..")
+    guard let nextClassDate = self.convertedDates.first else { return }
+    print(nextClassDate)
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
 
+    formatter.dateFormat = "yyyy-MM-dd-HH-mm"
+    let myStringDate = formatter.string(from: nextClassDate)
+    print(myStringDate)
+    
+    Database.database().reference().child("classesUsersAttending").child(uid).child(myStringDate).observeSingleEvent(of: .value, with: { (snapshot) in
+      print("DAVID \(snapshot.value ?? "")")
+      guard let nextClassDict = snapshot.value as? [String: Any] else { return }
+      print("KKAKA \(nextClassDict)")
+      
+      self.classesAttending = ClassesAttending(classDate: myStringDate, dictionary: nextClassDict)
+//      nextClassDict.forEach({ (arg) in
+//        let (key, value) = arg
+//        guard let nextClass = value as? [String: Any] else { return }
+//        print("FDDD \(key)")
+//        print("FDDD \(value)")
+//        self.classesAttending = ClassesAttending(classDate: key, dictionary: nextClass)
+//      })
+    }) { (err) in
+      print("Failed to fetch recent class")
+    }
   }
   
   
@@ -389,8 +449,6 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       }.resume()
     
   }
-  
-  var arrayOfThings = [1, 2, 3, 4, 5, 6, 7, 8]
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 1

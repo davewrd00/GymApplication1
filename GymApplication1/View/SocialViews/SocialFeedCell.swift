@@ -33,7 +33,6 @@ class SocialFeedCell: UICollectionViewCell {
   
   let photoImageView: CustomImageView = {
     let iv = CustomImageView()
-    iv.backgroundColor = .purple
     iv.contentMode = .scaleAspectFill
     iv.clipsToBounds = true
     return iv
@@ -41,7 +40,6 @@ class SocialFeedCell: UICollectionViewCell {
   
   let userProfileImageView: CustomImageView = {
     let iv = CustomImageView()
-    iv.backgroundColor = .yellow
     iv.contentMode = .scaleAspectFill
     iv.clipsToBounds = true
     return iv
