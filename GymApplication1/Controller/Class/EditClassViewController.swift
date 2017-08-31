@@ -154,8 +154,10 @@ class EditClassViewController: UIViewController {
   @objc func handleCancelClass() {
     print("Cancelling this class!")
     
+    guard let className = classToEdit?.className else { return }
     guard let uid = Auth.auth().currentUser?.uid else { return }
     guard let classDate = classToEdit?.classDate else { return }
+    guard let classUID = classToEdit?.classUID else { return }
     
     Database.database().reference().child("classesUsersAttending").child(uid).child(classDate).removeValue { (err, ref) in
       if let err = err {
@@ -163,13 +165,18 @@ class EditClassViewController: UIViewController {
       }
       print("Successfully removed class from user DB")
       
+      DataService.sharedInstance.updateValues(name: className, uid: classUID, newValue: +1, completionBlock: {
+        print("Added 1 space to the class since this user just cancelled")
+      })
+      
       // Need to also remove this class from user calendar
       
       let tabBarVC = TabBarController()
       self.present(tabBarVC, animated: true, completion: nil)
     }
-    
   }
+  
+  
   
   
   

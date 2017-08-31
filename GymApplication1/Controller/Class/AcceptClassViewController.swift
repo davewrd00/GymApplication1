@@ -21,6 +21,20 @@ class AcceptClassViewController: UIViewController, UICollectionViewDataSource, U
       classNameLabel.text = classes?.className
       print("WAAA \(classes)")
       
+      guard let classDate = classes?.classDate else { return }
+      
+      let dateString = classDate
+      
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm"
+      guard let dateFromString = dateFormatter.date(from: dateString) else { return }
+      
+      let dateFormatter2 = DateFormatter()
+      dateFormatter2.dateFormat = "MMM d, yyyy - HH:mm"
+      let stringFromDate = dateFormatter2.string(from: dateFromString)
+      
+      self.classDateAndTimeLbl.text = stringFromDate
+      
     }
   }
   
@@ -96,6 +110,7 @@ class AcceptClassViewController: UIViewController, UICollectionViewDataSource, U
   let descriptionTextView: UITextView = {
     let v = UITextView()
     v.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
+    v.isEditable = false
     return v
   }()
   
@@ -200,10 +215,11 @@ class AcceptClassViewController: UIViewController, UICollectionViewDataSource, U
       return cell
     } else if indexPath.item == 1 {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId2", for: indexPath) as! ClassLevelCell
-      
+      cell.levelOfClassLabel.text = classes?.classLevel
       return cell
     } else if indexPath.item == 2 {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId3", for: indexPath) as! ClassAvailabilityCell
+      cell.classAvailabilityLabel.text = "\(classes?.classAvailability ?? 0) spaces"
       return cell
     }
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellID4", for: indexPath)
@@ -256,14 +272,11 @@ class AcceptClassViewController: UIViewController, UICollectionViewDataSource, U
         print("Unable to upload the class")
         return
       }
-      self.updateTotalNumberOfClassPlacesAvailable(className: className, completionBlock: {
-        print("Updated count")
-      })
-//      let userAttending: Dictionary<String, Any>
-//      userAttending = ["userAttending": uid]
-//
-//      Database.database().reference().child("classes").child(className).child(classUID).child("attendees").setValue(userAttending)
       
+      DataService.sharedInstance.updateValues(name: className, uid: classUID, newValue: -1, completionBlock: {
+           print("This has worked!")
+      })
+
       guard let classDuration = self.classes?.classDuration else { return }
       guard let dateString = self.classes?.classDate else { return }
       let dateFormatter = DateFormatter()
@@ -284,6 +297,30 @@ class AcceptClassViewController: UIViewController, UICollectionViewDataSource, U
       
     }
   }
+  
+  fileprivate func fetchClassesAttending() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    Database.database().reference().child("classesUsersAttending").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+      print("HALALA \(snapshot.value ?? "")")
+      if snapshot.exists() {
+        print("User has attended a class before")
+    } else {
+      print("There is no user")
+        self.reanchorViewsIfNotAttedningClass()
+      }
+      
+      guard let classDict = snapshot.value as? [String: Any] else { return }
+      classDict.forEach({ (arg) in
+        let (key, _) = arg
+        self.classDate.append(key)
+        print("WOBBLY \(key)")
+      })
+      self.isUserAttendingThisClass()
+    }) { (err) in
+      print("Error fetching these classes", err)
+    }
+  }
+  
   var classAttending: ClassesAttending?
   
   fileprivate func isUserAttendingThisClass() {
@@ -305,50 +342,33 @@ class AcceptClassViewController: UIViewController, UICollectionViewDataSource, U
     }
   }
   
-  fileprivate func fetchClassesAttending() {
-    guard let uid = Auth.auth().currentUser?.uid else { return }
-    Database.database().reference().child("classesUsersAttending").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-      print("HALALA \(snapshot.value ?? "")")
-      guard let classDict = snapshot.value as? [String: Any] else { return }
-      
-      classDict.forEach({ (arg) in
-        let (key, _) = arg
-        self.classDate.append(key)
-        print("WOBBLY \(key)")
-      })
-      self.isUserAttendingThisClass()
-    }) { (err) in
-      print("Error fetching these classes", err)
-    }
-  }
-  
-  fileprivate func updateTotalNumberOfClassPlacesAvailable(className: String, completionBlock: @escaping (() -> Void)) {
-    guard let UID = classes?.classUID else { return }
-    let ref = Database.database().reference().child("classes").child(className).child(UID).child("classAvailability")
-    
-    print("HOLA \(ref)")
-    
-    ref.runTransactionBlock({ (result) -> TransactionResult in
-      if let initialValue = result.value as? Int {
-        print("STEVE \(initialValue)")
-        result.value = initialValue - 1
-        return TransactionResult.success(withValue: result)
-      } else {
-        print("Not happening")
-        return TransactionResult.success(withValue: result)
-      }
-    }) { (err, completion, snapshot) in
-      print(err?.localizedDescription ?? "")
-      print(completion)
-      print(snapshot ?? "")
-      if !completion {
-        print("Unable to update the availability node")
-      } else {
-        completionBlock()
-      }
-    }
-    
-  }
+//  fileprivate func updateTotalNumberOfClassPlacesAvailable(className: String, completionBlock: @escaping (() -> Void)) {
+//    guard let UID = classes?.classUID else { return }
+//    let ref = Database.database().reference().child("classes").child(className).child(UID).child("classAvailability")
+//
+//    print("HOLA \(ref)")
+//
+//    ref.runTransactionBlock({ (result) -> TransactionResult in
+//      if let initialValue = result.value as? Int {
+//        print("STEVE \(initialValue)")
+//        result.value = initialValue - 1
+//        return TransactionResult.success(withValue: result)
+//      } else {
+//        print("Not happening")
+//        return TransactionResult.success(withValue: result)
+//      }
+//    }) { (err, completion, snapshot) in
+//      print(err?.localizedDescription ?? "")
+//      print(completion)
+//      print(snapshot ?? "")
+//      if !completion {
+//        print("Unable to update the availability node")
+//      } else {
+//        completionBlock()
+//      }
+//    }
+//
+//  }
   
   // Adds the class to users device Calendar
   func addEventToCalendar(title: String, description: String?, startDate: Date, endDate: Date, completion: ((_ success: Bool, _ error: NSError?) -> Void)? = nil) {

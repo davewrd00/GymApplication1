@@ -83,6 +83,32 @@ extension UIAlertController {
   }
 }
 
+extension UIImageView {
+  func setupProfileImage(user: User, completionBlock: @escaping (UIImage) -> ()) {
+    let ptofileImageUrl = user.profileImageUrl
+    
+    guard let url = URL(string: ptofileImageUrl) else { return }
+    
+    URLSession.shared.dataTask(with: url) { (data, response, err) in
+      // check for the error and then construct the image using the data
+      if let err = err {
+        print("Failed to fetch profile image:", err)
+        return
+      }
+      
+      guard let data = data else { return }
+      
+      guard let image = UIImage(data: data) else { return }
+      
+      DispatchQueue.main.async {
+        completionBlock(image)
+        //self.profileImageView.image = image
+      }
+      
+      }.resume()
+  }
+}
+
 
 
 

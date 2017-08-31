@@ -43,22 +43,6 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     return button
   }()
   
-  let privateMessageButton: UIButton = {
-    let btn = UIButton()
-    btn.layer.cornerRadius = 5
-    btn.layer.shadowColor = UIColor.black.cgColor
-    btn.layer.shadowOpacity = 0.2
-    btn.layer.shadowOffset = CGSize(width: 1, height: 1)
-    btn.layer.shadowRadius = 1
-    btn.backgroundColor = .blue
-    btn.alpha = 0.6
-    let image = UIImage(named: "message-1")
-    btn.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
-    btn.addTarget(self, action: #selector(handlePrivateMessageBtnTapped), for: .touchUpInside)
-    btn.isEnabled = false
-    return btn
-  }()
-  
   let userPoints: UILabel = {
     let lbl = UILabel()
     lbl.textColor = .black
@@ -209,7 +193,6 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     
     
     view.addSubview(exitButton)
-    view.addSubview(privateMessageButton)
     
     userPoints.anchor(top: pointsLabel.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     userPoints.centerXAnchor.constraint(equalTo: pointsView.centerXAnchor).isActive = true
@@ -230,8 +213,6 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     
     becomesFriendsBtn.anchor(top: topView.bottomAnchor, left: nil, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 250, height: 30)
     becomesFriendsBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    
-    privateMessageButton.anchor(top: nil, left: nil, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 8, paddingRight: 8, width: 50, height: 50)
     
     userProfileView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 90, height: 90)
     userProfileView.centerXAnchor.constraint(equalTo: niceView.centerXAnchor).isActive = true
@@ -255,6 +236,11 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
   
   @objc func handlePrivateMessageBtnTapped() {
     print(123)
+    let layout = UICollectionViewFlowLayout()
+    let privateMessageVC = PrivateMessageViewController(collectionViewLayout: layout)
+   
+    privateMessageVC.user = user
+    self.navigationController?.pushViewController(privateMessageVC, animated: true)
   }
   
   
@@ -265,7 +251,6 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath)
-    cell.backgroundColor = .blue
     return cell
   }
   
@@ -293,20 +278,14 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
     
     DataService.sharedInstance.fetchUserWithUID(uid: uid) { (user) in
       self.user = user
-      
       self.userNameLabel.text = self.user?.username
-      
       guard let userImageUrl = self.user?.profileImageUrl else { return }
-      
       self.userProfileView.loadImage(urlString: userImageUrl)
-      
       self.userPoints.text = "\(self.user?.userPointsEarned ?? 0)"
-      
+      if user.uid == Auth.auth().currentUser?.uid {
+      }
       self.collectionView.reloadData()
-      
-      
     }
-    
   }
   
   @objc func handleBecomeFreindsBtnTapped() {
@@ -362,7 +341,6 @@ class UserProfileViewController: UIViewController, UICollectionViewDataSource, U
         if let isFriends = snapshot.value as? Int, isFriends == 1 {
           self.becomesFriendsBtn.setTitle("Unfriend?", for: .normal)
           self.becomesFriendsBtn.backgroundColor = .red
-          self.privateMessageButton.isEnabled = true
         } else {
           self.becomesFriendsBtn.setTitle("Mates?", for: .normal)
           self.becomesFriendsBtn.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)

@@ -41,7 +41,7 @@ class SearchCellView: UICollectionViewCell {
     lbl.font = UIFont(name: "HelveticaNeue-Regular", size: 24)
     return lbl
   }()
-  
+
   override init(frame: CGRect) {
     super.init(frame: frame)
     

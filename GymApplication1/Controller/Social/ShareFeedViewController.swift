@@ -68,6 +68,7 @@ class ShareFeedViewController: UIViewController, UIImagePickerControllerDelegate
     
     navigationController?.navigationBar.isHidden = true
     
+    
     view.addSubview(exitButton)
     view.addSubview(submitButton)
     
@@ -141,16 +142,10 @@ class ShareFeedViewController: UIViewController, UIImagePickerControllerDelegate
     guard let image = plusPhotoButton.imageView?.image else { return }
     guard let uploadData = UIImageJPEGRepresentation(image, 0.5) else { return }
     
-    let fileName = NSUUID().uuidString
-    Storage.storage().reference().child("posts").child(fileName).putData(uploadData, metadata: nil) { (metadata, err) in
-      if let err = err {
-        print("Failed to upload post image", err)
-      }
-      guard let imageUrl = metadata?.downloadURL()?.absoluteString else { return }
+    DataService.sharedInstance.saveImageToFirebaseStorage(uploadData: uploadData, imageLocation: "posts") { (string) in
       
-      print("Successfully been able to post image", imageUrl)
+      self.saveToDatabaseWithImageUrl(imageUrl: string)
       
-      self.saveToDatabaseWithImageUrl(imageUrl: imageUrl)
     }
   }
   

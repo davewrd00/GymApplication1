@@ -21,14 +21,14 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
       guard let userName = user?.username else { return }
       guard let points = user?.userPointsEarned else { return }
       greetingText.text = "Welcome \(userName), how are you feeling today?"
-      setupProfileImage()
+      guard let imageUrl = user?.profileImageUrl else { return }
+      profileImageView.loadImage(urlString: imageUrl)
       if user?.userPointsEarned == 0 {
         pointsLabel.textColor = .red
         pointsLabel.text = "No points yet!"
       } else {
         pointsLabel.text = "Points: \(points)"
       }
-      
     }
   }
   
@@ -41,11 +41,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   var convertedDates = [Date]()
   
-  var dates = [String]() {
-    didSet {
-     
-    }
-  }
+  var dates = [String]()
   
   var classesAttendingNext: ClassesAttending? {
     didSet {
@@ -56,40 +52,40 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
   
   var classesAttending: ClassesAttending? {
     didSet {
-      guard let classLocation = classesAttending?.classLocation else { return }
-      print("Is this setting or not?")
-      self.className.text = classesAttending?.className
-      if className.text == "Aqua" {
-        homeImageViewClass.image = UIImage(named: "aqua")
-      } else if className.text == "Body Pump" {
-        homeImageViewClass.image = UIImage(named: "fitness4")
-      } else if className.text == "Body Combat" {
-        homeImageViewClass.image = UIImage(named: "bodycombat")
-      } else if className.text == "Pilates" {
-        homeImageViewClass.image = UIImage(named: "pilates")
-      } else if className.text == "Synergy" {
-        homeImageViewClass.image = UIImage(named: "synergy")
-      } else {
-        homeImageViewClass.image = UIImage(named: "yoga")
-      }
-      
-      guard let classDate = classesAttending?.classDate else { return }
-      
-      classDates.append(classDate)
-
-      let dateString = classDate
-      
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm"
-      guard let dateFromString = dateFormatter.date(from: dateString) else { return }
-      
-      let dateFormatter2 = DateFormatter()
-      dateFormatter2.dateFormat = "MMM d, yyyy - HH:mm"
-      let stringFromDate = dateFormatter2.string(from: dateFromString)
-      
-      self.classDateAndTime.text = stringFromDate
-      self.classLocationLabel.text = classLocation
-      
+        guard let classLocation = classesAttending?.classLocation else { return }
+        print("Is this setting or not?")
+        self.className.text = classesAttending?.className
+        if className.text == "Aqua" {
+          homeImageViewClass.image = UIImage(named: "aqua")
+        } else if className.text == "Body Pump" {
+          homeImageViewClass.image = UIImage(named: "fitness4")
+        } else if className.text == "Body Combat" {
+          homeImageViewClass.image = UIImage(named: "bodycombat")
+        } else if className.text == "Pilates" {
+          homeImageViewClass.image = UIImage(named: "pilates")
+        } else if className.text == "Synergy" {
+          homeImageViewClass.image = UIImage(named: "synergy")
+        } else {
+          homeImageViewClass.image = UIImage(named: "yoga")
+        }
+        
+        guard let classDate = classesAttending?.classDate else { return }
+        
+        classDates.append(classDate)
+        
+        let dateString = classDate
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd-hh-mm"
+        guard let dateFromString = dateFormatter.date(from: dateString) else { return }
+        
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.dateFormat = "MMM d, yyyy - HH:mm"
+        let stringFromDate = dateFormatter2.string(from: dateFromString)
+        
+        self.classDateAndTime.text = stringFromDate
+        self.classLocationLabel.text = classLocation
+    
     }
   }
   
@@ -233,6 +229,7 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     setupViews()
     setupNavigationBar()
     setupLogOutButton()
+    setupMessageViewController()
     fetchUser()
     fetchClass()
   }
@@ -293,9 +290,6 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     classDateAndTime.anchor(top: className.bottomAnchor, left: classView.leftAnchor, bottom: nil, right: nil, paddingTop: 5, paddingLeft: 5, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
 
     homeImageViewClass.anchor(top: classView.topAnchor, left: classView.leftAnchor, bottom: classView.bottomAnchor, right: classView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-
-    
-    
   }
   
   @objc fileprivate func handleEditClass() {
@@ -303,16 +297,22 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     let editClassVC = EditClassViewController()
     editClassVC.classToEdit = self.classesAttending
     self.navigationController?.pushViewController(editClassVC, animated: true)
-    
   }
   
   fileprivate func setupLogOutButton() {
     navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "settings").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleSettingsLauncher))
   }
   
-//  @objc fileprivate func setupCalendarButton() {
-//    navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "message").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(showCalendar))
-//  }
+  fileprivate func setupMessageViewController() {
+    navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "message").withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(handleShowMessageVC))
+  }
+  
+  @objc fileprivate func handleShowMessageVC() {
+    print(123)
+    let layout = UICollectionViewFlowLayout()
+    let viewUsersToMessageVC = UsersToMessageViewController(collectionViewLayout: layout)
+    self.navigationController?.pushViewController(viewUsersToMessageVC, animated: true)
+  }
   
   @objc func handleSettingsLauncher() {
     settingLaucnher.showSettings()
@@ -358,17 +358,22 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
 
   fileprivate func fetchUser() {
     guard let uid = Auth.auth().currentUser?.uid else { return }
-    Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-      guard let dictionary = snapshot.value as? [String: Any] else { return }
-      self.user = User(uid: uid, dictionary: dictionary)
-    }) { (err) in
-        print("There was an error", err)
+    DataService.sharedInstance.fetchUserWithUID(uid: uid) { (user) in
+      self.user = user
     }
   }
   
   fileprivate func fetchClass() {
     guard let uid = Auth.auth().currentUser?.uid else { return }
+
     Database.database().reference().child("classesUsersAttending").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+      if snapshot.exists() {
+        print("User has signed up to some classes")
+      } else {
+        print("User has signed up to no classes yet - do some stuff")
+        self.displayNewMessageToUserRegClass()
+        return
+      }
       print("WAAAAa \(snapshot.value ?? "")")
       guard let classDict = snapshot.value as? [String: Any] else { return }
       classDict.forEach({ (arg) in
@@ -379,6 +384,22 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     }) { (err) in
       print("Failed to fetch all the classes this user is attending")
     }
+  }
+  
+  func displayNewMessageToUserRegClass() {
+    self.classButton.removeFromSuperview()
+    let messageView = UIView()
+    messageView.backgroundColor = UIColor.rgb(red: 80, green: 81, blue: 79)
+    view.addSubview(messageView)
+    messageView.anchor(top: classView.topAnchor, left: classView.leftAnchor, bottom: classView.bottomAnchor, right: classView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+    
+    let classLabel = UILabel()
+    classLabel.text = "Not signed up to a class yet - fancy it?"
+    classLabel.textColor = .white
+    classLabel.numberOfLines = 0
+    classLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 28)
+    view.addSubview(classLabel)
+    classLabel.anchor(top: messageView.topAnchor, left: messageView.leftAnchor, bottom: messageView.bottomAnchor, right: messageView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
   }
 
   fileprivate func compareDates() {
@@ -423,31 +444,6 @@ class HomeViewController1: UIViewController, UICollectionViewDelegate, UICollect
     }) { (err) in
       print("Failed to fetch recent class")
     }
-  }
-  
-  
-  fileprivate func setupProfileImage() {
-    guard let ptofileImageUrl = user?.profileImageUrl else { return }
-    
-    guard let url = URL(string: ptofileImageUrl) else { return }
-    
-    URLSession.shared.dataTask(with: url) { (data, response, err) in
-      // check for the error and then construct the image using the data
-      if let err = err {
-        print("Failed to fetch profile image:", err)
-        return
-      }
-      
-      guard let data = data else { return }
-      
-      let image = UIImage(data: data)
-      
-      DispatchQueue.main.async {
-        self.profileImageView.image = image
-      }
-      
-      }.resume()
-    
   }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

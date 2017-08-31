@@ -49,6 +49,7 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
     navigationController?.navigationBar.barTintColor = UIColor.rgb(red: 229, green: 229, blue: 229)
     navigationController?.navigationBar.isTranslucent = false
     collectionView?.backgroundColor = UIColor.rgb(red: 229, green: 229, blue: 229)
+    collectionView?.keyboardDismissMode = .interactive
     
     collectionView?.register(ClassCellView.self, forCellWithReuseIdentifier: cellId)
     collectionView?.register(UICollectionViewCell.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "headerID")
@@ -92,41 +93,17 @@ class ClassViewController: UICollectionViewController, UICollectionViewDelegateF
   }
   
   fileprivate func fetchClasses() {
-    print("Fetching classes...")
-
-    let ref = Database.database().reference().child("classes")
-    ref.observeSingleEvent(of: .value, with: { (snapshot) in
-
-      guard let dictionary = snapshot.value as? [String: Any] else { return }
-
-      print("DAVID FETCHING CLASSES \(dictionary)")
-
-      dictionary.forEach({ (arg) in
-        let (key, value) = arg
-        print(key)
-
-        let classUID = key
-
-
-      guard let classDictionary = value as? [String: Any] else { return }
-        let classes = Classes(classUID: classUID, className: key, dictionary: classDictionary)
-        self.classes.append(classes)
-        print("DAVID: \(classes)")
-      })
-
+    
+    DataService.sharedInstance.fetchAllClassesFromDatabase() { (classes) in
+      self.classes.append(classes)
       self.classes.sort(by: { (u1, u2) -> Bool in
         return u1.className.compare(u2.className) == .orderedAscending
       })
-
       self.filteredClasses = self.classes
       self.collectionView?.reloadData()
-
-    }) { (err) in
-      print("Failed to fecth users during search", err)
     }
-
   }
-  
+
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     if searchText.isEmpty {
       filteredClasses = classes

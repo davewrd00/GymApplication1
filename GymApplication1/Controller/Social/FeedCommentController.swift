@@ -67,6 +67,7 @@ class FeedCommentController: UICollectionViewController, UICollectionViewDelegat
     
     collectionView?.backgroundColor = .white
     collectionView?.register(SocialCommentCell.self, forCellWithReuseIdentifier: cellId)
+    collectionView?.keyboardDismissMode = .interactive
     
     tabBarController?.tabBar.isHidden = true
     
@@ -123,6 +124,7 @@ class FeedCommentController: UICollectionViewController, UICollectionViewDelegat
         return
       }
       print("Successfully been able to insert a comment")
+      self.commentTextField.text = nil
     }
     
     
@@ -134,9 +136,7 @@ class FeedCommentController: UICollectionViewController, UICollectionViewDelegat
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    
-    return CGSize(width: view.frame.width, height: 80)
-    
+
     let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 80)
     let dummyCell = SocialCommentCell(frame: frame)
     dummyCell.comment = comment[indexPath.item]

@@ -19,7 +19,6 @@ struct Classes {
   let classDate: String
   let classTimeStamp: String
   let classUID: String
-  let classCreationDate: Date
   let classLevel: String
   
   
@@ -35,8 +34,6 @@ struct Classes {
     self.classLevel = dictionary["classLevel"] as? String ?? ""
     self.classUID = classUID
     
-    let secondsFrom1970 = dictionary["classCreationDate"] as? Double ?? 0
-    self.classCreationDate = Date(timeIntervalSince1970: secondsFrom1970)
 
   }
 }

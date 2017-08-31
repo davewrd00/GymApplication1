@@ -113,7 +113,6 @@ class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, 
     view.addSubview(backButton)
     
     fetchDetailClasses()
-    fetchIsUserCurrentlyEnrolledOntoClass()
     
     collectionView.register(ClassDetailsViewCell.self, forCellWithReuseIdentifier: "cellId")
     
@@ -161,14 +160,6 @@ class ClassDetailsViewController: UIViewController, UICollectionViewDataSource, 
       print(err.localizedDescription)
     }
   }
-  
-  func fetchIsUserCurrentlyEnrolledOntoClass() {
-    print("POOOOOOOOO")
-    guard let uid = Auth.auth().currentUser?.uid else { return }
-    
-    print("PAPA \(uid)")
-  }
-  
   
   @objc func handleExitFromClassVC() {
     let tabBarController = TabBarController()

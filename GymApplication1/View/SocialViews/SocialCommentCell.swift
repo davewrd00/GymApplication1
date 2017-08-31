@@ -42,9 +42,7 @@ class SocialCommentCell: UICollectionViewCell {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
-    
-    
+
     addSubview(textView)
     addSubview(userProfileImageView)
     

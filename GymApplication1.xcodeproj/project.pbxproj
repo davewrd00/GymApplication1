@@ -15,12 +15,13 @@
 		C43D2C0C1F42FA7100F6CEE0 /* AddClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */; };
 		C43D2C0E1F430E3D00F6CEE0 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C0D1F430E3D00F6CEE0 /* DataService.swift */; };
 		C43D2C121F4341A800F6CEE0 /* AcceptClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */; };
+		C4413B9A1F5716B200B60850 /* UsersToMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4413B991F5716B200B60850 /* UsersToMessageViewController.swift */; };
+		C4413B9C1F57185900B60850 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4413B9B1F57185900B60850 /* MessageView.swift */; };
 		C469F3621F4594B500FE381D /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C469F3611F4594B500FE381D /* Goals.swift */; };
 		C469F3641F4596AE00FE381D /* AddGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C469F3631F4596AE00FE381D /* AddGoalViewController.swift */; };
 		C469F3661F459E8D00FE381D /* AdminTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C469F3651F459E8D00FE381D /* AdminTabBarController.swift */; };
 		C491B9701F45F511005A9A0B /* Achievements.swift in Sources */ = {isa = PBXBuildFile; fileRef = C491B96F1F45F511005A9A0B /* Achievements.swift */; };
 		C491B9721F45F55B005A9A0B /* GoalsViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C491B9711F45F55B005A9A0B /* GoalsViewHeader.swift */; };
-		C491B9761F45FD71005A9A0B /* GoalDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C491B9751F45FD71005A9A0B /* GoalDetailViewController.swift */; };
 		C491B9781F465A0D005A9A0B /* GoalsCompleted.swift in Sources */ = {isa = PBXBuildFile; fileRef = C491B9771F465A0D005A9A0B /* GoalsCompleted.swift */; };
 		C49EA4911F544F9F008A0386 /* EditClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49EA4901F544F9F008A0386 /* EditClassViewController.swift */; };
 		C49EA49A1F545F26008A0386 /* ClassDetailInfoTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49EA4991F545F26008A0386 /* ClassDetailInfoTimeView.swift */; };
@@ -34,10 +35,12 @@
 		C4AAD1D31F3B43B100902046 /* GymApplication1.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1D11F3B43B100902046 /* GymApplication1.xcdatamodeld */; };
 		C4AAD1D51F3B43B100902046 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4AAD1D41F3B43B100902046 /* Assets.xcassets */; };
 		C4AAD1D81F3B43B100902046 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4AAD1D61F3B43B100902046 /* LaunchScreen.storyboard */; };
-		C4AAD1E31F3B43B100902046 /* GymApplication1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1E21F3B43B100902046 /* GymApplication1Tests.swift */; };
 		C4AAD1EE1F3B43B100902046 /* GymApplication1UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD1ED1F3B43B100902046 /* GymApplication1UITests.swift */; };
 		C4AAD1FE1F3B630000902046 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C4AAD1FD1F3B630000902046 /* GoogleService-Info.plist */; };
 		C4AAD2061F3BCA4200902046 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4AAD2051F3BCA4200902046 /* Extensions.swift */; };
+		C4ADD4BA1F56172C0020805B /* PrivateMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4ADD4B91F56172C0020805B /* PrivateMessageViewController.swift */; };
+		C4ADD4BC1F562A700020805B /* PrivateMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4ADD4BB1F562A700020805B /* PrivateMessage.swift */; };
+		C4ADD4BF1F562E440020805B /* PrivateMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4ADD4BE1F562E440020805B /* PrivateMessageView.swift */; };
 		C4BB1F1D1F538C29008364CA /* FeedCommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB1F1C1F538C29008364CA /* FeedCommentController.swift */; };
 		C4BB1F1F1F538C85008364CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB1F1E1F538C85008364CA /* Comment.swift */; };
 		C4BB1F211F53986E008364CA /* SocialCommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BB1F201F53986E008364CA /* SocialCommentCell.swift */; };
@@ -99,12 +102,13 @@
 		C43D2C0B1F42FA7100F6CEE0 /* AddClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassViewController.swift; sourceTree = "<group>"; };
 		C43D2C0D1F430E3D00F6CEE0 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		C43D2C111F4341A800F6CEE0 /* AcceptClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptClassViewController.swift; sourceTree = "<group>"; };
+		C4413B991F5716B200B60850 /* UsersToMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersToMessageViewController.swift; sourceTree = "<group>"; };
+		C4413B9B1F57185900B60850 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		C469F3611F4594B500FE381D /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goals.swift; sourceTree = "<group>"; };
 		C469F3631F4596AE00FE381D /* AddGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalViewController.swift; sourceTree = "<group>"; };
 		C469F3651F459E8D00FE381D /* AdminTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminTabBarController.swift; sourceTree = "<group>"; };
 		C491B96F1F45F511005A9A0B /* Achievements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievements.swift; sourceTree = "<group>"; };
 		C491B9711F45F55B005A9A0B /* GoalsViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewHeader.swift; sourceTree = "<group>"; };
-		C491B9751F45FD71005A9A0B /* GoalDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalDetailViewController.swift; sourceTree = "<group>"; };
 		C491B9771F465A0D005A9A0B /* GoalsCompleted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsCompleted.swift; sourceTree = "<group>"; };
 		C49EA4901F544F9F008A0386 /* EditClassViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditClassViewController.swift; sourceTree = "<group>"; };
 		C49EA4991F545F26008A0386 /* ClassDetailInfoTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassDetailInfoTimeView.swift; sourceTree = "<group>"; };
@@ -121,13 +125,15 @@
 		C4AAD1D71F3B43B100902046 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C4AAD1D91F3B43B100902046 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4AAD1DE1F3B43B100902046 /* GymApplication1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymApplication1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C4AAD1E21F3B43B100902046 /* GymApplication1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymApplication1Tests.swift; sourceTree = "<group>"; };
 		C4AAD1E41F3B43B100902046 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4AAD1E91F3B43B100902046 /* GymApplication1UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GymApplication1UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4AAD1ED1F3B43B100902046 /* GymApplication1UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymApplication1UITests.swift; sourceTree = "<group>"; };
 		C4AAD1EF1F3B43B100902046 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4AAD1FD1F3B630000902046 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C4AAD2051F3BCA4200902046 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C4ADD4B91F56172C0020805B /* PrivateMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateMessageViewController.swift; sourceTree = "<group>"; };
+		C4ADD4BB1F562A700020805B /* PrivateMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateMessage.swift; sourceTree = "<group>"; };
+		C4ADD4BE1F562E440020805B /* PrivateMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateMessageView.swift; sourceTree = "<group>"; };
 		C4BB1F1C1F538C29008364CA /* FeedCommentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCommentController.swift; sourceTree = "<group>"; };
 		C4BB1F1E1F538C85008364CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		C4BB1F201F53986E008364CA /* SocialCommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialCommentCell.swift; sourceTree = "<group>"; };
@@ -257,7 +263,6 @@
 			children = (
 				C4CAF0AE1F4034B20023C749 /* GoalsViewController.swift */,
 				C469F3631F4596AE00FE381D /* AddGoalViewController.swift */,
-				C491B9751F45FD71005A9A0B /* GoalDetailViewController.swift */,
 			);
 			path = Goals;
 			sourceTree = "<group>";
@@ -314,7 +319,6 @@
 		C4AAD1E11F3B43B100902046 /* GymApplication1Tests */ = {
 			isa = PBXGroup;
 			children = (
-				C4AAD1E21F3B43B100902046 /* GymApplication1Tests.swift */,
 				C4AAD1E41F3B43B100902046 /* Info.plist */,
 			);
 			path = GymApplication1Tests;
@@ -342,6 +346,8 @@
 				C4AAD1CA1F3B43B100902046 /* AppDelegate.swift */,
 				C4D9A27C1F3C8B7800111DF6 /* TabBarController.swift */,
 				C4F7B4121F4F045B00A22578 /* UserProfileViewController.swift */,
+				C4413B991F5716B200B60850 /* UsersToMessageViewController.swift */,
+				C4ADD4B91F56172C0020805B /* PrivateMessageViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -349,6 +355,7 @@
 		C4AAD2021F3BCA0C00902046 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C4ADD4BD1F562E340020805B /* PrivateMessageView */,
 				C4F7B4141F4F0AC300A22578 /* UserProfileViews */,
 				C4DC64F81F4CEB25000A6FBA /* SocialViews */,
 				C4E7EAF61F40D64100BC47E5 /* GoalsView */,
@@ -373,6 +380,7 @@
 				C4F52FC41F4DD00F006806B0 /* Post.swift */,
 				C435D91C1F53646800289A31 /* AchievementEarned.swift */,
 				C4BB1F1E1F538C85008364CA /* Comment.swift */,
+				C4ADD4BB1F562A700020805B /* PrivateMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -385,6 +393,15 @@
 				C43D2C0D1F430E3D00F6CEE0 /* DataService.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C4ADD4BD1F562E340020805B /* PrivateMessageView */ = {
+			isa = PBXGroup;
+			children = (
+				C4ADD4BE1F562E440020805B /* PrivateMessageView.swift */,
+				C4413B9B1F57185900B60850 /* MessageView.swift */,
+			);
+			path = PrivateMessageView;
 			sourceTree = "<group>";
 		};
 		C4DC64F81F4CEB25000A6FBA /* SocialViews */ = {
@@ -665,6 +682,7 @@
 				C4FD29411F41F97500F4F4B6 /* ClassDetailsCellView.swift in Sources */,
 				C4E7EAF81F41D29400BC47E5 /* CustomImageView.swift in Sources */,
 				C4FD293F1F41F1DC00F4F4B6 /* ClassDetailsViewController.swift in Sources */,
+				C4413B9C1F57185900B60850 /* MessageView.swift in Sources */,
 				C49EA49E1F546092008A0386 /* ClassAvailabilityCell.swift in Sources */,
 				C42DA48E1F42E755004D7D5D /* AdminViewController.swift in Sources */,
 				C4DC64ED1F4C8A5B000A6FBA /* ClassesAttending.swift in Sources */,
@@ -674,6 +692,7 @@
 				C4CAF0BB1F407F0D0023C749 /* SettingsCell.swift in Sources */,
 				C43D2C0E1F430E3D00F6CEE0 /* DataService.swift in Sources */,
 				C4E7EAEE1F40BF6700BC47E5 /* MenuBarViewCell.swift in Sources */,
+				C4ADD4BF1F562E440020805B /* PrivateMessageView.swift in Sources */,
 				C4CAF0A91F3F806E0023C749 /* HomeFooterCell.swift in Sources */,
 				C435D91F1F5382F700289A31 /* AchievementPrize.swift in Sources */,
 				C4D9A27D1F3C8B7800111DF6 /* TabBarController.swift in Sources */,
@@ -696,12 +715,14 @@
 				C43D2C121F4341A800F6CEE0 /* AcceptClassViewController.swift in Sources */,
 				C4CAF0B11F4034DA0023C749 /* AchievementsViewController.swift in Sources */,
 				C4AAD1CB1F3B43B100902046 /* AppDelegate.swift in Sources */,
+				C4413B9A1F5716B200B60850 /* UsersToMessageViewController.swift in Sources */,
 				C4BB1F211F53986E008364CA /* SocialCommentCell.swift in Sources */,
 				C4F52FC11F4DB862006806B0 /* SocialFeedCell.swift in Sources */,
 				C4DC64F11F4CD66C000A6FBA /* SocialCommunityViewController.swift in Sources */,
 				C4E7EAFA1F41DA1400BC47E5 /* Classes.swift in Sources */,
 				C469F3661F459E8D00FE381D /* AdminTabBarController.swift in Sources */,
 				C4F52FC51F4DD00F006806B0 /* Post.swift in Sources */,
+				C4ADD4BC1F562A700020805B /* PrivateMessage.swift in Sources */,
 				C435D91D1F53646800289A31 /* AchievementEarned.swift in Sources */,
 				C4CAF0AB1F3F8B4A0023C749 /* HomeGoalsProgressCell.swift in Sources */,
 				C491B9721F45F55B005A9A0B /* GoalsViewHeader.swift in Sources */,
@@ -711,8 +732,8 @@
 				C4CAF0A71F3F77110023C749 /* HomeClassCell.swift in Sources */,
 				C4E7EAF01F40D39F00BC47E5 /* GoalsViewCell.swift in Sources */,
 				C4BB1F1F1F538C85008364CA /* Comment.swift in Sources */,
+				C4ADD4BA1F56172C0020805B /* PrivateMessageViewController.swift in Sources */,
 				C4E7EAEA1F40A6AD00BC47E5 /* ClassCellView.swift in Sources */,
-				C491B9761F45FD71005A9A0B /* GoalDetailViewController.swift in Sources */,
 				C49EA4911F544F9F008A0386 /* EditClassViewController.swift in Sources */,
 				C469F3621F4594B500FE381D /* Goals.swift in Sources */,
 				C491B9781F465A0D005A9A0B /* GoalsCompleted.swift in Sources */,
@@ -723,7 +744,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4AAD1E31F3B43B100902046 /* GymApplication1Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

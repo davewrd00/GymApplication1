@@ -45,28 +45,17 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
     tabBarItem.title = "Achievements"
     
     fetchCompletedAchievements()
- 
   }
   
   fileprivate func fetchCompletedAchievements() {
     guard let uid = Auth.auth().currentUser?.uid else { return }
     
-    Database.database().reference().child("achievementsEarnedByUser").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-      print("Achievements already earned are \(snapshot.value ?? "")")
-      
-      guard let dictionary = snapshot.value as? [String: Any] else { return }
-      
-      dictionary.forEach({ (arg) in
-        let (key, value) = arg
-        self.achievementsEarnedNames.append(key)
-      })
-      
+    DataService.sharedInstance.fetchAchievementsEarnedByUser(uid: uid) { (key) in
+      self.achievementsEarnedNames.append(key)
       self.collectionView?.reloadData()
-      
-    }) { (err) in
-      print("There was an error fetching user achievements: ", err)
     }
   }
+  
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return 6
   }
@@ -118,8 +107,6 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
       cell.achievementNameLabel.text = "Olympian"
       cell.achievementDescription.text = "Earn 15,000 points to win a whole years membership!"
     }
-
-
     return cell
   }
   
@@ -140,11 +127,6 @@ class AchievementsViewController: UICollectionViewController, UICollectionViewDe
   
   func hasAchievedMedal(medalChosen: IndexPath) {
     print(medalChosen.item)
-    
-    
   }
-  
- 
-  
-  
+
 }

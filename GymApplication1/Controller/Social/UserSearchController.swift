@@ -13,8 +13,6 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
   
   var users = [User]()
   
-  let adminUID = "vAOe4JijoDYO8jTD7TCwceo4qcs2"
-  
   var filteredUsers = [User]()
   
   let backButton: UIButton = {
@@ -79,44 +77,16 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
   }
 
   fileprivate func fetchUsers() {
-
-    let ref = Database.database().reference().child("users")
-    ref.observeSingleEvent(of: .value, with: { (snapshot) in
-
-      print(snapshot.value ?? "")
-
-      guard let dictionary = snapshot.value as? [String: Any] else { return }
-
-      dictionary.forEach({ (arg) in
-        let (key, value) = arg
-
-        if key == Auth.auth().currentUser?.uid {
-          print("Found myself here like")
-          return
-        }
-        
-        if key == self.adminUID {
-          return 
-        }
-
-        guard let userDictionary = value as? [String: Any] else { return }
-        let user = User(uid: key, dictionary: userDictionary)
-        self.users.append(user)
-        print("BRADY \(user.username)")
-        print("BRADY \(user.uid)")
-      })
-
-      // Sort the list alphabetically
+    
+    DataService.sharedInstance.fetchAllUsersFromDatabase { (user) in
+      self.users.append(user)
       self.users.sort(by: { (u1, u2) -> Bool in
         return u1.username.compare(u2.username) == .orderedAscending
+       
       })
-
-       self.filteredUsers = self.users
-        self.collectionView?.reloadData()
-
-    }) { (err) in
-      print("Failed to fetch all the users:", err)
-      return
+      self.filteredUsers = self.users
+      self.collectionView?.reloadData()
+      
     }
   }
   
@@ -138,7 +108,6 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! SearchCellView
     cell.user = filteredUsers[indexPath.item]
-    print("POOO \(cell.user?.uid)")
     return cell
   }
   
@@ -154,16 +123,9 @@ class UserSearchController: UICollectionViewController, UICollectionViewDelegate
     searchBar.resignFirstResponder()
     
     let user = filteredUsers[indexPath.item]
-    print("PAP \(user)")
-    print("POOOOOOOOO \(user.username)")
-    print("POOOOOOOOO \(user.uid)")
-    
     let userProfileControlller = UserProfileViewController()
     userProfileControlller.userId = user.uid
     navigationController?.pushViewController(userProfileControlller, animated: true)
-    
-    
-    
   }
   
   

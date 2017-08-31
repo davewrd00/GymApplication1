@@ -72,35 +72,14 @@ class SocialCommunityViewController: UICollectionViewController, UICollectionVie
   }
   
   fileprivate func fetchPostsWithUser(user: User) {
-    let ref = Database.database().reference().child("posts").child(user.uid)
-    ref.observeSingleEvent(of: .value, with: { (snapshot) in
-      
-      self.collectionView?.refreshControl?.endRefreshing()
-      
-      guard let dictionaries = snapshot.value as? [String: Any] else { return }
-      
-      dictionaries.forEach({ (arg) in
-        let (key, value) = arg
-        
-        guard let dictionary = value as? [String: Any] else { return }
-        
-        var post = Post(user: user, dictionary: dictionary)
-        post.id = key
-        
-        self.posts.append(post)
-        self.posts.sort(by: { (p1, p2) -> Bool in
-          return p1.creationDate.compare(p2.creationDate) == .orderedDescending
-        })
-        
-      })
-      
-        self.collectionView?.reloadData()
-      
-    }) { (err) in
-      print("Failed to fetch posts:", err)
-      return
-    }
     
+    DataService.sharedInstance.fetchPostsFromDatabase(user: user) { (post) in
+      self.posts.append(post)
+      self.posts.sort(by: { (p1, p2) -> Bool in
+        return p1.creationDate.compare(p2.creationDate) == .orderedDescending
+      })
+      self.collectionView?.reloadData()
+    }
   }
   
   fileprivate func  setupNavBar() {

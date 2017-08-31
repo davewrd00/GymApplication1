@@ -233,21 +233,14 @@ class RegistrationViewController: UIViewController, UIImagePickerControllerDeleg
       
       guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else { return }
       
-      let filename = NSUUID().uuidString
-      Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (metadata, err) in
-        if let err = err {
-          print("Failed to upload profile image", err)
-          return
-        }
-        
-        guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else { return }
-        print("Successfully uplaoded profile image URL")
+      DataService.sharedInstance.saveImageToFirebaseStorage(uploadData: uploadData, imageLocation: "profile_images", completionBlock: { (string) in
+        print("Successfully been able to save user profile pic in storage")
         
         guard let uid = user?.uid else { return }
         
         let dictionaryValues: [String: Any] = ["username": name,
-                                "profileImageURL": profileImageUrl,
-                                "pointsEarned": 0]
+                                               "profileImageURL": string,
+                                               "pointsEarned": 0]
         let values = [uid: dictionaryValues]
         
         Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
@@ -261,6 +254,8 @@ class RegistrationViewController: UIViewController, UIImagePickerControllerDeleg
           let tabBarController = TabBarController()
           self.present(tabBarController, animated: true, completion: nil)
         })
+        
+        
       })
     }
   }
@@ -269,20 +264,10 @@ class RegistrationViewController: UIViewController, UIImagePickerControllerDeleg
     self.view.endEditing(true)
     return true
   }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
 }
+  
+  
+  
+  
+

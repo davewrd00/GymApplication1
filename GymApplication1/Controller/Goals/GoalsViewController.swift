@@ -158,57 +158,79 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     }
   }
   
-  fileprivate func fetchCompleteAchievements() {
+  func fetchCompleteGoals() {
+    guard let userUID = Auth.auth().currentUser?.uid else { return }
+    
+    DataService.sharedInstance.fetchCompoletedGoals(uid: userUID) { (goalComplete, goalUID) in
+      self.arrayOfGoalsCompleted.append(goalUID)
+      self.goalsComplete.append(goalComplete)
+    }
+    self.collectionView?.reloadData()
+    
+  }
+  
+  func fetchGoals() {
     guard let uid = Auth.auth().currentUser?.uid else { return }
-    Database.database().reference().child("achievementsEarnedByUser").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
-      guard let achievementDict = snapshot.value as? [String: Any] else { return }
+    let ref = Database.database().reference().child("goals")
+    ref.observeSingleEvent(of: .value) { (snapshot) in
       
-      achievementDict.forEach({ (arg) in
+      guard let dictionary = snapshot.value as? [String: Any] else { return }
+      
+      dictionary.forEach({ (arg) in
         let (key, value) = arg
+        print(key)
         
-        print("ACH \(key)")
-        print("ACH \(value)")
+        guard let intKey: Int = Int(key) else { return }
+        guard let goalDictionary = value as? [String: Any] else { return }
         
-        if key == "bronze" {
-          self.hasAchievedBronze = true
-        } else if key == "silver" {
-          self.hasAchievedSilver = true
-        } else if key == "gold" {
-          self.hasAchievedGold = true
-        } else if key == "Veteran" {
-          self.hasAchievedVeteran = true
-        } else if key == "professional" {
-          self.hasAchievedProfessional = true
-        } else if key == "olympian" {
-          self.hasAchievedOlympian = true
+        // Simply compares the uids in this array to see if this has been added - if so, the VC removes
+        // this
+        if self.arrayOfGoalsCompleted.contains(intKey) {
+          print("Found loads of completed goals")
+          return
         }
         
+        let goals = Goals(userUid: uid, dictionary: goalDictionary)
+        self.goals.append(goals)
+        self.arrayOfGoalUID.append(goals.goalUID)
+        if goals.goalCompleted == true {
+          print("This is true")
+        }
       })
-    }) { (err) in
-      print("Failed to fetch complete achievements")
+      
+      self.collectionView?.reloadData()
+  
     }
   }
   
   fileprivate func fetchAchievements() {
-    Database.database().reference().child("achievement").observeSingleEvent(of: .value, with: { (snapshot) in
-      print("Achievement \(snapshot.value ?? "")")
-      
-      guard let achievementDict = snapshot.value as? [String: Any] else { return }
-      
-      achievementDict.forEach({ (arg) in
-        let (key, value) = arg
-        
-        guard let dict = value as? [String: Any] else { return }
-        
-        self.achievement = Achievements(achName: key, dictionary: dict)
-        
-      })
-      
-    }) { (err) in
-      print("Failed to fetch achievements")
+    
+    DataService.sharedInstance.fetchAchievementsFromFirebase { (achievement) in
+      self.achievement = achievement
     }
   }
   
+  fileprivate func fetchCompleteAchievements() {
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    
+    DataService.sharedInstance.fetchAchievementsEarnedByUser(uid: uid) { (key) in
+      print("ACHUEI \(key)")
+      if key == "bronze" {
+        self.hasAchievedBronze = true
+      } else if key == "silver" {
+        self.hasAchievedSilver = true
+      } else if key == "gold" {
+        self.hasAchievedGold = true
+      } else if key == "Veteran" {
+        self.hasAchievedVeteran = true
+      } else if key == "professional" {
+        self.hasAchievedProfessional = true
+      } else if key == "olympian" {
+        self.hasAchievedOlympian = true
+      }
+    }
+  }
+
   fileprivate func handleCompletedGoal(goal: Goals) {
     guard let uid = Auth.auth().currentUser?.uid else { return }
     let goalPoints = goal.goalPoints
@@ -222,12 +244,16 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
       }
       print("Successfully stored this completed goal into database")
       
-      self.updateTotalNumberOfPointsEarned(uid: uid, goalPoints: goalPoints) {
-        print("Updated")
-        //self.seeIfAchievementHasBeenMet()
-      }
+      self.updateTotalNumberOfPointsEarned(uid: uid, goalPoints: goal.goalPoints)
       
       self.getPoints()
+    }
+  }
+  
+  fileprivate func updateTotalNumberOfPointsEarned(uid: String, goalPoints: Int) {
+    DataService.sharedInstance.updatePoints(path: "users", uid: uid, newValue: goalPoints) { (points) in
+      print("POOOOINTS \(points)")
+      self.seeIfAchievementHasBeenMet(userPoints: points)
     }
   }
   
@@ -239,7 +265,6 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
       print("Error", err)
     }
   }
-  
   
   func seeIfAchievementHasBeenMet(userPoints: Int) {
     print("The points that this user has is \(userPoints)")
@@ -314,7 +339,6 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
   func doSomething(achievementName: String) {
     guard let uid = Auth.auth().currentUser?.uid else { return }
     
-    
     let values = ["achievementName": achievementName,
                   "hasAchieved": true] as [String : Any]
     
@@ -323,106 +347,4 @@ class GoalsViewController: UICollectionViewController, UICollectionViewDelegateF
     }
   }
   
-  fileprivate func updateTotalNumberOfPointsEarned(uid: String, goalPoints: Int, completionBlock: @escaping (() -> Void)) {
-    let ref = Database.database().reference().child("users").child(uid).child("pointsEarned")
-    
-    ref.runTransactionBlock({ (result) -> TransactionResult in
-      if let initialValue = result.value as? Int {
-        result.value = initialValue + goalPoints
-        let resultValue  = result.value as? Int
-        self.seeIfAchievementHasBeenMet(userPoints: resultValue!)
-        return TransactionResult.success(withValue: result)
-      } else {
-        return TransactionResult.success(withValue: result)
-      }
-    }) { (err, completion, snap) in
-      print(err?.localizedDescription ?? "")
-      print(completion)
-      print(snap ?? "")
-      if !completion {
-        print("Couldnt update this node")
-      } else {
-        completionBlock()
-      }
-    }
-  }
-  
-  
-  func fetchGoals() {
-    guard let uid = Auth.auth().currentUser?.uid else { return }
-    
-    let ref = Database.database().reference().child("goals")
-    ref.observeSingleEvent(of: .value) { (snapshot) in
-      
-      guard let dictionary = snapshot.value as? [String: Any] else { return }
-      
-      dictionary.forEach({ (arg) in
-        let (key, value) = arg
-        print(key)
-        
-        guard let intKey: Int = Int(key) else { return }
-        guard let goalDictionary = value as? [String: Any] else { return }
-        
-        // Simply compares the uids in this array to see if this has been added - if so, the VC removes
-        // this 
-        if self.arrayOfGoalsCompleted.contains(intKey) {
-          print("Found loads of completed goals")
-          return
-        }
-        
-        let goals = Goals(userUid: uid, dictionary: goalDictionary)
-        self.goals.append(goals)
-        self.arrayOfGoalUID.append(goals.goalUID)
-        if goals.goalCompleted == true {
-          print("This is true")
-        }
-        
-        //self.goalUID = goals.goalUID
-        
-      })
-      
-      self.collectionView?.reloadData()
-      
-    }
-  }
-  
-  func fetchCompleteGoals() {
-    
-    guard let userUID = Auth.auth().currentUser?.uid else { return }
-    Database.database().reference().child("goalsCompleteByUser").child(userUID).observeSingleEvent(of: .value, with: { (snapshot) in
-      
-      print(snapshot.value ?? "")
-      
-      guard let dictionary = snapshot.value as? [String: Any] else { return }
-      
-      dictionary.forEach({ (arg) in
-        let (key, value) = arg
-        guard let intKey = Int(key) else { return }
-        print(key)
-        print(value)
-        
-        guard let goalCompleteDict = value as? [String: Any] else { return }
-        let goalComp = GoalsCompleted(goalUID: intKey, dictionary: goalCompleteDict)
-        guard let goalUID = goalComp.goalUID as? Int else { return }
-        self.arrayOfGoalsCompleted.append(goalUID)
-        self.goalsComplete.append(goalComp)
-        //self.goalUID = intKey
-      })
-      
-      self.collectionView?.reloadData()
-    }) { (err) in
-      print("Unable to download goals that this user has completed")
-      return
-    }
-  }
-  
 }
-
-
-
-
-
-
-
-
-

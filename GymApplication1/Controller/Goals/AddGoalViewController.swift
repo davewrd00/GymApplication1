@@ -177,34 +177,19 @@ class AddGoalViewController: UIViewController, UIImagePickerControllerDelegate, 
       
       guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else { return }
       
-      let fileName = NSUUID().uuidString
-      
-      Storage.storage().reference().child("goal_images").child(fileName).putData(uploadData, metadata: nil) { (metadata, err) in
-        if let err = err {
-          print("Failed to upload profile image", err)
-          return
-        }
+      DataService.sharedInstance.saveImageToFirebaseStorage(uploadData: uploadData, imageLocation: "goal_images", completionBlock: { (goalImageUrl) in
         
-        guard let goalImageUrl = metadata?.downloadURL()?.absoluteString else { return }
+        let goalInfo: Dictionary<String, Any>
+        let timeStamp = Int(NSDate.timeIntervalSinceReferenceDate*1000)
         
-        print("Successfully uploaded the goal image URL")
-      
-      let goalInfo: Dictionary<String, Any>
-      let timeStamp = Int(NSDate.timeIntervalSinceReferenceDate*1000)
-      
-      goalInfo = ["goalName": self.goalTextField.text ?? "",
-                  "goalDescription": self.goalDescriptionTextField.text ?? "",
-                  "goalPoints": points,
-                  "goalImageUrl": goalImageUrl,
-                  "goalUID": timeStamp]
-      
-        
-      Database.database().reference().child("goals").child("\(timeStamp)").setValue(goalInfo)
-        
+        goalInfo = ["goalName": self.goalTextField.text ?? "",
+                    "goalDescription": self.goalDescriptionTextField.text ?? "",
+                    "goalPoints": points,
+                    "goalImageUrl": goalImageUrl,
+                    "goalUID": timeStamp]
+        Database.database().reference().child("goals").child("\(timeStamp)").setValue(goalInfo)
+      })
     }
-    
-  }
-    
   }
   
   @objc func handleBackFromClassVC() {
