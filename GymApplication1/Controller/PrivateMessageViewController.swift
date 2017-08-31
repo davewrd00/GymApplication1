@@ -23,8 +23,8 @@ class PrivateMessageViewController: UICollectionViewController, UITextFieldDeleg
   }
   
   fileprivate func observeMessages() {
-    guard let uid = Auth.auth().currentUser?.uid, let toUID = user?.uid else { return }
-    let userMessageRef = Database.database().reference().child("userMessages").child(uid).child(toUID)
+    guard let uid = Auth.auth().currentUser?.uid else { return }
+    let userMessageRef = Database.database().reference().child("userMessages").child(uid)
     
 
     userMessageRef.observe(.childAdded, with: { (snapshot) in
@@ -161,8 +161,8 @@ class PrivateMessageViewController: UICollectionViewController, UITextFieldDeleg
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! PrivateMessageView
-    
-    let message = messages[indexPath.item]
+
+   let message = messages[indexPath.item]
     cell.messageview.text = message.text
 
     setupCell(cell: cell, message: message)
@@ -280,7 +280,7 @@ class PrivateMessageViewController: UICollectionViewController, UITextFieldDeleg
   }
   
   fileprivate func updateMessageNodeInFirebase(childRef: DatabaseReference, fromUID: String, toUID: String) {
-    let userMessageRef = Database.database().reference().child("userMessages").child(fromUID).child(toUID)
+    let userMessageRef = Database.database().reference().child("userMessages").child(fromUID)
     let messageID = childRef.key
     userMessageRef.updateChildValues([messageID: 1])
     
